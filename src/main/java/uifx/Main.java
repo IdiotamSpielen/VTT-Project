@@ -21,7 +21,7 @@ public class Main extends Application {
 
         feedbackHandler = new FeedbackHandler(new Text(), new SpellCreator(new FeedbackHandler(new Text(), null), spellFileHandler));
         
-        Parent root = FXMLLoader.load(getClass().getResource("/main/resources/uifx.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/resources/uifx.fxml"));
         primaryStage.setTitle("VTT V0.0.1");
         primaryStage.setScene(new Scene(root, 1366, 768));
         primaryStage.show();
