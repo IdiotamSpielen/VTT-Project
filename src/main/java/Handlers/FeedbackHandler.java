@@ -1,7 +1,7 @@
-package main.java.Handlers;
+package Handlers;
 
 import javafx.scene.text.Text;
-import main.java.creators.SpellCreator;
+import creators.SpellCreator;
 
 public class FeedbackHandler {
 

@@ -1,4 +1,4 @@
-package main.java.uifx;
+package uifx;
 
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -15,9 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.java.Handlers.FeedbackHandler;
-import main.java.Handlers.SpellFileHandler;
-import main.java.creators.SpellCreator;
+import Handlers.FeedbackHandler;
+import Handlers.SpellFileHandler;
+import creators.SpellCreator;
 
 
 public class SpellCreationBox {
@@ -39,9 +39,9 @@ public class SpellCreationBox {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10));
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(50); // Entries in shared rows will take up half the space
+        col1.setPercentWidth(50);
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(50); // Entries in shared rows will take up half the space
+        col2.setPercentWidth(50);
         gridPane.getColumnConstraints().addAll(col1, col2);
 
         //We start in row one because the UI looks so much better that way
@@ -155,7 +155,6 @@ public class SpellCreationBox {
         GridPane.setColumnSpan(descPane, 2);
 
         descriptionTextArea.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
             descLabel.setVisible(newValue.isEmpty());
         });
             descLabel.addEventFilter(MouseEvent.ANY, event -> {
@@ -177,7 +176,6 @@ public class SpellCreationBox {
         gridPane.addRow(7, lvPane, schoolPane);
 
         levelTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
             levelLabel.setVisible(newValue.isEmpty());
         });
             levelLabel.addEventFilter(MouseEvent.ANY, event -> {
@@ -185,7 +183,6 @@ public class SpellCreationBox {
             event.consume();
         });
         schoolTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
             schoolLabel.setVisible(newValue.isEmpty());
         });
             schoolLabel.addEventFilter(MouseEvent.ANY, event -> {
@@ -208,16 +205,13 @@ public class SpellCreationBox {
         layoutPane.setCenter(feedbackText);
 
     // Create a button to submit the spell creation
-    
     Button createButton = new Button("create");
     StackPane buttonPane = new StackPane(createButton);
     buttonPane.setAlignment(Pos.BOTTOM_CENTER);
     buttonPane.setPadding(new Insets(10));
     layoutPane.setBottom(buttonPane);
     createButton.setOnAction(event -> {
-        // Handle button click event
         
-        // Retrieve input values from text fields or other UI components
         String spellName = spellNameTextField.getText();
         String range = rangeTextField.getText();
         String castingTime = castingTimeTextField.getText();

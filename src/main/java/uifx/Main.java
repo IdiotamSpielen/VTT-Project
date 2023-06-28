@@ -1,4 +1,4 @@
-package main.java.uifx;
+package uifx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import main.java.Handlers.FeedbackHandler;
-import main.java.Handlers.SpellFileHandler;
-import main.java.creators.SpellCreator;
+import Handlers.FeedbackHandler;
+import Handlers.SpellFileHandler;
+import creators.SpellCreator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 

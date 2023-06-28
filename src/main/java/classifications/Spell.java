@@ -1,4 +1,4 @@
-package main.java.classifications;
+package classifications;
 
 public class Spell extends EntryRef{
     

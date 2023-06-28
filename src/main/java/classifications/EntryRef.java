@@ -1,4 +1,4 @@
-package main.java.classifications;
+package classifications;
 
 import java.io.Serializable;
 
