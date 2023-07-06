@@ -1,12 +1,11 @@
-package creators;
+package java.creators;
 
-import Handlers.FeedbackHandler;
-import Handlers.SpellFileHandler;
-import classifications.Spell;
+import java.handlers.FeedbackHandler;
+import java.handlers.SpellFileHandler;
+import java.classifications.Spell;
 
 public class SpellCreator {
 
-    private Spell spell;
     private SpellFileHandler spellFileHandler;
     
     public SpellCreator(FeedbackHandler feedbackHandler, SpellFileHandler spellFileHandler) {
@@ -14,14 +13,15 @@ public class SpellCreator {
         this.spellFileHandler = spellFileHandler;
     }
     public void create(String spellname, String range, String castingTime, String description, String ingredients, boolean ritual, boolean concentration, String components, String levelString){
-        spell = new Spell();
+        Spell spell = new Spell();
          spell.setName(spellname);
          spell.setRange(range);
          spell.setTime(castingTime);
          spell.setDescription(description);
          if (ingredients != null && !ingredients.isEmpty()) {
          spell.setIngredients(ingredients);}
-         else {spell.setIngredients("N/A");}
+         else {
+             spell.setIngredients("N/A");}
          spell.setRitual(ritual);
          spell.setConcentration(concentration);
          spell.setComponents(components);
