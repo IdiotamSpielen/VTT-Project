@@ -1,4 +1,4 @@
-package java.userinterface;
+package warum;
 
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -15,9 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.handlers.FeedbackHandler;
-import java.handlers.SpellFileHandler;
-import java.creators.SpellCreator;
+import handlers.FeedbackHandler;
+import handlers.SpellFileHandler;
+import creators.SpellCreator;
 
 
 public class SpellCreationBox {

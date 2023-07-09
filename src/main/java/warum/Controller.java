@@ -1,4 +1,4 @@
-package java.userinterface;
+package warum;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.handlers.FeedbackHandler;
-import java.creators.SpellCreator;
+import handlers.FeedbackHandler;
+import creators.SpellCreator;
 
 public class Controller {
 

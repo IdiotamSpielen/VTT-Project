@@ -1,11 +1,11 @@
-package java.handlers;
+package handlers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.classifications.Spell;
+import classifications.Spell;
 
 public class SpellFileHandler {
     private Spell spell;

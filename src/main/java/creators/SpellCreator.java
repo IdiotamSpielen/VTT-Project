@@ -1,8 +1,8 @@
-package java.creators;
+package creators;
 
-import java.handlers.FeedbackHandler;
-import java.handlers.SpellFileHandler;
-import java.classifications.Spell;
+import classifications.Spell;
+import handlers.FeedbackHandler;
+import handlers.SpellFileHandler;
 
 public class SpellCreator {
 
