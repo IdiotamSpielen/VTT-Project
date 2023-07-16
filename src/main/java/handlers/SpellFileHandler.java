@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import classifications.Spell;
 
 public class SpellFileHandler {
-    private boolean isSaved;
+    private boolean isSaved = false;
 
     public void saveSpellToFile(Spell spell){
 
