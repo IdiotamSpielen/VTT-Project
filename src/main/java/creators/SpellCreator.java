@@ -10,7 +10,6 @@ public class SpellCreator {
     private Spell spell;
     
     public SpellCreator(FeedbackHandler feedbackHandler, SpellFileHandler spellFileHandler) {
-        spellFileHandler = new SpellFileHandler();
         this.spellFileHandler = spellFileHandler;
     }
     public void create(String spellName, String range, String castingTime, String description, String ingredients, boolean ritual, boolean concentration, String components, String levelString){
