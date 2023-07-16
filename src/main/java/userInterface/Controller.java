@@ -1,6 +1,7 @@
 package userInterface;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +14,7 @@ import creators.SpellCreator;
 public class Controller {
 
     private FeedbackHandler feedbackHandler;
+    @FXML
     private Text feedbackText;
     private SpellCreator spellCreator;
     @FXML
@@ -27,7 +29,8 @@ public class Controller {
         Stage spellCreationStage = new Stage();
         spellCreationStage.setTitle("Spell Creation");
         feedbackHandler = new FeedbackHandler(feedbackText);
-        SpellCreationBox spellCreationBox = new SpellCreationBox(spellCreationStage, feedbackHandler);
+        feedbackText = feedbackHandler.getFeedbackText();
+        SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
         BorderPane layoutPane = spellCreationBox.getLayoutPane();
 
    
@@ -38,6 +41,9 @@ public class Controller {
         spellCreationStage.setMinWidth(500);
         spellCreationStage.setMinHeight(500);
         spellCreationStage.show();
+
+        BorderPane.setAlignment(feedbackText, Pos.CENTER);
+        layoutPane.setCenter(feedbackText);
         });
     }
 }

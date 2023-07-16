@@ -10,15 +10,11 @@ import classifications.Spell;
 public class SpellFileHandler {
     private boolean isSaved;
 
-    public SpellFileHandler(){
-        isSaved = false;
-    }
-
-    public boolean saveSpellToFile(Spell spell){
+    public void saveSpellToFile(Spell spell){
 
         if (spell == null) {
             System.out.println("Failed to save Spell: Spell is null");
-            return false;
+            return;
         }
 
         File directory = new File("src/Library/data/spells");
@@ -34,17 +30,17 @@ public class SpellFileHandler {
         if (!isSaved) {
             System.out.println("Spell saved as " + fileName);
             isSaved = true;
-            return true;
         }
      } catch (FileNotFoundException e){
         System.out.println("Failed to save Spell: File not found");
         e.printStackTrace();
-        return false;
-     } catch (IOException e){
+        } catch (IOException e){
         System.out.println("Failed to save Spell: " + e.getMessage());
         e.printStackTrace();
-        return false;
-     }
-        return false;
+        }
+    }
+
+    public boolean isSaved(){
+        return  isSaved;
     }
 }

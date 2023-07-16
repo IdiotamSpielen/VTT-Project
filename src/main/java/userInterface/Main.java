@@ -34,7 +34,7 @@ public class Main extends Application {
             Stage spellCreationStage = new Stage();
             spellCreationStage.setTitle("Spell Creation");
 
-            SpellCreationBox spellCreationBox = new SpellCreationBox(spellCreationStage, feedbackHandler);
+            SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
             BorderPane layoutPane = spellCreationBox.getLayoutPane();
 
             // Create the scene and set it to the spell creation stage

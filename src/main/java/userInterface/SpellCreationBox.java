@@ -24,9 +24,9 @@ public class SpellCreationBox {
     private final BorderPane layoutPane;
     private Text feedbackText;
     private FeedbackHandler feedbackHandler;
-    private SpellFileHandler spellFileHandler;
 
-    public SpellCreationBox(Stage spellCreationStage, FeedbackHandler feedbackHandler) {
+
+    public SpellCreationBox(FeedbackHandler feedbackHandler) {
         layoutPane = new BorderPane();
         layoutPane.setPrefSize(450, 450);
         layoutPane.getStyleClass().add("spell-creation-box");
@@ -136,7 +136,6 @@ public class SpellCreationBox {
         GridPane.setColumnSpan(ingredientsPane, 2);
 
         ingredientsTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
             ingredientsLabel.setVisible(newValue.isEmpty());
         });
             ingredientsLabel.addEventFilter(MouseEvent.ANY, event -> {
@@ -225,7 +224,7 @@ public class SpellCreationBox {
         // establish handlers
         SpellFileHandler spellFileHandler = new SpellFileHandler();
         this.feedbackHandler = feedbackHandler;
-        this.feedbackText = feedbackHandler.getFeedbackText();
+        this.feedbackText = feedbackText;
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
@@ -234,11 +233,12 @@ public class SpellCreationBox {
 
         if (isSpellCreated) {
             // Save the spell and handle the result
-            boolean isSpellSaved = spellFileHandler.saveSpellToFile(spellCreator.getSpell());
+            boolean isSpellSaved = spellFileHandler.isSaved();
             // Create feedback based on the result of spell creation and saving
             if(isSpellSaved) feedbackHandler.displaySuccess(spellName);
             else feedbackHandler.displayError();
-        } else feedbackHandler.pointOutIncompetence();
+        } else if(!spellCreator.validInputs(spellName, range, castingTime, description, levelString, components))
+            feedbackHandler.pointOutIncompetence();
         });
     }
 
