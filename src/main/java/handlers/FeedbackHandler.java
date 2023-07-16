@@ -1,29 +1,25 @@
 package handlers;
 
-import javafx.scene.text.Text;
 import creators.SpellCreator;
+import javafx.scene.text.Text;
 
 public class FeedbackHandler {
 
     private final Text feedbackText;
-    private SpellCreator spellCreator;
-    private SpellFileHandler spellFileHandler;
 
-    public FeedbackHandler(Text feedbackText, SpellCreator spellCreator){
+    public FeedbackHandler(Text feedbackText){
         this.feedbackText = new Text();
-        this.spellCreator = spellCreator;
     }
 
 
 
-    public void displaySuccess() {
-            if (spellCreator != null) {
-        feedbackText.setText("Spell saved as " + spellFileHandler.getName());}
+    public void displaySuccess(String spellName){
+        feedbackText.setText("Spell saved as " + spellName);
     }
     public void displayError() {
         feedbackText.setText("Failed to save Spell. Check log for further information.");
     }
-    public void pointoutIncompetence() {
+    public void pointOutIncompetence() {
         feedbackText.setText("Failed to save Spell. Check your inputs and try again.");
     }
 

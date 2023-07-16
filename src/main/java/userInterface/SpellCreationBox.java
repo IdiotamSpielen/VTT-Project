@@ -211,7 +211,7 @@ public class SpellCreationBox {
     buttonPane.setPadding(new Insets(10));
     layoutPane.setBottom(buttonPane);
     createButton.setOnAction(event -> {
-        
+
         String spellName = spellNameTextField.getText();
         String range = rangeTextField.getText();
         String castingTime = castingTimeTextField.getText();
@@ -221,7 +221,7 @@ public class SpellCreationBox {
         boolean concentration = concentrationCheckBox.isSelected();
         String components = componentsTextField.getText();
         String levelString = levelTextField.getText();
-        
+
         // establish handlers
         SpellFileHandler spellFileHandler = new SpellFileHandler();
         this.feedbackHandler = feedbackHandler;
@@ -230,14 +230,15 @@ public class SpellCreationBox {
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
         spellCreator.create(spellName, range, castingTime, description, ingredients, ritual, concentration, components, levelString);
+        boolean isSpellCreated = spellCreator.isSpellCreated();
 
-
-        //create feedback on if the Spell was saved
-        if (spellFileHandler.saved()) 
-        {feedbackHandler.displaySuccess();}
-        else if (!spellFileHandler.saved())
-        {feedbackHandler.displayError();} 
-        else {feedbackHandler.pointoutIncompetence();}
+        if (isSpellCreated) {
+            // Save the spell and handle the result
+            boolean isSpellSaved = spellFileHandler.saveSpellToFile(spellCreator.getSpell());
+            // Create feedback based on the result of spell creation and saving
+            if(isSpellSaved) feedbackHandler.displaySuccess(spellName);
+            else feedbackHandler.displayError();
+        } else feedbackHandler.pointOutIncompetence();
         });
     }
 

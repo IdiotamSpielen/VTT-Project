@@ -21,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        feedbackHandler = new FeedbackHandler(new Text(), new SpellCreator(new FeedbackHandler(new Text(), null), spellFileHandler));
+        feedbackHandler = new FeedbackHandler(new Text());
         
         scene= new Scene(loadFXML("uifx"), 1366, 768);
         primaryStage.setTitle("VTT V0.0.1");

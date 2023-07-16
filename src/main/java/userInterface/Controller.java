@@ -26,7 +26,7 @@ public class Controller {
         // Handle button click event
         Stage spellCreationStage = new Stage();
         spellCreationStage.setTitle("Spell Creation");
-        feedbackHandler = new FeedbackHandler(feedbackText, spellCreator);
+        feedbackHandler = new FeedbackHandler(feedbackText);
         SpellCreationBox spellCreationBox = new SpellCreationBox(spellCreationStage, feedbackHandler);
         BorderPane layoutPane = spellCreationBox.getLayoutPane();
 

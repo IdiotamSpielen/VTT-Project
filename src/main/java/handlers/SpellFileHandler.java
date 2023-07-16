@@ -8,16 +8,19 @@ import java.io.ObjectOutputStream;
 import classifications.Spell;
 
 public class SpellFileHandler {
-    private Spell spell;
-    
-    public boolean saveSpellToFile(Spell spell){
+    private boolean isSaved;
 
+    public SpellFileHandler(){
+        isSaved = false;
+    }
+
+    public boolean saveSpellToFile(Spell spell){
 
         if (spell == null) {
             System.out.println("Failed to save Spell: Spell is null");
             return false;
         }
-        this.spell = spell;
+
         File directory = new File("src/Library/data/spells");
         directory.mkdirs();
 
@@ -28,8 +31,11 @@ public class SpellFileHandler {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(spell);
         objectOutputStream.close();
-        System.out.println("Spell saved as " + fileName);
-        return true;
+        if (!isSaved) {
+            System.out.println("Spell saved as " + fileName);
+            isSaved = true;
+            return true;
+        }
      } catch (FileNotFoundException e){
         System.out.println("Failed to save Spell: File not found");
         e.printStackTrace();
@@ -39,15 +45,6 @@ public class SpellFileHandler {
         e.printStackTrace();
         return false;
      }
-    }
-
-    public boolean saved(){
-        return saveSpellToFile(spell);
-    }
-
-    public String getName(){
-        if (spell != null) {
-            return spell.getName();
-        } else return null;
+        return false;
     }
 }
