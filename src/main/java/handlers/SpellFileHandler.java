@@ -12,11 +12,12 @@ public class SpellFileHandler {
     
     public boolean saveSpellToFile(Spell spell){
 
+
         if (spell == null) {
             System.out.println("Failed to save Spell: Spell is null");
             return false;
         }
-
+        this.spell = spell;
         File directory = new File("src/Library/data/spells");
         directory.mkdirs();
 

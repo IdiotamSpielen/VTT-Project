@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="500" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.uifx.Controller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="500" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Controller">
     <children>
         <Label fx:id="label" text="Label" />
         <Button fx:id="createSpellButton" text="Create Spell" />
