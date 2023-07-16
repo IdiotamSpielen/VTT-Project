@@ -224,7 +224,6 @@ public class SpellCreationBox {
         // establish handlers
         SpellFileHandler spellFileHandler = new SpellFileHandler();
         this.feedbackHandler = feedbackHandler;
-        this.feedbackText = feedbackText;
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
@@ -242,7 +241,7 @@ public class SpellCreationBox {
         });
     }
 
-    //Miscellanious commands
+    //Miscellaneous commands
 
     public BorderPane getLayoutPane() {
     return layoutPane;
