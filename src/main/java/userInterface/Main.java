@@ -18,13 +18,14 @@ public class Main extends Application {
     private FeedbackHandler feedbackHandler;
     private SpellFileHandler spellFileHandler;
     private static Scene scene;
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
         feedbackHandler = new FeedbackHandler(new Text());
-        
+
         scene= new Scene(loadFXML("uifx"), 1366, 768);
-        primaryStage.setTitle("VTT V0.0.1");
+        primaryStage.setTitle("VTT V0.0.3");
         primaryStage.setScene(scene);
         primaryStage.show();
 
