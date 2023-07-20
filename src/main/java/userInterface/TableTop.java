@@ -1,5 +1,7 @@
 package userInterface;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -7,9 +9,11 @@ import javafx.scene.shape.Rectangle;
 public class TableTop extends StackPane {
 
     private Rectangle table;
+
     public TableTop() {
         // Create a white rectangle to represent the tabletop
-        table = new Rectangle(1093, 614, Color.WHITE);
+        table = new Rectangle();
+        table.setFill(Color.WHITE);
         getChildren().add(table);
     }
 
