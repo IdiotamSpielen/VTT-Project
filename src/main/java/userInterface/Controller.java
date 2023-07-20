@@ -1,6 +1,8 @@
 package userInterface;
 
+import handlers.SpellOutput;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -73,5 +75,21 @@ public class Controller {
         BorderPane.setAlignment(feedbackText, Pos.CENTER);
         layoutPane.setCenter(feedbackText);
         });
+    }
+
+    public void searchSpell(ActionEvent actionEvent) {
+        Stage searchStage = new Stage();
+        searchStage.setTitle("Search Spell");
+
+        // Create a SpellOutput object for displaying search results
+        SpellOutput spellOutput = new SpellOutput();
+
+        // Create a SpellOutputBox with the SpellOutput
+        SpellOutputBox spellOutputBox = new SpellOutputBox(spellOutput);
+
+        // Create the scene and set it to the search stage
+        Scene searchScene = new Scene(spellOutputBox.getLayoutPane(), 600, 400);
+        searchStage.setScene(searchScene);
+        searchStage.show();
     }
 }
