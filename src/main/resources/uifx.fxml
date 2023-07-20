@@ -11,26 +11,33 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="500" prefHeight="500.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="userInterface.Controller">
     <top>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="Create Spell" onAction="#createSpell" />
+                <MenuItem text="Search Spell" onAction="#searchSpell" />
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
         <VBox style="-fx-padding: 10px;">
-            <HBox>
-                <StackPane style="-fx-padding: 0px 10px 10px 0px;">
-                    <Pane fx:id="tableTopPane" prefWidth="1.0" prefHeight="1.0">
-                        <TableTop fx:id="tableTop" />
-                    </Pane>
+        <HBox>
+            <StackPane style="-fx-padding: 0px 10px 10px 0px;">
+                <Pane fx:id="tableTopPane" prefWidth="1.0" prefHeight="1.0">
+                    <TableTop fx:id="tableTop" />
+                </Pane>
                 </StackPane>
                 <Region />
-            </HBox>
-        </VBox>
-    </top>
-    <bottom>
-        <HBox alignment="CENTER">
-            <Button fx:id="createSpellButton" text="Create Spell" />
-            <Button text="Search Spell" onAction="#searchSpell" />
-            <Text fx:id="feedbackText" />
         </HBox>
+        </VBox>
+    </center>
+    <bottom>
+        <Text fx:id="feedbackText" />
     </bottom>
 </BorderPane>

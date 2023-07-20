@@ -28,23 +28,6 @@ public class Main extends Application {
         primaryStage.setTitle("VTT V0.0.3");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        Button createSpellButton = new Button("Create Spell");
-        createSpellButton.setOnAction(event -> {
-            // Handle button click event
-            Stage spellCreationStage = new Stage();
-            spellCreationStage.setTitle("Spell Creation");
-
-            SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
-            BorderPane layoutPane = spellCreationBox.getLayoutPane();
-
-            // Create the scene and set it to the spell creation stage
-            Scene spellCreationScene = new Scene(layoutPane, 400, 300);
-            spellCreationScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            spellCreationStage.setScene(spellCreationScene);
-            spellCreationStage.show();
-            spellCreationScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        });
     }
 
     static void setRoot(String fxml) throws IOException {

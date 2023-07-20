@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import handlers.FeedbackHandler;
 
+import java.util.Objects;
+
 public class Controller {
 
     private FeedbackHandler feedbackHandler;
@@ -45,6 +47,8 @@ public class Controller {
     tableTop.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.765));
     tableTop.prefHeightProperty().bind(rootPane.heightProperty().multiply(0.77));
 
+    feedbackHandler = new FeedbackHandler(feedbackText);
+
     ChangeListener<Number> sizeChangeListener = (observable, oldValue, newValue) -> {
         double tableTopWidth = rootPane.getWidth() * 0.765;
         double tableTopHeight = rootPane.getHeight() * 0.77;
@@ -53,28 +57,6 @@ public class Controller {
 
     rootPane.widthProperty().addListener(sizeChangeListener);
     rootPane.heightProperty().addListener(sizeChangeListener);
-
-    createSpellButton.setOnAction(event -> {
-        // Handle button click event
-        Stage spellCreationStage = new Stage();
-        spellCreationStage.setTitle("Spell Creation");
-        feedbackHandler = new FeedbackHandler(feedbackText);
-        feedbackText = feedbackHandler.getFeedbackText();
-        SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
-        BorderPane layoutPane = spellCreationBox.getLayoutPane();
-
-   
-
-        // Create the scene and set it to the spell creation stage
-        Scene spellCreationScene = new Scene(layoutPane, 500, 500);
-        spellCreationStage.setScene(spellCreationScene);
-        spellCreationStage.setMinWidth(500);
-        spellCreationStage.setMinHeight(500);
-        spellCreationStage.show();
-
-        BorderPane.setAlignment(feedbackText, Pos.CENTER);
-        layoutPane.setCenter(feedbackText);
-        });
     }
 
     public void searchSpell(ActionEvent actionEvent) {
@@ -91,5 +73,27 @@ public class Controller {
         Scene searchScene = new Scene(spellOutputBox.getLayoutPane(), 600, 400);
         searchStage.setScene(searchScene);
         searchStage.show();
+    }
+
+    public void createSpell(ActionEvent actionEvent) {
+        Stage spellCreationStage = new Stage();
+        spellCreationStage.setTitle("Spell Creation");
+        feedbackHandler = new FeedbackHandler(feedbackText);
+        feedbackText = feedbackHandler.getFeedbackText();
+        SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
+        BorderPane layoutPane = spellCreationBox.getLayoutPane();
+
+        Scene spellCreationScene = new Scene(layoutPane, 500, 500);
+        spellCreationStage.setScene(spellCreationScene);
+        spellCreationStage.setMinWidth(500);
+        spellCreationStage.setMinHeight(500);
+        spellCreationStage.show();
+
+        BorderPane.setAlignment(feedbackText, Pos.CENTER);
+        layoutPane.setCenter(feedbackText);
+        spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
+        spellCreationStage.setScene(spellCreationScene);
+        spellCreationStage.show();
+        spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
     }
 }
