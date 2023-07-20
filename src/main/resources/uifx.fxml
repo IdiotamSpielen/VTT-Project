@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.BorderPane?>
@@ -28,10 +27,10 @@
         </VBox>
     </top>
     <bottom>
-        <StackPane BorderPane.alignment="BOTTOM_CENTER">
-        <Label fx:id="label" text="Label"/>
-        <Button fx:id="createSpellButton" text="Create Spell"/>
-        <Text fx:id="feedbackText"/>
-        </StackPane>
+        <HBox alignment="CENTER">
+            <Button fx:id="createSpellButton" text="Create Spell" />
+            <Button text="Search Spell" onAction="#searchSpell" />
+            <Text fx:id="feedbackText" />
+        </HBox>
     </bottom>
 </BorderPane>

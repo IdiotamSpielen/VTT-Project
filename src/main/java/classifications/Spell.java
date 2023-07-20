@@ -98,7 +98,7 @@ public class Spell extends EntryRef{
         this.concentration = concentration;
     }
     
-    public boolean getConcentration() {
+    public boolean isConcentration() {
         return concentration;
     }
 }
