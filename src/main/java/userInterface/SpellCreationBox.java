@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import handlers.FeedbackHandler;
 import handlers.SpellFileHandler;
 import creators.SpellCreator;
@@ -23,14 +22,28 @@ import creators.SpellCreator;
 public class SpellCreationBox {
     private final BorderPane layoutPane;
     private Text feedbackText;
-    private FeedbackHandler feedbackHandler;
+    private TextField spellNameTextField;
+    private TextField rangeTextField;
+    private TextField castingTimeTextField;
+    private TextArea descriptionTextArea;
+    private TextField durationTextField;
+    private TextField ingredientsTextField;
+    private TextField schoolTextField;
+    private CheckBox ritualCheckBox;
+    private CheckBox concentrationCheckBox;
+    private TextField componentsTextField;
+    private TextField levelTextField;
+
 
 
     public SpellCreationBox(FeedbackHandler feedbackHandler) {
         layoutPane = new BorderPane();
         layoutPane.setPrefSize(450, 450);
         layoutPane.getStyleClass().add("spell-creation-box");
+        createUI(feedbackHandler);
+    }
 
+    public void createUI(FeedbackHandler feedbackHandler){
         GridPane gridPane = new GridPane();
         BorderPane.setAlignment(gridPane, Pos.TOP_CENTER);
         layoutPane.setTop(gridPane);
@@ -46,7 +59,7 @@ public class SpellCreationBox {
 
         //We start in row one because the UI looks so much better that way
         // Row 1 (name)
-        TextField spellNameTextField = new TextField();
+        spellNameTextField = new TextField();
         Label spellNameLabel = createPromptLabel("Spell Name");
         StackPane.setAlignment(spellNameLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(spellNameLabel, new Insets(0, 0, 0, 8));
@@ -65,12 +78,12 @@ public class SpellCreationBox {
 
 
         // Row 2 (casting time and range)
-        TextField castingTimeTextField = new TextField();
+        castingTimeTextField = new TextField();
         Label castingTimeLabel = createPromptLabel("Casting Time");
         StackPane.setAlignment(castingTimeLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(castingTimeLabel, new Insets(0, 0, 0, 8));
         StackPane timePane = new StackPane(castingTimeTextField, castingTimeLabel);;
-        TextField rangeTextField = new TextField();
+        rangeTextField = new TextField();
         rangeTextField.setPromptText("Range");
         Label rangeLabel = createPromptLabel("Range");
         StackPane.setAlignment(rangeLabel, Pos.CENTER_LEFT);
@@ -97,12 +110,12 @@ public class SpellCreationBox {
 
 
         // Row 3 (components and duration)
-        TextField componentsTextField = new TextField();
+        componentsTextField = new TextField();
         Label componentsLabel = createPromptLabel("Components");
         StackPane.setAlignment(componentsLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(componentsLabel, new Insets(0, 0, 0, 8));
         StackPane compPane = new StackPane(componentsTextField, componentsLabel);
-        TextField durationTextField = new TextField();
+        durationTextField = new TextField();
          Label durationLabel = createPromptLabel("Duration");
         StackPane.setAlignment(durationLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(durationLabel, new Insets(0, 0, 0, 8));
@@ -127,7 +140,7 @@ public class SpellCreationBox {
         });
 
         // Row 4 (ingredients)
-        TextField ingredientsTextField = new TextField();
+        ingredientsTextField = new TextField();
          Label ingredientsLabel = createPromptLabel("Ingredients");
         StackPane.setAlignment(ingredientsLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(ingredientsLabel, new Insets(0, 0, 0, 8));
@@ -144,7 +157,7 @@ public class SpellCreationBox {
         });
 
         // Rows 5-6 (Description)
-        TextArea descriptionTextArea = new TextArea();
+        descriptionTextArea = new TextArea();
         Label descLabel = createPromptLabel("Description");
         StackPane.setAlignment(descLabel, Pos.TOP_LEFT);
         StackPane.setMargin(descLabel, new Insets(4, 0, 0, 8));
@@ -162,12 +175,12 @@ public class SpellCreationBox {
         });
 
         // Row 7 (Level and School)
-        TextField levelTextField = new TextField();
+        levelTextField = new TextField();
         Label levelLabel = createPromptLabel("Level");
         StackPane.setAlignment(levelLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(levelLabel, new Insets(0, 0, 0, 8));
         StackPane lvPane = new StackPane(levelTextField, levelLabel);
-        TextField schoolTextField = new TextField();
+        schoolTextField = new TextField();
         Label schoolLabel = createPromptLabel("School");
         StackPane.setAlignment(schoolLabel, Pos.CENTER_LEFT);
         StackPane.setMargin(schoolLabel, new Insets(0, 0, 0, 8));
@@ -189,9 +202,9 @@ public class SpellCreationBox {
             event.consume();
         });
 
-        // Row 8 (Ritual Checkbox)
-        CheckBox ritualCheckBox = new CheckBox("Ritual");
-        CheckBox concentrationCheckBox = new CheckBox("Concentration");
+        // Row 8 (Checkboxes for ritual and concentration)
+        ritualCheckBox = new CheckBox("Ritual");
+        concentrationCheckBox = new CheckBox("Concentration");
         gridPane.addRow(8, ritualCheckBox);
         gridPane.addRow(8, concentrationCheckBox);
         StackPane.setAlignment(ritualCheckBox, Pos.BASELINE_CENTER);
@@ -209,8 +222,10 @@ public class SpellCreationBox {
     buttonPane.setAlignment(Pos.BOTTOM_CENTER);
     buttonPane.setPadding(new Insets(10));
     layoutPane.setBottom(buttonPane);
-    createButton.setOnAction(event -> {
+    createButton.setOnAction(event -> handleCreateButtonAction(feedbackHandler));
+    }
 
+    public void handleCreateButtonAction(FeedbackHandler feedbackHandler) {
         String spellName = spellNameTextField.getText();
         String range = rangeTextField.getText();
         String castingTime = castingTimeTextField.getText();
@@ -223,7 +238,6 @@ public class SpellCreationBox {
 
         // establish handlers
         SpellFileHandler spellFileHandler = new SpellFileHandler();
-        this.feedbackHandler = feedbackHandler;
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
@@ -238,7 +252,6 @@ public class SpellCreationBox {
             else feedbackHandler.displayError();
         } else if(!spellCreator.validInputs(spellName, range, castingTime, description, levelString, components))
             feedbackHandler.pointOutIncompetence();
-        });
     }
 
     //Miscellaneous commands

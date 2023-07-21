@@ -91,9 +91,22 @@ public class Controller {
 
         BorderPane.setAlignment(feedbackText, Pos.CENTER);
         layoutPane.setCenter(feedbackText);
-        spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
+        spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/spellcreation.css")).toExternalForm());
         spellCreationStage.setScene(spellCreationScene);
         spellCreationStage.show();
-        spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
+        spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/spellcreation.css")).toExternalForm());
+    }
+
+    public void createCharacter(ActionEvent actionEvent) {
+        Stage characterCreationStage = new Stage();
+        characterCreationStage.setTitle("Character Creation");
+
+        // Create a CharacterCreationBox for character creation UI
+        CharacterCreationBox characterCreationBox = new CharacterCreationBox();
+
+        // Create the scene and set it to the character creation stage
+        Scene characterCreationScene = new Scene(characterCreationBox.getLayoutPane(), 600, 400);
+        characterCreationStage.setScene(characterCreationScene);
+        characterCreationStage.show();
     }
 }

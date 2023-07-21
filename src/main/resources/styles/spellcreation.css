@@ -2,6 +2,9 @@
     -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
 }
 
+.spell-creation-box{
+}
+
 .prompt-label {
     -fx-text-fill: grey;
 }
