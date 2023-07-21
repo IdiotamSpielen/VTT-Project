@@ -98,6 +98,8 @@ public class Character extends EntryRef{
         return intelligence;
     }
 
+    public int getIntModifier(){return (intelligence - 10) / 2;}
+
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
@@ -106,6 +108,8 @@ public class Character extends EntryRef{
         return wisdom;
     }
 
+    public int getWisModifier(){return (wisdom - 10) / 2;}
+
     public void setWisdom(int wisdom) {
         this.wisdom = wisdom;
     }
@@ -113,6 +117,8 @@ public class Character extends EntryRef{
     public int getCharisma() {
         return charisma;
     }
+
+    public int getChaModifier(){return  (charisma - 10) / 2;}
 
     public void setCharisma(int charisma) {
         this.charisma = charisma;

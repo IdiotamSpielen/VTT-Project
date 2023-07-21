@@ -19,9 +19,12 @@
             fx:controller="userInterface.Controller">
     <top>
         <MenuBar>
-            <Menu text="File">
+            <Menu text="Spell Interactions">
                 <MenuItem text="Create Spell" onAction="#createSpell" />
                 <MenuItem text="Search Spell" onAction="#searchSpell" />
+            </Menu>
+            <Menu text="Character Interactions">
+                <MenuItem text="Create Character" onAction="#createCharacter" />
             </Menu>
         </MenuBar>
     </top>
