@@ -16,18 +16,16 @@ public class Main extends Application {
     }
 
     private void setupUI(Stage primaryStage) throws IOException {
-        mainScene = new Scene(loadFXML("uifx"), 1366, 768);
+        mainScene = new Scene(loadFXML(), 1366, 768);
         primaryStage.setTitle("VTT V0.0.3");
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        mainScene.setRoot(loadFXML(fxml));
-    }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/" + fxml + ".fxml"));
+
+    private static Parent loadFXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/controller.fxml"));
         return fxmlLoader.load();
     }
 

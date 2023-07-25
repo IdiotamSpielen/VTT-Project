@@ -21,14 +21,9 @@ public class Controller {
     private FeedbackHandler feedbackHandler;
     @FXML
     private Text feedbackText;
-    @FXML
-    private Label label;
 
     @FXML
     private BorderPane rootPane;
-
-    @FXML
-    private Button createSpellButton;
 
     @FXML
     private TableTop tableTop;
