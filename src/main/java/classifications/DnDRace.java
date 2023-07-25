@@ -1,14 +1,17 @@
 package classifications;
 
-public class DnDClass extends EntryRef{
+public class DnDRace extends EntryRef{
+
     private String name;
     private String description;
-    private  String[] abilities;
+    private String[] abilities;
+    private String[] bonuses;
 
-    public DnDClass(String name, String description, String[] abilities){
+    public DnDRace(String name, String description, String[] abilities, String[] bonuses) {
         this.name = name;
         this.description = description;
         this.abilities = abilities;
+        this.bonuses = bonuses;
     }
 
     public String getName() {

@@ -16,7 +16,7 @@ public class Character extends EntryRef{
     private String bonds;
     private String flaws;
     private String alignment;
-    private Race race;
+    private DnDRace race;
     private DnDClass dndClass;
 
     public String getName() {
@@ -58,69 +58,97 @@ public class Character extends EntryRef{
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
-    public int getStrength() {
-        return strength;
-    }
 
-    public int getStrengthModifier() {
-        return (strength - 10) / 2;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public int getDexterity() {
-        return dexterity;
-    }
-
-    public int getDexModifier() {
-        return (dexterity - 10) / 2;
-    }
+    public void setStrength(int strength) {this.strength = strength;}
 
     public void setDexterity(int dexterity) {
         this.dexterity = dexterity;
-    }
-
-    public int getConstitution() {
-        return constitution;
-    }
-
-    public int getConModifier() {
-        return (constitution - 10) / 2;
     }
 
     public void setConstitution(int constitution) {
         this.constitution = constitution;
     }
 
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public int getIntModifier(){return (intelligence - 10) / 2;}
-
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
-
-    public int getWisdom() {
-        return wisdom;
-    }
-
-    public int getWisModifier(){return (wisdom - 10) / 2;}
 
     public void setWisdom(int wisdom) {
         this.wisdom = wisdom;
     }
 
-    public int getCharisma() {
-        return charisma;
-    }
-
-    public int getChaModifier(){return  (charisma - 10) / 2;}
-
     public void setCharisma(int charisma) {
         this.charisma = charisma;
+    }
+
+    public String getBackstory() {
+        return backstory;
+    }
+
+    public void setBackstory(String backstory) {
+        this.backstory = backstory;
+    }
+
+    public String getBonds() {
+        return bonds;
+    }
+
+    public void setBonds(String bonds) {
+        this.bonds = bonds;
+    }
+
+    public String getFlaws() {
+        return flaws;
+    }
+
+    public void setFlaws(String flaws) {
+        this.flaws = flaws;
+    }
+
+    public String getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(String alignment) {
+        this.alignment = alignment;
+    }
+
+    public DnDRace getRace() {
+        return race;
+    }
+
+    public void setRace(DnDRace race) {
+        this.race = race;
+    }
+
+    public DnDClass getDndClass() {
+        return dndClass;
+    }
+
+    public void setDndClass(DnDClass dndClass) {
+        this.dndClass = dndClass;
+    }
+
+    public int getAbilityScore(int abilityIndex) {
+        switch (abilityIndex) {
+            case 0:
+                return strength;
+            case 1:
+                return dexterity;
+            case 2:
+                return constitution;
+            case 3:
+                return intelligence;
+            case 4:
+                return wisdom;
+            case 5:
+                return charisma;
+            default:
+                throw new IllegalArgumentException("Invalid ability index: " + abilityIndex);
+        }
+    }
+
+    public int getAbilityModifier(int abilityIndex) {
+        return (getAbilityScore(abilityIndex) - 10) / 2;
     }
 }

@@ -10,10 +10,8 @@ import java.util.List;
 
 public class SpellOutputBox {
     private final BorderPane layoutPane;
-    private final SpellOutput spellOutput;
 
     public SpellOutputBox(SpellOutput spellOutput) {
-        this.spellOutput = spellOutput;
         layoutPane = new BorderPane();
         layoutPane.setPrefSize(600, 400);
 
