@@ -1,6 +1,6 @@
 package classifications;
 
-public class DnDClass extends EntryRef{
+public class DnDClass{
     private String name;
     private String description;
     private  String[] abilities;

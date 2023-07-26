@@ -1,6 +1,6 @@
 package classifications;
 
-public class Character extends EntryRef{
+public class Character{
     private String name;
     private int initiative;
     private int armorClass;

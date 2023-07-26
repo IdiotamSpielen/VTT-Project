@@ -104,4 +104,12 @@ public class Controller {
         characterCreationStage.setScene(characterCreationScene);
         characterCreationStage.show();
     }
+
+    public void createClass(ActionEvent actionEvent){
+
+    }
+
+    public void createRace(ActionEvent actionEvent){
+
+    }
 }

@@ -1,6 +1,6 @@
 package classifications;
 
-public class Spell extends EntryRef{
+public class Spell{
     
     private String spellname;
     private String school;

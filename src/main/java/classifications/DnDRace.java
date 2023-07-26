@@ -1,13 +1,15 @@
 package classifications;
 
-public class DnDRace extends EntryRef{
+import java.util.List;
+
+public class DnDRace{
 
     private String name;
     private String description;
-    private String[] abilities;
+    private List<Ability> abilities;
     private String[] bonuses;
 
-    public DnDRace(String name, String description, String[] abilities, String[] bonuses) {
+    public DnDRace(String name, String description, List abilities, String[] bonuses) {
         this.name = name;
         this.description = description;
         this.abilities = abilities;
