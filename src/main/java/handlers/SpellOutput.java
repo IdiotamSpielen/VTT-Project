@@ -1,14 +1,16 @@
 package handlers;
 
 import classifications.Spell;
+import com.google.gson.Gson;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpellOutput {
+
+    private Gson gson = new Gson();
 
     public List<Spell> getSavedSpellInformation() {
         List<Spell> spells = new ArrayList<>();
@@ -19,12 +21,12 @@ public class SpellOutput {
 
         if (spellFiles != null) {
             for (File spellFile : spellFiles) {
-                if (spellFile.isFile()) {
-                    try (FileInputStream fileInputStream = new FileInputStream(spellFile);
-                         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-                        Spell spell = (Spell) objectInputStream.readObject();
+                if (spellFile.isFile() && spellFile.getName().endsWith(".json")) { // Check for JSON files
+                    try (FileReader fileReader = new FileReader(spellFile)) {
+                        // Deserialize the JSON into a Spell object
+                        Spell spell = gson.fromJson(fileReader, Spell.class);
                         spells.add(spell);
-                    } catch (IOException | ClassNotFoundException e) {
+                    } catch (IOException e) {
                         System.out.println("Failed to read spell file: " + spellFile.getName());
                         e.printStackTrace();
                     }

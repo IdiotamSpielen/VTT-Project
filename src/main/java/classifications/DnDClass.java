@@ -1,14 +1,16 @@
 package classifications;
 
+import java.util.List;
+
 public class DnDClass{
     private String name;
     private String description;
-    private  String[] abilities;
+    private List<Feature> classFeatures;
 
-    public DnDClass(String name, String description, String[] abilities){
+    public DnDClass(String name, String description, List classFeatures){
         this.name = name;
         this.description = description;
-        this.abilities = abilities;
+        this.classFeatures = classFeatures;
     }
 
     public String getName() {

@@ -1,22 +1,29 @@
-package userInterface;
+package userInterface.controllers;
 
+import classifications.DnDClass;
 import handlers.SpellOutput;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import handlers.FeedbackHandler;
+import userInterface.TableTop;
+import userInterface.creation.CharacterCreationBox;
+import userInterface.creation.SpellCreationBox;
+import userInterface.outputs.SpellOutputBox;
 
+import java.io.IOException;
 import java.util.Objects;
 
-public class Controller {
+public class MainController {
 
     private FeedbackHandler feedbackHandler;
     @FXML
@@ -70,9 +77,9 @@ public class Controller {
         searchStage.show();
     }
 
-    public void createSpell(ActionEvent actionEvent) {
+    public void createSpell() {
         Stage spellCreationStage = new Stage();
-        spellCreationStage.setTitle("Spell Creation");
+        spellCreationStage.setTitle("Create Spell");
         feedbackHandler = new FeedbackHandler(feedbackText);
         feedbackText = feedbackHandler.getFeedbackText();
         SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
@@ -94,7 +101,7 @@ public class Controller {
 
     public void createCharacter(ActionEvent actionEvent) {
         Stage characterCreationStage = new Stage();
-        characterCreationStage.setTitle("Character Creation");
+        characterCreationStage.setTitle("Create Character");
 
         // Create a CharacterCreationBox for character creation UI
         CharacterCreationBox characterCreationBox = new CharacterCreationBox();
@@ -106,7 +113,38 @@ public class Controller {
     }
 
     public void createClass(ActionEvent actionEvent){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("creation/ClassCreationBox.fxml"));
+            Pane classCreationPane = loader.load();
 
+            // Create a new Stage for the Class Creation Box
+            Stage classCreationStage = new Stage();
+            classCreationStage.setTitle("Create Custom Class");
+            classCreationStage.initModality(Modality.APPLICATION_MODAL);
+            classCreationStage.setScene(new Scene(classCreationPane));
+
+            // Get the controller of the Class Creation Box
+            ClassCreationController classCreationController = loader.getController();
+
+            // Show the Class Creation Box and wait for it to be closed
+            classCreationStage.showAndWait();
+
+            // Retrieve the custom class from the Class Creation Box controller
+            DnDClass customClass = classCreationController.getCreatedClass();
+
+            if (customClass != null) {
+                // Do something with the custom class, e.g., save it to a JSON file
+                // You can also display a success message to the user
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Custom Class Created");
+                alert.setHeaderText(null);
+                alert.setContentText("Custom class created: " + customClass.getName());
+                alert.showAndWait();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createRace(ActionEvent actionEvent){

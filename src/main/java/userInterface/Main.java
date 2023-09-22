@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
-    private static Scene mainScene;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -16,7 +15,7 @@ public class Main extends Application {
     }
 
     private void setupUI(Stage primaryStage) throws IOException {
-        mainScene = new Scene(loadFXML(), 1366, 768);
+        Scene mainScene = new Scene(loadFXML(), 1366, 768);
         primaryStage.setTitle("VTT V0.0.3");
         primaryStage.setScene(mainScene);
         primaryStage.show();

@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.creation;
 
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -235,13 +235,15 @@ public class SpellCreationBox {
         boolean concentration = concentrationCheckBox.isSelected();
         String components = componentsTextField.getText();
         String levelString = levelTextField.getText();
+        String school = schoolTextField.getText();
+        String duration = durationTextField.getText();
 
         // establish handlers
         SpellFileHandler spellFileHandler = new SpellFileHandler();
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
-        spellCreator.create(spellName, range, castingTime, description, ingredients, ritual, concentration, components, levelString);
+        spellCreator.create(spellName, range, castingTime, description, ingredients, school, duration, ritual, concentration, components, levelString);
         boolean isSpellCreated = spellCreator.isSpellCreated();
 
         if (isSpellCreated) {

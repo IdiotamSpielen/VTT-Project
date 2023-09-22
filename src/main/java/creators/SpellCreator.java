@@ -12,7 +12,7 @@ public class SpellCreator {
     public SpellCreator(FeedbackHandler feedbackHandler, SpellFileHandler spellFileHandler) {
         this.spellFileHandler = spellFileHandler;
     }
-    public void create(String spellName, String range, String castingTime, String description, String ingredients, boolean ritual, boolean concentration, String components, String levelString){
+    public void create(String spellName, String range, String castingTime, String description, String ingredients, String school, String duration, boolean ritual, boolean concentration, String components, String levelString){
         Spell spell = new Spell();
          spell.setName(spellName);
          spell.setRange(range);
@@ -25,6 +25,8 @@ public class SpellCreator {
          spell.setRitual(ritual);
          spell.setConcentration(concentration);
          spell.setComponents(components);
+         spell.setSchool(school);
+         spell.setDuration(duration);
 
 
         if (validInputs(spellName, range, castingTime, description, levelString, components)) {

@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.outputs;
 
 import classifications.Spell;
 import javafx.scene.control.Button;
@@ -52,6 +52,8 @@ public class SpellOutputBox {
             spellInfo.append("Ritual: ").append(spell.isRitual()).append("\n");
             spellInfo.append("Concentration: ").append(spell.isConcentration()).append("\n");
             spellInfo.append("Components: ").append(spell.getComponents()).append("\n");
+            spellInfo.append("school: ").append(spell.getSchool()).append("\n");
+            spellInfo.append("duration: ").append(spell.getDuration()).append("\n");
             spellInfo.append("Level: ").append(spell.getLevel()).append("\n");
             spellInfo.append("---------------\n");
         }
