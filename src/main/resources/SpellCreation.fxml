@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.control.cell.TextFieldListCell?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="userInterface.controllers.SpellCreationController"
+            prefHeight="450.0" prefWidth="450.0">
+    <top>
+        <GridPane fx:id="gridPane" styleClass="gridPane"  hgap="10" vgap="10">
+            <padding><Insets top="10" left="10" right="10" bottom="10"/></padding>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
+            <!-- Row 1, Name -->
+            <StackPane fx:id="namePane" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                <TextField fx:id="spellNameTF"/>
+                <Label fx:id="spellNameL" text="Spell Name" style="fx-text-fill: grey;"/>
+            </StackPane>
+            <!-- Row 2, Casting time and range -->
+            <StackPane fx:id="timePane" GridPane.rowIndex="2" alignment="CENTER_LEFT">
+                <TextField fx:id="castingTimeTF"/>
+                <Label fx:id="castingTimeL" text="Casting Time" style="fx-text-fill: grey;"/>
+            </StackPane>
+            <StackPane>
+                <TextField fx:id="rangePane" GridPane.rowIndex="2" alignment="CENTER_LEFT"/>
+            </StackPane>
+        </GridPane>
+    </top>
+</BorderPane>

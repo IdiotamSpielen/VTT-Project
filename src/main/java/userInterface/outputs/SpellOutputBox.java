@@ -5,13 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-import handlers.SpellOutput;
+import handlers.SpellOutputHandler;
 import java.util.List;
 
 public class SpellOutputBox {
     private final BorderPane layoutPane;
 
-    public SpellOutputBox(SpellOutput spellOutput) {
+    public SpellOutputBox(SpellOutputHandler spellOutput) {
         layoutPane = new BorderPane();
         layoutPane.setPrefSize(600, 400);
 

@@ -210,8 +210,6 @@ public class SpellCreationBox {
         StackPane.setAlignment(ritualCheckBox, Pos.BASELINE_CENTER);
         StackPane.setAlignment(concentrationCheckBox, Pos.BASELINE_CENTER);
 
-        layoutPane.setTop(gridPane); //add the GridPane to the top region of the layout
-
         //initialize the feedback text field
         feedbackText = new Text();
         layoutPane.setCenter(feedbackText);

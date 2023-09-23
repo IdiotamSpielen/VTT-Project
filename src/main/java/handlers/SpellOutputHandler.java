@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpellOutput {
+public class SpellOutputHandler {
 
     private Gson gson = new Gson();
 

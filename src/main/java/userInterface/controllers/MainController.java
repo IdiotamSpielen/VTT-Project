@@ -1,7 +1,7 @@
 package userInterface.controllers;
 
 import classifications.DnDClass;
-import handlers.SpellOutput;
+import handlers.SpellOutputHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +66,7 @@ public class MainController {
         searchStage.setTitle("Search Spell");
 
         // Create a SpellOutput object for displaying search results
-        SpellOutput spellOutput = new SpellOutput();
+        SpellOutputHandler spellOutput = new SpellOutputHandler();
 
         // Create a SpellOutputBox with the SpellOutput
         SpellOutputBox spellOutputBox = new SpellOutputBox(spellOutput);
