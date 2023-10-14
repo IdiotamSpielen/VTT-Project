@@ -1,12 +1,13 @@
 package userInterface.controllers;
 
 import classifications.DnDClass;
-import handlers.SpellOutput;
+import handlers.SpellOutputHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +18,7 @@ import javafx.stage.Stage;
 import handlers.FeedbackHandler;
 import userInterface.TableTop;
 import userInterface.creation.CharacterCreationBox;
-import userInterface.creation.SpellCreationBox;
+//import userInterface.creation.SpellCreationBox;
 import userInterface.outputs.SpellOutputBox;
 
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class MainController {
         searchStage.setTitle("Search Spell");
 
         // Create a SpellOutput object for displaying search results
-        SpellOutput spellOutput = new SpellOutput();
+        SpellOutputHandler spellOutput = new SpellOutputHandler();
 
         // Create a SpellOutputBox with the SpellOutput
         SpellOutputBox spellOutputBox = new SpellOutputBox(spellOutput);
@@ -82,8 +83,17 @@ public class MainController {
         spellCreationStage.setTitle("Create Spell");
         feedbackHandler = new FeedbackHandler(feedbackText);
         feedbackText = feedbackHandler.getFeedbackText();
-        SpellCreationBox spellCreationBox = new SpellCreationBox(feedbackHandler);
-        BorderPane layoutPane = spellCreationBox.getLayoutPane();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SpellCreation.fxml"));
+        Parent layoutPane = null;
+        try {
+            layoutPane = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        SpellCreationController controller = loader.getController();
+        controller.setFeedbackHandler(feedbackHandler);
 
         Scene spellCreationScene = new Scene(layoutPane, 500, 500);
         spellCreationStage.setScene(spellCreationScene);
@@ -92,7 +102,8 @@ public class MainController {
         spellCreationStage.show();
 
         BorderPane.setAlignment(feedbackText, Pos.CENTER);
-        layoutPane.setCenter(feedbackText);
+        assert layoutPane != null;
+        ((BorderPane) layoutPane).setCenter(feedbackText);
         spellCreationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/spellcreation.css")).toExternalForm());
         spellCreationStage.setScene(spellCreationScene);
         spellCreationStage.show();
