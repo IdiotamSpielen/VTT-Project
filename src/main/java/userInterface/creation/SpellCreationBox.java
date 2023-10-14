@@ -1,8 +1,10 @@
-package userInterface.creation;
+/*package userInterface.creation;
 
 import javafx.beans.value.ChangeListener;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -17,33 +19,35 @@ import javafx.scene.text.Text;
 import handlers.FeedbackHandler;
 import handlers.SpellFileHandler;
 import creators.SpellCreator;
+import org.jetbrains.annotations.NotNull;
+import userInterface.controllers.SpellCreationController;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 
 public class SpellCreationBox {
-    private final BorderPane layoutPane;
-    private Text feedbackText;
-    private TextField spellNameTextField;
-    private TextField rangeTextField;
-    private TextField castingTimeTextField;
-    private TextArea descriptionTextArea;
-    private TextField durationTextField;
-    private TextField ingredientsTextField;
-    private TextField schoolTextField;
-    private CheckBox ritualCheckBox;
-    private CheckBox concentrationCheckBox;
-    private TextField componentsTextField;
-    private TextField levelTextField;
 
+    private FeedbackHandler feedbackHandler;
+    private Text feedbackText;
+    private final Map<String, TextField> textFields = new HashMap<>();
+    private final Map<String, TextArea> textAreas = new HashMap<>();
+    private final Map<String, CheckBox> checkBoxes = new HashMap<>();
 
 
     public SpellCreationBox(FeedbackHandler feedbackHandler) {
+        this.feedbackHandler = feedbackHandler;
+
+    }
         layoutPane = new BorderPane();
         layoutPane.setPrefSize(450, 450);
         layoutPane.getStyleClass().add("spell-creation-box");
         createUI(feedbackHandler);
     }
 
-    public void createUI(FeedbackHandler feedbackHandler){
+    public void createUI() {
+
         GridPane gridPane = new GridPane();
         BorderPane.setAlignment(gridPane, Pos.TOP_CENTER);
         layoutPane.setTop(gridPane);
@@ -59,156 +63,42 @@ public class SpellCreationBox {
 
         //We start in row one because the UI looks so much better that way
         // Row 1 (name)
-        spellNameTextField = new TextField();
-        Label spellNameLabel = createPromptLabel("Spell Name");
-        StackPane.setAlignment(spellNameLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(spellNameLabel, new Insets(0, 0, 0, 8));
-        StackPane namePane = new StackPane(spellNameTextField, spellNameLabel);
+        StackPane namePane = createTFRow("Spell Name");
         gridPane.addRow(1, namePane);
         GridPane.setColumnSpan(namePane, 2);
 
-        spellNameTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
-            spellNameLabel.setVisible(newValue.isEmpty());
-        });
-            spellNameLabel.addEventFilter(MouseEvent.ANY, event -> {
-            spellNameTextField.fireEvent(event);
-            event.consume();
-        });
-
 
         // Row 2 (casting time and range)
-        castingTimeTextField = new TextField();
-        Label castingTimeLabel = createPromptLabel("Casting Time");
-        StackPane.setAlignment(castingTimeLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(castingTimeLabel, new Insets(0, 0, 0, 8));
-        StackPane timePane = new StackPane(castingTimeTextField, castingTimeLabel);;
-        rangeTextField = new TextField();
-        rangeTextField.setPromptText("Range");
-        Label rangeLabel = createPromptLabel("Range");
-        StackPane.setAlignment(rangeLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(rangeLabel, new Insets(0, 0, 0, 8));
-        StackPane rangePane = new StackPane(rangeTextField, rangeLabel);
+        StackPane timePane = createTFRow("Casting Time");
+        StackPane rangePane = createTFRow("Range");
         gridPane.addRow(2, timePane, rangePane);
 
-        castingTimeTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
-            castingTimeLabel.setVisible(newValue.isEmpty());
-        });
-            castingTimeLabel.addEventFilter(MouseEvent.ANY, event -> {
-            castingTimeTextField.fireEvent(event);
-            event.consume();
-        });
-        rangeTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
-            rangeLabel.setVisible(newValue.isEmpty());
-        });
-            rangeLabel.addEventFilter(MouseEvent.ANY, event -> {
-            rangeTextField.fireEvent(event);
-            event.consume();
-        });
-
-
         // Row 3 (components and duration)
-        componentsTextField = new TextField();
-        Label componentsLabel = createPromptLabel("Components");
-        StackPane.setAlignment(componentsLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(componentsLabel, new Insets(0, 0, 0, 8));
-        StackPane compPane = new StackPane(componentsTextField, componentsLabel);
-        durationTextField = new TextField();
-         Label durationLabel = createPromptLabel("Duration");
-        StackPane.setAlignment(durationLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(durationLabel, new Insets(0, 0, 0, 8));
-        StackPane durationPane = new StackPane(durationTextField, durationLabel);
+        StackPane compPane = createTFRow("Components");
+        StackPane durationPane = createTFRow("Duration");
         gridPane.addRow(3, compPane, durationPane);
 
-         componentsTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
-            componentsLabel.setVisible(newValue.isEmpty());
-        });
-            componentsLabel.addEventFilter(MouseEvent.ANY, event -> {
-            componentsTextField.fireEvent(event);
-            event.consume();
-        });
-        durationTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            // Hide the label if text is not empty
-            durationLabel.setVisible(newValue.isEmpty());
-        });
-            durationLabel.addEventFilter(MouseEvent.ANY, event -> {
-            durationTextField.fireEvent(event);
-            event.consume();
-        });
-
         // Row 4 (ingredients)
-        ingredientsTextField = new TextField();
-         Label ingredientsLabel = createPromptLabel("Ingredients");
-        StackPane.setAlignment(ingredientsLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(ingredientsLabel, new Insets(0, 0, 0, 8));
-        StackPane ingredientsPane = new StackPane(ingredientsTextField, ingredientsLabel);
-        gridPane.addRow(4, ingredientsPane);
-        GridPane.setColumnSpan(ingredientsPane, 2);
-
-        ingredientsTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            ingredientsLabel.setVisible(newValue.isEmpty());
-        });
-            ingredientsLabel.addEventFilter(MouseEvent.ANY, event -> {
-            ingredientsTextField.fireEvent(event);
-            event.consume();
-        });
+        StackPane ingredientPane = createTFRow("Ingredients");
+        gridPane.addRow(4, ingredientPane);
+        GridPane.setColumnSpan(ingredientPane, 2);
 
         // Rows 5-6 (Description)
-        descriptionTextArea = new TextArea();
-        Label descLabel = createPromptLabel("Description");
-        StackPane.setAlignment(descLabel, Pos.TOP_LEFT);
-        StackPane.setMargin(descLabel, new Insets(4, 0, 0, 8));
-        StackPane descPane = new StackPane(descriptionTextArea, descLabel);
-        GridPane.setRowSpan(descriptionTextArea, 2);
+
+        StackPane descPane = createTARow("Description");
+        GridPane.setRowSpan(descPane, 2);
         gridPane.addRow(5, descPane);
         GridPane.setColumnSpan(descPane, 2);
 
-        descriptionTextArea.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            descLabel.setVisible(newValue.isEmpty());
-        });
-            descLabel.addEventFilter(MouseEvent.ANY, event -> {
-            descriptionTextArea.fireEvent(event);
-            event.consume();
-        });
-
         // Row 7 (Level and School)
-        levelTextField = new TextField();
-        Label levelLabel = createPromptLabel("Level");
-        StackPane.setAlignment(levelLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(levelLabel, new Insets(0, 0, 0, 8));
-        StackPane lvPane = new StackPane(levelTextField, levelLabel);
-        schoolTextField = new TextField();
-        Label schoolLabel = createPromptLabel("School");
-        StackPane.setAlignment(schoolLabel, Pos.CENTER_LEFT);
-        StackPane.setMargin(schoolLabel, new Insets(0, 0, 0, 8));
-        StackPane schoolPane = new StackPane(schoolTextField, schoolLabel);
+        StackPane lvPane = createTFRow("Level");
+        StackPane schoolPane = createTFRow("School");
         gridPane.addRow(7, lvPane, schoolPane);
 
-        levelTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            levelLabel.setVisible(newValue.isEmpty());
-        });
-            levelLabel.addEventFilter(MouseEvent.ANY, event -> {
-            levelTextField.fireEvent(event);
-            event.consume();
-        });
-        schoolTextField.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            schoolLabel.setVisible(newValue.isEmpty());
-        });
-            schoolLabel.addEventFilter(MouseEvent.ANY, event -> {
-            schoolTextField.fireEvent(event);
-            event.consume();
-        });
-
         // Row 8 (Checkboxes for ritual and concentration)
-        ritualCheckBox = new CheckBox("Ritual");
-        concentrationCheckBox = new CheckBox("Concentration");
-        gridPane.addRow(8, ritualCheckBox);
-        gridPane.addRow(8, concentrationCheckBox);
-        StackPane.setAlignment(ritualCheckBox, Pos.BASELINE_CENTER);
-        StackPane.setAlignment(concentrationCheckBox, Pos.BASELINE_CENTER);
+        CheckBox ritualCB = createCheckBox("Ritual");
+        CheckBox concentrationCB = createCheckBox("Concentration");
+        gridPane.addRow(8, ritualCB, concentrationCB);
 
         //initialize the feedback text field
         feedbackText = new Text();
@@ -224,24 +114,24 @@ public class SpellCreationBox {
     }
 
     public void handleCreateButtonAction(FeedbackHandler feedbackHandler) {
-        String spellName = spellNameTextField.getText();
-        String range = rangeTextField.getText();
-        String castingTime = castingTimeTextField.getText();
-        String description = descriptionTextArea.getText();
-        String ingredients = ingredientsTextField.getText();
-        boolean ritual = ritualCheckBox.isSelected();
-        boolean concentration = concentrationCheckBox.isSelected();
-        String components = componentsTextField.getText();
-        String levelString = levelTextField.getText();
-        String school = schoolTextField.getText();
-        String duration = durationTextField.getText();
+        String spellName = textFields.get("Spell Name").getText();
+        String range = textFields.get("Range").getText();
+        String castingTime = textFields.get("Casting Time").getText();
+        String description = textAreas.get("Description").getText();
+        String ingredients = textFields.get("Ingredients").getText();
+        boolean isRitual = checkBoxes.get("Ritual").isSelected();
+        boolean isConcentration = checkBoxes.get("Concentration").isSelected();
+        String components = textFields.get("Components").getText();
+        String levelString = textFields.get("Level").getText();
+        String school = textFields.get("School").getText();
+        String duration = textFields.get("Duration").getText();
 
         // establish handlers
         SpellFileHandler spellFileHandler = new SpellFileHandler();
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
-        spellCreator.create(spellName, range, castingTime, description, ingredients, school, duration, ritual, concentration, components, levelString);
+        spellCreator.create(spellName, range, castingTime, description, ingredients, school, duration, isRitual, isConcentration, components, levelString);
         boolean isSpellCreated = spellCreator.isSpellCreated();
 
         if (isSpellCreated) {
@@ -252,6 +142,63 @@ public class SpellCreationBox {
             else feedbackHandler.displayError();
         } else if(!spellCreator.validInputs(spellName, range, castingTime, description, levelString, components))
             feedbackHandler.pointOutIncompetence();
+    }
+
+    private void establishTFListeners(@NotNull TextField tf, Label l){
+        tf.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
+            l.setVisible(newValue.isEmpty());
+        });
+        l.addEventFilter(MouseEvent.ANY, event -> {
+            tf.fireEvent(event);
+            event.consume();
+        });
+    }
+
+    private void establishTAListeners(@NotNull TextArea ta, Label l){
+        ta.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
+            l.setVisible(newValue.isEmpty());
+        });
+        l.addEventFilter(MouseEvent.ANY, event -> {
+            ta.fireEvent(event);
+            event.consume();
+        });
+    }
+
+    private StackPane createTFRow(String promptText) {
+        TextField textField = new TextField();
+        textFields.put(promptText, textField);  // Store the TextField in the map
+        Label label = createPromptLabel(promptText);
+
+        StackPane.setAlignment(label, Pos.CENTER_LEFT);
+        StackPane.setMargin(label, new Insets(0, 0, 0, 8));
+
+        StackPane pane = new StackPane(textField, label);
+
+        establishTFListeners(textField, label);
+
+        return pane;
+    }
+
+    private StackPane createTARow(String promptText) {
+        TextArea textArea = new TextArea();
+        textAreas.put(promptText, textArea);  // Store the TextArea in the map
+        Label label = createPromptLabel(promptText);
+
+        StackPane.setAlignment(label, Pos.TOP_LEFT);
+        StackPane.setMargin(label, new Insets(4, 0, 0, 8));
+
+        StackPane pane = new StackPane(textArea, label);
+
+        establishTAListeners(textArea, label);
+
+        return pane;
+    }
+
+    private CheckBox createCheckBox(String text) {
+        CheckBox checkBox = new CheckBox(text);
+        checkBoxes.put(text, checkBox);  // Store the CheckBox in the map
+        StackPane.setAlignment(checkBox, Pos.BASELINE_CENTER);
+        return checkBox;
     }
 
     //Miscellaneous commands
@@ -265,3 +212,4 @@ public class SpellCreationBox {
     return label;
     }
 }
+*/

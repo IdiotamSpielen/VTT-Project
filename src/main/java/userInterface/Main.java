@@ -1,5 +1,6 @@
 package userInterface;
 
+import com.sun.istack.NotNull;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +15,7 @@ public class Main extends Application {
         setupUI(primaryStage);
     }
 
-    private void setupUI(Stage primaryStage) throws IOException {
+    private void setupUI(@NotNull Stage primaryStage) throws IOException {
         Scene mainScene = new Scene(loadFXML(), 1366, 768);
         primaryStage.setTitle("VTT V0.0.3");
         primaryStage.setScene(mainScene);

@@ -6,7 +6,7 @@
 
     <groupId>me.idiotamspielen</groupId>
     <artifactId>vtt-projekt</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>VTT-Projekt</name>
@@ -67,10 +67,10 @@
             <version>0.0.29</version>
         </dependency>
         <dependency>
-            <groupId>org.ow2.clif.isac</groupId>
-            <artifactId>FileWriter</artifactId>
-            <version>3.0.3</version>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.1</version>
+            <scope>compile</scope>
         </dependency>
-
     </dependencies>
 </project>
