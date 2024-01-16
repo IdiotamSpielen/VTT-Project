@@ -1,5 +1,5 @@
 package classifications;
 
-public class item{
+public class Item {
     
 }
