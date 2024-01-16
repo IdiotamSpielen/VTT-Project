@@ -1,9 +1,13 @@
+# database info
+Currently the "database" works with json-files saved on your hard-drive. In later stages it should be able to access its own Tadabase.
+
 # intended VTT Functionality
 
 ## Library
 
 The library functionality of this program will contain any spells, abilities, creatures, classes and races that you have added.
 In later versions you should be able to import PDFs and similar files. None of these entries are provided with the program.
+Don't want to risk any copyright infringement here.
 
 ## character management
 
