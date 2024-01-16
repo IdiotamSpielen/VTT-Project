@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="userInterface.controllers.SpellSearchController"
+            prefHeight="450.0" prefWidth="450.0"
+            maxWidth="500" maxHeight="500"
+            minWidth="500" minHeight="500"
+            stylesheets="/styles/SpellSearch.css">
+    <top>
+        <TextField fx:id="searchInput" promptText="Enter spell name to search" onAction="#handleSearch"/>
+    </top>
+    <center>
+        <StackPane>
+            <ListView fx:id="spellListView" onMouseClicked="#handleSpellSelection"/>
+            <GridPane fx:id="gridPane" styleClass="gridPane" hgap="10" vgap="10" alignment="CENTER">
+                <padding><Insets top="20" left="20" right="20" bottom="20"/></padding>
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+                <!-- Row 1, Name -->
+                <HBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                    <Text fx:id="spellName" style="-fx-font-size: 17px"/>
+                </HBox>
+                <!-- Row 2, Casting time and range -->
+                <HBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <Text fx:id="castingTime" style="-fx-font-size: 17px"/>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <Text fx:id="range" style="-fx-font-size: 17px"/>
+                </HBox>
+                <!-- Row 3, Components and Duration -->
+                <HBox alignment="CENTER" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                    <Text fx:id="components" style="-fx-font-size: 17px"/>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                    <Text fx:id="duration" style="-fx-font-size: 17px"/>
+                </HBox>
+                <!-- Row 4, Ingredients -->
+                <HBox alignment="CENTER" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                    <Text fx:id="ingredients" style="-fx-font-size: 17px"/>
+                </HBox>
+                <!-- Row 5 & 6, Description -->
+                <HBox alignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.columnSpan="2" minHeight="200">
+                    <ScrollPane fitToWidth="true" fitToHeight="true">
+                        <VBox>
+                            <TextFlow style="-fx-font-size: 17px" lineSpacing="5">
+                                <Text fx:id="descArea"/>
+                            </TextFlow>
+                        </VBox>
+                    </ScrollPane>
+                </HBox>
+                <!-- Row 7, Level and School -->
+                <HBox alignment="CENTER" GridPane.rowIndex="6" GridPane.columnIndex="0">
+                    <Text fx:id="level" style="-fx-font-size: 17px"/>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                    <Text fx:id="school" style="-fx-font-size: 17px"/>
+                </HBox>
+                <!-- Row 8, Ritual and Concentration -->
+                <HBox alignment="CENTER" GridPane.rowIndex="7" GridPane.columnIndex="0">
+                    <Text fx:id="ritual" style="-fx-font-size: 17px"/>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="7" GridPane.columnIndex="1">
+                    <Text fx:id="concentration" style="-fx-font-size: 17px"/>
+                </HBox>
+            </GridPane>
+        </StackPane>
+    </center>
+    <bottom>
+        <StackPane alignment="BOTTOM_CENTER">
+            <Button text="Display Spells" onAction="#handleSearch"/>
+            <padding>
+                <Insets bottom="10" top="10" left="10" right="10"/>
+            </padding>
+        </StackPane>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,6 @@
+.HBox {
+    -fx-border-style: solid;
+    -fx-border-width: 4px;
+    -fx-border-color: black;
+    -fx-padding: 5px;
+}
