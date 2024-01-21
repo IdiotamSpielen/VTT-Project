@@ -12,15 +12,20 @@
         <MenuBar>
             <Menu text="Create">
                 <MenuItem text="Spell" onAction="#createSpell"/>
-                <MenuItem text="Character" onAction="#createCharacter"/>
+                <MenuItem text="Character"/>
                 <MenuItem text="Race"/>
                 <MenuItem text="Class"/>
+                <MenuItem text="Map"/>
             </Menu>
             <Menu text="Search">
                 <MenuItem text="Spell" onAction="#searchSpell"/>
                 <MenuItem text="Character"/>
                 <MenuItem text="Race"/>
                 <MenuItem text="Class"/>
+            </Menu>
+            <Menu text="Display">
+                <MenuItem text="Map"/>
+                <MenuItem text="Token"/>
             </Menu>
         </MenuBar>
     </top>
@@ -31,8 +36,7 @@
                 <Pane fx:id="tableTopPane" prefWidth="1.0" prefHeight="1.0">
                     <TableTop fx:id="tableTop" />
                 </Pane>
-                </StackPane>
-                <Region />
+            </StackPane>
         </HBox>
         </VBox>
     </center>
