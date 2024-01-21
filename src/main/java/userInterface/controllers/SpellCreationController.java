@@ -5,26 +5,15 @@ import handlers.FeedbackHandler;
 import handlers.SpellFileHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javassist.runtime.Desc;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SpellCreationController {
 
-
-    @FXML private GridPane gridPane;
     @FXML private TextField spellNameTF;
     @FXML private Label spellNameL;
     @FXML private TextField castingTimeTF;
@@ -60,9 +49,7 @@ public class SpellCreationController {
     }
 
     private void establishTFListeners(@org.jetbrains.annotations.NotNull TextField tf, Label l) {
-        tf.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            l.setVisible(newValue.isEmpty());
-        });
+        tf.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> l.setVisible(newValue.isEmpty()));
         l.addEventFilter(MouseEvent.ANY, event -> {
             tf.fireEvent(event);
             event.consume();
@@ -70,9 +57,7 @@ public class SpellCreationController {
     }
 
     private void establishTAListeners(@NotNull TextArea ta, Label l) {
-        ta.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
-            l.setVisible(newValue.isEmpty());
-        });
+        ta.textProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> l.setVisible(newValue.isEmpty()));
         l.addEventFilter(MouseEvent.ANY, event -> {
             ta.fireEvent(event);
             event.consume();
