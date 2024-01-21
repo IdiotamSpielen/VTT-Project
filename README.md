@@ -20,14 +20,14 @@ these assets are also not provided with the program.
 
 # Disclaimer
 
-You may modify and use this software for whatever you please.
-This software does not come with any entries and is not connected to any database from the get go.
+You may modify and use this software however you please.
+I will not provide any support that goes beyond the instructions found in this README and comments left in the code.
+This software does not come with any entries and is initially not connected to any database.
 You will have to host the database yourself or look for another way to host it.
 I will not host any databases for you nor will I support you in setting up or finding someone to host your own database.
-I do not take liability for any consequences you may face should you publish content
-created using this software.
+I do not take liability for any consequences you may face should you publish content you created using this software.
 
-# Licensing
+# Licensing - MIT-License
 
 Copyright (c) 2024 IdiotamSpielen
 
