@@ -1,4 +1,5 @@
 # database info
+
 Currently the "database" works with json-files saved on your hard-drive. In later stages it should be able to access its own Database.
 
 # intended VTT Functionality
@@ -20,12 +21,12 @@ these assets are also not provided with the program.
 
 # Disclaimer
 
-You may modify and use this software however you please.
-I will not provide any support that goes beyond the instructions found in this README and comments left in the code.
-This software does not come with any entries and is initially not connected to any database.
-You will have to host the database yourself or look for another way to host it.
-I will not host any databases for you nor will I support you in setting up or finding someone to host your own database.
-I do not take liability for any consequences you may face should you publish content you created using this software.
+You may modify and use this software however you please.  
+I will not provide any support that goes beyond the instructions found in this README and comments left in the code.  
+This software does not come with any entries and is initially not connected to any database.  
+You will have to host the database yourself or look for another way to host it.  
+I will not host any databases for you nor will I support you in setting up or finding someone to host your own database.  
+I do not take liability for any consequences you may face should you publish content created using this software.
 
 # Licensing - MIT-License
 
