@@ -1,14 +1,16 @@
+
 # database info
 
-Currently the "database" works with json-files saved on your hard-drive. In later stages it should be able to access its own Database.
+Currently the "database" works with json-files saved on your hard-drive.  
+In later stages it should be able to access a database that you connect yourself.
 
 # intended VTT Functionality
 
 ## Library
 
-The library functionality of this program will contain any spells, abilities, creatures, classes and races that you have added.
-In later versions you should be able to import PDFs and similar files. None of these entries are provided with the program.
-Don't want to risk any copyright infringement here.
+The library functionality of this Software will contain any material  
+(e.g. spells, abilities, creatures, classes and races) that you have added.  
+In later versions you should be able to import PDFs and similar files. None of these entries are provided with the Software.
 
 ## character management
 
@@ -17,16 +19,17 @@ Be it character sheets for players or NPC sheets for yourself. Easily created, u
 ## Maps, Tokens and all the things between
 
 Much like with the library, you can import any images you like as maps, tokens or whatever else you might need.
-these assets are also not provided with the program.
+these assets are also not provided with the Software.
 
 # Disclaimer
 
 You may modify and use this software however you please.  
-I will not provide any support that goes beyond the instructions found in this README and comments left in the code.  
+I will not provide any support that goes beyond the instructions found in this README and other documentation.  
 This software does not come with any entries and is initially not connected to any database.  
 You will have to host the database yourself or look for another way to host it.  
 I will not host any databases for you nor will I support you in setting up or finding someone to host your own database.  
-I do not take liability for any consequences you may face should you publish content created using this software.
+I do not condone the unlawful distribution of copyrighted materials using my software,
+nor do I take liability for any consequences you may face by publishing content you created using this software.
 
 # Licensing - MIT-License
 
