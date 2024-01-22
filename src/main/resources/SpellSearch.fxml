@@ -11,8 +11,7 @@
             fx:controller="userInterface.controllers.SpellSearchController"
             prefHeight="450.0" prefWidth="450.0"
             maxWidth="500" maxHeight="500"
-            minWidth="500" minHeight="500"
-            stylesheets="/styles/SpellSearch.css">
+            minWidth="500" minHeight="500">
     <top>
         <TextField fx:id="searchInput" promptText="Enter spell name to search" onAction="#handleSearch"/>
     </top>
