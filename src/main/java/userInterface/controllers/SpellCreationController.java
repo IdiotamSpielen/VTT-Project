@@ -5,26 +5,16 @@ import handlers.FeedbackHandler;
 import handlers.SpellFileHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javassist.runtime.Desc;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SpellCreationController {
 
-
-    @FXML private GridPane gridPane;
     @FXML private TextField spellNameTF;
     @FXML private Label spellNameL;
     @FXML private TextField castingTimeTF;
