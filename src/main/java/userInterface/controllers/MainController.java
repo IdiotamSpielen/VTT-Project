@@ -73,7 +73,7 @@ public class MainController {
         searchStage.setTitle("Search Spell");
 
         // Create a SpellOutput object for displaying search results
-        SpellFileHandler spellOutput = new SpellFileHandler();
+        new SpellFileHandler();
 
         // Create a SpellOutputBox with the SpellOutput
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/SpellSearch.fxml"));

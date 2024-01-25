@@ -17,7 +17,7 @@ public class Main extends Application {
 
     private void setupUI(@NotNull Stage primaryStage) throws IOException {
         Scene mainScene = new Scene(loadFXML(), 1366, 768);
-        primaryStage.setTitle("VTT V0.0.3");
+        primaryStage.setTitle("VTT V0.1.1");
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }

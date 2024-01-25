@@ -49,7 +49,7 @@ public class SpellFileHandler {
     public List<Spell> getSavedSpellInformation() {
         List<Spell> spells = new ArrayList<>();
 
-        SpellFileHandler spellFileHandler = new SpellFileHandler();
+        new SpellFileHandler();
         File spellDirectory = new File("src/Library/data/spells");
         File[] spellFiles = spellDirectory.listFiles();
 

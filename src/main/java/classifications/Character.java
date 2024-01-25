@@ -17,7 +17,7 @@ public class Character{
     private int wisdom;
     private int charisma;
 
-    private CharacterRace race;
+    private CharacterRace characterRace;
     private CharacterClass characterClass;
 
     public String getName() {
@@ -115,18 +115,18 @@ public class Character{
     }
 
     public CharacterRace getRace() {
-        return race;
+        return characterRace;
     }
 
     public void setRace(CharacterRace race) {
-        this.race = race;
+        this.characterRace = race;
     }
 
     public CharacterClass getCharacterClass() {
         return characterClass;
     }
 
-    public void setDndClass(CharacterClass dndClass) {
+    public void setCharacterClass(CharacterClass dndClass) {
         this.characterClass = dndClass;
     }
 
