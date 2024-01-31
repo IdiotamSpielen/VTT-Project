@@ -6,7 +6,6 @@ import handlers.SpellFileHandler;
 
 public class SpellCreator {
 
-    private SpellFileHandler spellFileHandler;
     private Spell spell;
     
     public SpellCreator(FeedbackHandler feedbackHandler, SpellFileHandler spellFileHandler) {
@@ -33,7 +32,8 @@ public class SpellCreator {
             int level = Integer.parseInt(levelString);
             spell.setLevel(level);
             this.spell = spell;
-            spellFileHandler.saveSpellToFile(getSpell());
+            FileHandler<Spell> = new FileHandler<>(Spell.class);
+            fileHandler.saveToFile(getSpell(), "src/library/data/spells");
         }
     }
 
