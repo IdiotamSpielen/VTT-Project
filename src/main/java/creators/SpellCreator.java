@@ -2,7 +2,7 @@ package creators;
 
 import classifications.Spell;
 import handlers.FeedbackHandler;
-import handlers.SpellFileHandler;
+import handlers.FileHandler;
 
 public class SpellCreator {
 
