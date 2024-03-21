@@ -47,6 +47,24 @@ public class SpellCreationController {
         establishTAListeners(DescArea, DescL);
         establishTFListeners(LvTF, LvL);
         establishTFListeners(SchoolTF, SchoolL);
+
+        List<TextField> textFields = Arrays.asList(
+            spellNameTF, castingTimeTF, rangeTF, ComponentTF, DurationTF, IngredientTF, LvTF, SchoolTF
+        );
+    
+        for (int i = 0; i < textFields.size(); i++) {
+            TextField currentTextField = textFields.get(i);
+            TextField nextTextField = i < textFields.size() - 1 ? textFields.get(i + 1) : null;
+            TextField previousTextField = i > 0 ? textFields.get(i - 1) : null;
+    
+            currentTextField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.DOWN && nextTextField != null) {
+                    nextTextField.requestFocus();
+                } else if (event.getCode() == KeyCode.UP && previousTextField != null) {
+                    previousTextField.requestFocus();
+                }
+            });
+        }
     }
 
     private void establishTFListeners(@org.jetbrains.annotations.NotNull TextField tf, Label l) {
