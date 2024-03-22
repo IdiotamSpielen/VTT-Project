@@ -10,19 +10,19 @@
             fx:controller="userInterface.controllers.SpellCreationController"
             prefHeight="450.0" prefWidth="450.0">
     <top>
-        <GridPane fx:id="gridPane" styleClass="gridPane"  hgap="10" vgap="10">
+        <GridPane styleClass="gridPane"  hgap="10" vgap="10">
             <padding><Insets top="10" left="10" right="10" bottom="10"/></padding>
         <columnConstraints>
             <ColumnConstraints percentWidth="50"/>
             <ColumnConstraints percentWidth="50"/>
         </columnConstraints>
             <!-- Row 1, Name -->
-            <StackPane fx:id="namePane" GridPane.rowIndex="0" GridPane.columnSpan="2">
+            <StackPane GridPane.rowIndex="0" GridPane.columnSpan="2">
                 <TextField fx:id="spellNameTF" alignment="CENTER"/>
                 <Label fx:id="spellNameL" text="Spell Name" style="fx-text-fill: grey;"/>
             </StackPane>
             <!-- Row 2, Casting time and range -->
-            <StackPane fx:id="timePane" GridPane.rowIndex="1" alignment="CENTER_LEFT" GridPane.columnIndex="0">
+            <StackPane GridPane.rowIndex="1" alignment="CENTER_LEFT" GridPane.columnIndex="0">
                 <TextField fx:id="castingTimeTF"/>
                 <Label fx:id="castingTimeL" text="Casting Time" style="fx-text-fill: grey;">
                         <StackPane.margin>
@@ -30,7 +30,7 @@
                         </StackPane.margin>
                 </Label>
             </StackPane>
-            <StackPane fx:id="rangePane" GridPane.rowIndex="1" alignment="CENTER_LEFT" GridPane.columnIndex="1">
+            <StackPane GridPane.rowIndex="1" alignment="CENTER_LEFT" GridPane.columnIndex="1">
                 <TextField fx:id="rangeTF"/>
                 <Label fx:id="rangeL" text="Range" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -39,7 +39,7 @@
                 </Label>
             </StackPane>
             <!-- Row 3, Components and Duration -->
-            <StackPane fx:id="compPane" GridPane.rowIndex="2" alignment="CENTER_LEFT" GridPane.columnIndex="0">
+            <StackPane GridPane.rowIndex="2" alignment="CENTER_LEFT" GridPane.columnIndex="0">
                 <TextField fx:id="ComponentTF"/>
                 <Label fx:id="ComponentL" text="Components" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -47,7 +47,7 @@
                     </StackPane.margin>
                 </Label>
             </StackPane>
-            <StackPane fx:id="DurationPane" GridPane.rowIndex="2" alignment="CENTER_LEFT" GridPane.columnIndex="1">
+            <StackPane GridPane.rowIndex="2" alignment="CENTER_LEFT" GridPane.columnIndex="1">
                 <TextField fx:id="DurationTF"/>
                 <Label fx:id="DurationL" text="Duration" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -56,7 +56,7 @@
                 </Label>
             </StackPane>
             <!-- Row 4, Ingredients -->
-            <StackPane fx:id="IngredientPane" GridPane.rowIndex="3" GridPane.columnSpan="2" alignment="CENTER_LEFT">
+            <StackPane GridPane.rowIndex="3" GridPane.columnSpan="2" alignment="CENTER_LEFT">
                 <TextField fx:id="IngredientTF"/>
                 <Label fx:id="IngredientL" text="Ingredients" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -65,7 +65,7 @@
                 </Label>
             </StackPane>
             <!-- Row 5 & 6, Description -->
-            <StackPane fx:id="DescPane" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.columnSpan="2" alignment="TOP_LEFT">
+            <StackPane GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.columnSpan="2" alignment="TOP_LEFT">
                 <TextArea fx:id="DescArea"/>
                 <Label fx:id="DescL" text="Description" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -74,7 +74,7 @@
                 </Label>
             </StackPane>
             <!-- Row 7, Level and School -->
-            <StackPane fx:id="LvPane" GridPane.rowIndex="6" alignment="CENTER_LEFT" GridPane.columnIndex="0">
+            <StackPane GridPane.rowIndex="6" alignment="CENTER_LEFT" GridPane.columnIndex="0">
                 <TextField fx:id="LvTF"/>
                 <Label fx:id="LvL" text="Level" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -82,7 +82,7 @@
                     </StackPane.margin>
                 </Label>
             </StackPane>
-            <StackPane fx:id="SchoolPane" GridPane.rowIndex="6" alignment="CENTER_LEFT" GridPane.columnIndex="1">
+            <StackPane GridPane.rowIndex="6" alignment="CENTER_LEFT" GridPane.columnIndex="1">
                 <TextField fx:id="SchoolTF"/>
                 <Label fx:id="SchoolL" text="School" style="fx-text-fill: grey">
                     <StackPane.margin>
@@ -96,11 +96,11 @@
         </GridPane>
     </top>
     <center>
-        <Text fx:id="FeedbackText"/>
+        <Text/>
     </center>
     <bottom>
-        <StackPane fx:id="ButtonPane" alignment="BOTTOM_CENTER">
-            <Button fx:id="createButton" text="Create" onAction="#handleButtonPress"/>
+        <StackPane alignment="BOTTOM_CENTER">
+            <Button text="Create" onAction="#handleButtonPress"/>
             <padding>
                 <Insets bottom="10" top="10" left="10" right="10"/>
             </padding>

@@ -48,7 +48,7 @@
                     <Text fx:id="ingredients" style="-fx-font-size: 17px"/>
                 </HBox>
                 <!-- Row 5 & 6, Description -->
-                <HBox alignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.columnSpan="2" minHeight="200" fitToWidth="true">
+                <HBox alignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.columnSpan="2" minHeight="200" minWidth="400">
                     <ScrollPane fitToWidth="true" fitToHeight="true">
                         <VBox>
                             <TextFlow style="-fx-font-size: 17px" lineSpacing="5">
