@@ -3,14 +3,13 @@ package handlers;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.Gson;
-import classifications.CharacterRace;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class FileHandler<T> {
-    private boolean isSaved = false;
-    private Gson gson = new Gson();
-    private Class<T> clazz;
-    private String diretoryPath;
+public class FileHandler<T extends Things> {
+    private boolean isSaved;
+    private ObjectMapper mapper = new ObjectMapper();
+    private final Class<T> clazz;
+    private final String directoryPath;
 
     public FileHandler(Class<T> clazz, String directoryPath){
         this.clazz = clazz;
@@ -31,21 +30,20 @@ public class FileHandler<T> {
         String fileName = obj.getName() + ".json";
         File file = new File(directory, fileName);
         try (FileWriter writer = new FileWriter(file)) {
-                // Serialize the Spell object to JSON
-                String json = gson.toJson(obj);
+            // Serialize the object to JSON
+            String json = mapper.writeValueAsString(obj);
 
-                writer.write(json);
-                writer.flush();
-        if (!isSaved) {
+            writer.write(json);
+            writer.flush();
+
             System.out.println(clazz.getSimpleName() + " Saved as " + fileName);
             isSaved = true;
-        }
-     } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e){
         System.out.println("Failed to save: File not found");
         e.printStackTrace();
         } catch (IOException e){
-        System.out.println("Failed to save: " + e.getMessage());
-        e.printStackTrace();
+            System.out.println("Failed to save: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -64,7 +62,7 @@ public class FileHandler<T> {
                 if (objectFile.isFile() && objectFile.getName().endsWith(".json")) { // Check for JSON files
                     try (FileReader fileReader = new FileReader(objectFile)) {
                         // Deserialize the JSON into an object
-                        T obj = gson.fromJson(fileReader, clazz);
+                        T obj = mapper.readValue(fileReader, clazz);
                         objects.add(obj);
                     } catch (IOException e) {
                         System.out.println("Failed to read file: " + objectFile.getName());

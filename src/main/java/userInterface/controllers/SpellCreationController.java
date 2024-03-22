@@ -1,8 +1,9 @@
 package userInterface.controllers;
 
+import classifications.Spell;
 import creators.SpellCreator;
 import handlers.FeedbackHandler;
-import handlers.SpellFileHandler;
+import handlers.FileHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -85,16 +86,17 @@ public class SpellCreationController {
 
 
         // establish handlers
-        SpellFileHandler spellFileHandler = new SpellFileHandler();
+        FileHandler<Spell> fileHandler = new FileHandler<Spell>(Spell.class, "src/library/data/spells");
 
         // Handle the spell creation using the retrieved values
-        SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
+        SpellCreator spellCreator = new SpellCreator(feedbackHandler, fileHandler);
         spellCreator.create(spellName, range, castingTime, description, ingredients, school, duration, isRitual, isConcentration, components, levelString);
         boolean isSpellCreated = spellCreator.isSpellCreated();
 
         if (isSpellCreated) {
             // Save the spell and handle the result
-            boolean isSpellSaved = spellFileHandler.isSaved();
+            boolean isSpellSaved = spellCreator.isSpellSaved();
+            System.out.println(isSpellSaved);
             // Create feedback based on the result of spell creation and saving
             if (isSpellSaved) feedbackHandler.displaySuccess(spellName);
             else feedbackHandler.displayError();

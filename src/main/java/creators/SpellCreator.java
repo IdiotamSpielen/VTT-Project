@@ -7,9 +7,10 @@ import handlers.FileHandler;
 public class SpellCreator {
 
     private Spell spell;
-    
-    public SpellCreator(FeedbackHandler feedbackHandler, SpellFileHandler spellFileHandler) {
-        this.spellFileHandler = spellFileHandler;
+    private final FileHandler<Spell> fileHandler;
+
+    public SpellCreator(FeedbackHandler feedbackHandler, FileHandler<Spell> fileHandler) {
+        this.fileHandler = fileHandler;
     }
     public void create(String spellName, String range, String castingTime, String description, String ingredients, String school, String duration, boolean ritual, boolean concentration, String components, String levelString){
         Spell spell = new Spell();
@@ -32,8 +33,8 @@ public class SpellCreator {
             int level = Integer.parseInt(levelString);
             spell.setLevel(level);
             this.spell = spell;
-            FileHandler<Spell> = new FileHandler<>(Spell.class);
-            fileHandler.saveToFile(getSpell(), "src/library/data/spells");
+            FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, "src/library/data/spells");
+            fileHandler.saveToFile(getSpell());
         }
     }
 
@@ -84,6 +85,8 @@ public class SpellCreator {
     public boolean isSpellCreated () {
             return spell != null;
     }
+
+    public boolean isSpellSaved() {return fileHandler.isSaved();}
 
     public Spell getSpell() {
         return spell;

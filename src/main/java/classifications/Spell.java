@@ -1,6 +1,8 @@
 package classifications;
 
-public class Spell{
+import handlers.Things;
+
+public class Spell extends Things{
     
     private String spellname;
     private String school;
