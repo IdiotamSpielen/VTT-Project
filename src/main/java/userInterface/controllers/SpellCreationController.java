@@ -89,7 +89,7 @@ public class SpellCreationController {
         FileHandler<Spell> fileHandler = new FileHandler<Spell>(Spell.class, "src/library/data/spells");
 
         // Handle the spell creation using the retrieved values
-        SpellCreator spellCreator = new SpellCreator(feedbackHandler, fileHandler);
+        SpellCreator spellCreator = new SpellCreator(fileHandler);
         spellCreator.create(spellName, range, castingTime, description, ingredients, school, duration, isRitual, isConcentration, components, levelString);
         boolean isSpellCreated = spellCreator.isSpellCreated();
 
