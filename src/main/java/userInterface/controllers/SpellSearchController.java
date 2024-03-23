@@ -1,7 +1,7 @@
 package userInterface.controllers;
 
 import classifications.Spell;
-import handlers.SpellFileHandler;
+import handlers.FileHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -30,7 +30,7 @@ public class SpellSearchController {
     @FXML private GridPane gridPane;
 
     private final Map<String, Spell> spellMap = new HashMap<>();
-    private final SpellFileHandler spellFileHandler = new SpellFileHandler();
+    private final FileHandler<Spell> fileHandler = new FileHandler<Spell>(Spell.class, "src/library/data/spells");
 
     public void initialize(){
         gridPane.setVisible(false);
@@ -40,7 +40,7 @@ public class SpellSearchController {
     @FXML
     public void handleSearch(){
         String query = searchInput.getText();
-        List<Spell> spells = spellFileHandler.searchSpell(query);
+        List<Spell> spells = fileHandler.search(query);
         displaySpells(spells);
     }
     private void displaySpells(List<Spell> spells){
@@ -76,7 +76,6 @@ public class SpellSearchController {
             if(selectedSpell.isConcentration()){concentration.setVisible(true);}
             gridPane.setVisible(true);
             gridPane.requestFocus();
-            System.out.println("test");
         }
         else{
             // Hide the text elements
