@@ -1,16 +1,21 @@
 package userInterface.controllers;
 
+import classifications.Spell;
 import creators.SpellCreator;
 import handlers.FeedbackHandler;
-import handlers.SpellFileHandler;
+import handlers.FileHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SpellCreationController {
 
@@ -46,6 +51,24 @@ public class SpellCreationController {
         establishTAListeners(DescArea, DescL);
         establishTFListeners(LvTF, LvL);
         establishTFListeners(SchoolTF, SchoolL);
+
+        List<TextField> textFields = Arrays.asList(
+            spellNameTF, castingTimeTF, rangeTF, ComponentTF, DurationTF, IngredientTF, LvTF, SchoolTF
+        );
+    
+        for (int i = 0; i < textFields.size(); i++) {
+            TextField currentTextField = textFields.get(i);
+            TextField nextTextField = i < textFields.size() - 1 ? textFields.get(i + 1) : null;
+            TextField previousTextField = i > 0 ? textFields.get(i - 1) : null;
+    
+            currentTextField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.DOWN && nextTextField != null) {
+                    nextTextField.requestFocus();
+                } else if (event.getCode() == KeyCode.UP && previousTextField != null) {
+                    previousTextField.requestFocus();
+                }
+            });
+        }
     }
 
     private void establishTFListeners(@org.jetbrains.annotations.NotNull TextField tf, Label l) {
@@ -85,16 +108,17 @@ public class SpellCreationController {
 
 
         // establish handlers
-        SpellFileHandler spellFileHandler = new SpellFileHandler();
+        FileHandler<Spell> fileHandler = new FileHandler<Spell>(Spell.class, "src/library/data/spells");
 
         // Handle the spell creation using the retrieved values
-        SpellCreator spellCreator = new SpellCreator(feedbackHandler, spellFileHandler);
+        SpellCreator spellCreator = new SpellCreator(fileHandler);
         spellCreator.create(spellName, range, castingTime, description, ingredients, school, duration, isRitual, isConcentration, components, levelString);
         boolean isSpellCreated = spellCreator.isSpellCreated();
 
         if (isSpellCreated) {
             // Save the spell and handle the result
-            boolean isSpellSaved = spellFileHandler.isSaved();
+            boolean isSpellSaved = spellCreator.isSpellSaved();
+            System.out.println(isSpellSaved);
             // Create feedback based on the result of spell creation and saving
             if (isSpellSaved) feedbackHandler.displaySuccess(spellName);
             else feedbackHandler.displayError();

@@ -2,15 +2,15 @@ package creators;
 
 import classifications.Spell;
 import handlers.FeedbackHandler;
-import handlers.SpellFileHandler;
+import handlers.FileHandler;
 
 public class SpellCreator {
 
-    private SpellFileHandler spellFileHandler;
     private Spell spell;
-    
-    public SpellCreator(FeedbackHandler feedbackHandler, SpellFileHandler spellFileHandler) {
-        this.spellFileHandler = spellFileHandler;
+    private final FileHandler<Spell> fileHandler;
+
+    public SpellCreator(FileHandler<Spell> fileHandler) {
+        this.fileHandler = fileHandler;
     }
     public void create(String spellName, String range, String castingTime, String description, String ingredients, String school, String duration, boolean ritual, boolean concentration, String components, String levelString){
         Spell spell = new Spell();
@@ -33,7 +33,7 @@ public class SpellCreator {
             int level = Integer.parseInt(levelString);
             spell.setLevel(level);
             this.spell = spell;
-            spellFileHandler.saveSpellToFile(getSpell());
+            fileHandler.saveToFile(getSpell());
         }
     }
 
@@ -84,6 +84,8 @@ public class SpellCreator {
     public boolean isSpellCreated () {
             return spell != null;
     }
+
+    public boolean isSpellSaved() {return fileHandler.isSaved();}
 
     public Spell getSpell() {
         return spell;

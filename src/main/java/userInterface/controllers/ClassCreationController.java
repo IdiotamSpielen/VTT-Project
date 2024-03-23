@@ -1,9 +1,9 @@
 package userInterface.controllers;
 
-import classifications.DnDClass;
+import classifications.CharacterClass;
 
 public class ClassCreationController {
-    public DnDClass getCreatedClass() {
+    public CharacterClass getCreatedClass() {
         return null; //TODO have this actually do something
     }
 }

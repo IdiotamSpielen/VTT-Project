@@ -2,6 +2,10 @@ package classifications;
 
 public class Character{
     private String name;
+    private String backstory;
+    private String bonds;
+    private String flaws;
+    private String alignment;
     private int initiative;
     private int armorClass;
     private int movementSpeed;
@@ -12,12 +16,9 @@ public class Character{
     private int intelligence;
     private int wisdom;
     private int charisma;
-    private String backstory;
-    private String bonds;
-    private String flaws;
-    private String alignment;
-    private DnDRace race;
-    private DnDClass dndClass;
+
+    private CharacterRace characterRace;
+    private CharacterClass characterClass;
 
     public String getName() {
         return name;
@@ -113,20 +114,20 @@ public class Character{
         this.alignment = alignment;
     }
 
-    public DnDRace getRace() {
-        return race;
+    public CharacterRace getRace() {
+        return characterRace;
     }
 
-    public void setRace(DnDRace race) {
-        this.race = race;
+    public void setRace(CharacterRace race) {
+        this.characterRace = race;
     }
 
-    public DnDClass getDndClass() {
-        return dndClass;
+    public CharacterClass getCharacterClass() {
+        return characterClass;
     }
 
-    public void setDndClass(DnDClass dndClass) {
-        this.dndClass = dndClass;
+    public void setCharacterClass(CharacterClass dndClass) {
+        this.characterClass = dndClass;
     }
 
     public int getAbilityScore(int abilityIndex) {
