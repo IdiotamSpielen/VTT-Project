@@ -108,7 +108,7 @@ public class SpellCreationController {
 
 
         // establish handlers
-        FileHandler<Spell> fileHandler = new FileHandler<Spell>(Spell.class, "src/library/data/spells");
+        FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, "src/library/data/spells");
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(fileHandler);
