@@ -36,7 +36,7 @@ public class FeedbackHandler {
         fadeTransition.setFromValue(1.0);
         fadeTransition.setToValue(0.0);
 
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1.5));
         pauseTransition.setOnFinished(event -> fadeTransition.play());
 
         pauseTransition.play();
