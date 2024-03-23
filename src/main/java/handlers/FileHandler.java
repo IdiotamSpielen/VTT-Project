@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileHandler<T extends Things> {
     private boolean isSaved;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
     private final Class<T> clazz;
     private final String directoryPath;
 
@@ -40,10 +40,8 @@ public class FileHandler<T extends Things> {
             isSaved = true;
         } catch (FileNotFoundException e){
         System.out.println("Failed to save: File not found");
-        e.printStackTrace();
         } catch (IOException e){
             System.out.println("Failed to save: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
