@@ -30,7 +30,7 @@ public class SpellSearchController {
     @FXML private GridPane gridPane;
 
     private final Map<String, Spell> spellMap = new HashMap<>();
-    private final FileHandler<Spell> fileHandler = new FileHandler<Spell>(Spell.class, "src/library/data/spells");
+    private final FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, "src/library/data/spells");
 
     public void initialize(){
         gridPane.setVisible(false);
