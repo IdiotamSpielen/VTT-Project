@@ -1,4 +1,4 @@
-package userInterface.controllers;
+package controllers;
 
 import classifications.Spell;
 import creators.SpellCreator;
@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -39,6 +40,7 @@ public class SpellCreationController {
     @FXML private Label SchoolL;
     @FXML private CheckBox RitualCB;
     @FXML private CheckBox ConcentrationCB;
+    @FXML private Text FeedbackText;
     private FeedbackHandler feedbackHandler;
 
     public void initialize() {
@@ -51,6 +53,7 @@ public class SpellCreationController {
         establishTAListeners(DescArea, DescL);
         establishTFListeners(LvTF, LvL);
         establishTFListeners(SchoolTF, SchoolL);
+        feedbackHandler = new FeedbackHandler(FeedbackText);
 
         List<TextField> textFields = Arrays.asList(
             spellNameTF, castingTimeTF, rangeTF, ComponentTF, DurationTF, IngredientTF, LvTF, SchoolTF
@@ -85,10 +88,6 @@ public class SpellCreationController {
             ta.fireEvent(event);
             event.consume();
         });
-    }
-
-    public void setFeedbackHandler(FeedbackHandler feedbackHandler) {
-        this.feedbackHandler = feedbackHandler;
     }
 
 

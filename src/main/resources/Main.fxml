@@ -2,12 +2,11 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.Text?>
 <?import userInterface.TableTop?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="500" prefHeight="500.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="userInterface.controllers.MainController">
+            fx:controller="controllers.MainController">
     <top>
         <MenuBar>
             <Menu text="Create">
@@ -40,7 +39,4 @@
         </HBox>
         </VBox>
     </center>
-    <bottom>
-        <Text fx:id="feedbackText" />
-    </bottom>
 </BorderPane>

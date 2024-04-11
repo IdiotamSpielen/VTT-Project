@@ -7,7 +7,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="userInterface.controllers.SpellCreationController"
+            fx:controller="controllers.SpellCreationController"
             prefHeight="450.0" prefWidth="450.0">
     <top>
         <GridPane styleClass="gridPane"  hgap="10" vgap="10">
@@ -96,7 +96,7 @@
         </GridPane>
     </top>
     <center>
-        <Text/>
+        <Text fx:id="FeedbackText" />
     </center>
     <bottom>
         <StackPane alignment="BOTTOM_CENTER">

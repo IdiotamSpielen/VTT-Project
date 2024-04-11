@@ -41,6 +41,4 @@ public class FeedbackHandler {
 
         pauseTransition.play();
     }
-
-    public Text getFeedbackText() {return feedbackText;}
 }

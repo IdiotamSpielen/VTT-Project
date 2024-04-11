@@ -1,27 +1,22 @@
-package userInterface.controllers;
+package controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import handlers.FeedbackHandler;
 import userInterface.TableTop;
 
 import java.io.IOException;
 
 public class MainController {
 
-    @FXML
-    private Text feedbackText;
     @FXML
     private BorderPane rootPane;
     @FXML
@@ -82,8 +77,6 @@ public class MainController {
     public void createSpell() {
         Stage spellCreationStage = new Stage();
         spellCreationStage.setTitle("Create Spell");
-        FeedbackHandler feedbackHandler = new FeedbackHandler(feedbackText);
-        feedbackText = feedbackHandler.getFeedbackText();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/SpellCreation.fxml"));
         Parent layoutPane = null;
@@ -93,18 +86,11 @@ public class MainController {
             System.out.println("UI creation failed");
         }
 
-        SpellCreationController controller = loader.getController();
-        controller.setFeedbackHandler(feedbackHandler);
-
         Scene spellCreationScene = new Scene(layoutPane, 500, 500);
         spellCreationStage.setScene(spellCreationScene);
         spellCreationStage.setMinWidth(500);
         spellCreationStage.setMinHeight(500);
         spellCreationStage.show();
         spellCreationStage.setResizable(false);
-
-        BorderPane.setAlignment(feedbackText, Pos.CENTER);
-        assert layoutPane != null;
-        ((BorderPane) layoutPane).setCenter(feedbackText);
     }
 }
