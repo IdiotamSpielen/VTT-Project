@@ -1,4 +1,4 @@
-package userInterface.controllers;
+package controllers;
 
 public class ItemCreationController {
 }

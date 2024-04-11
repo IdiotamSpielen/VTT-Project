@@ -1,4 +1,4 @@
-package userInterface.controllers;
+package controllers;
 
 import classifications.CharacterClass;
 
