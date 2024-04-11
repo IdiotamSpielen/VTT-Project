@@ -61,9 +61,7 @@ public class TableTop extends StackPane {
                     ImageView imageView = new ImageView(image);
                     getChildren().add(imageView);
 
-                    imageView.setOnMousePressed(mouseEvent -> {
-                        imageView.setUserData(new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()});
-                    });
+                    imageView.setOnMousePressed(mouseEvent -> imageView.setUserData(new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()}));
 
                     imageView.setOnMouseDragged(mouseEvent -> {
                         double[] initialPosition = (double[]) imageView.getUserData();
