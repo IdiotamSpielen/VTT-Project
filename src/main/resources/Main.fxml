@@ -22,10 +22,6 @@
                 <MenuItem text="Race"/>
                 <MenuItem text="Class"/>
             </Menu>
-            <Menu text="Display">
-                <MenuItem text="Map"/>
-                <MenuItem text="Token"/>
-            </Menu>
         </MenuBar>
     </top>
     <center>
