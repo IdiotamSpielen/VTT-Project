@@ -5,10 +5,10 @@
 The motivation for this project can most accurately be defined as spite.  
 It is unacceptable that Wizards of the Coast forces you to pay full price for digital versions of books
 you already bought physical copies of...  
-at full price  
+also at full price  
 And I refuse to pay a monthly subscription for something that could be done with a local application and a Discord server!
 
-Well, the Discord server will not be created by this, but the local application is there now.
+Well, the Discord server will not be created by this, but I'm currently working on the application.
 
 ## database info
 
