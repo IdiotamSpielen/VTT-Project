@@ -19,7 +19,7 @@ public class FileHandler<T extends Things> {
     public void saveToFile(T obj){
 
         if (obj == null) {
-            System.out.println("Failed to save: Object is null");
+            System.err.println("Failed to save: Object is null");
             return;
         }
 
@@ -39,9 +39,9 @@ public class FileHandler<T extends Things> {
             System.out.println(clazz.getSimpleName() + " Saved as " + fileName);
             isSaved = true;
         } catch (FileNotFoundException e){
-        System.out.println("Failed to save: File not found");
+        System.err.println("Failed to save: File not found");
         } catch (IOException e){
-            System.out.println("Failed to save: " + e.getMessage());
+            System.err.println("Failed to save: " + e.getMessage());
         }
     }
 
@@ -63,8 +63,7 @@ public class FileHandler<T extends Things> {
                         T obj = mapper.readValue(fileReader, clazz);
                         objects.add(obj);
                     } catch (IOException e) {
-                        System.out.println("Failed to read file: " + objectFile.getName());
-                        e.printStackTrace();
+                        System.err.println("Failed to read file: " + objectFile.getName());
                     }
                 }
             }

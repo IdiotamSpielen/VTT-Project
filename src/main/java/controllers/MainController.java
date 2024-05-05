@@ -23,34 +23,25 @@ public class MainController {
     private TableTop tableTop;
     @FXML
     private Pane tableTopPane;
-    @FXML
-    private ImageView imageView;
 
 
     public void initialize() {
-    tableTop = new TableTop();
-    ScrollPane scrollPane = new ScrollPane();
-    tableTop.getChildren().add(scrollPane);
-    tableTopPane.getChildren().add(tableTop);
-    double minWidth = 400;
-    double minHeight = 400;
-    tableTop.setMinWidth(minWidth);
-    tableTop.setMinHeight(minHeight);
-    tableTop.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.765));
-    tableTop.prefHeightProperty().bind(rootPane.heightProperty().multiply(0.77));
+        double minWidth = 400;
+        double minHeight = 400;
 
-    imageView = new ImageView();
-    scrollPane.setContent(imageView);
+        tableTop = new TableTop();
+        tableTop.setDimensions(minWidth, minHeight);
+        tableTopPane.getChildren().add(tableTop);
 
-    ChangeListener<Number> sizeChangeListener = (observable, oldValue, newValue) -> {
-        double tableTopWidth = rootPane.getWidth() * 0.765;
-        double tableTopHeight = rootPane.getHeight() * 0.77;
-        tableTop.setDimensions(tableTopWidth, tableTopHeight);
-    };
+        ChangeListener<Number> sizeChangeListener = (observable, oldValue, newValue) -> {
+            double tableTopWidth = rootPane.getWidth() * 0.765;
+            double tableTopHeight = rootPane.getHeight() * 0.77;
+            tableTop.setDimensions(tableTopWidth, tableTopHeight);
+        };
 
-    rootPane.widthProperty().addListener(sizeChangeListener);
-    rootPane.heightProperty().addListener(sizeChangeListener);
-    }
+        rootPane.widthProperty().addListener(sizeChangeListener);
+        rootPane.heightProperty().addListener(sizeChangeListener);
+        }
 
     public void searchSpell(ActionEvent event) {
         Stage searchStage = new Stage();

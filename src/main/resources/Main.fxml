@@ -5,7 +5,7 @@
 <?import userInterface.TableTop?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="500" prefHeight="500.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.MainController">
     <top>
         <MenuBar>
@@ -29,7 +29,7 @@
         <HBox>
             <StackPane style="-fx-padding: 0px 10px 10px 0px;">
                 <Pane fx:id="tableTopPane" prefWidth="1.0" prefHeight="1.0">
-                    <TableTop fx:id="tableTop" />
+                    <TableTop fx:id="tableTop"/>
                 </Pane>
             </StackPane>
         </HBox>

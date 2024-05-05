@@ -1,10 +1,10 @@
 package userInterface;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.io.File;
@@ -18,17 +18,27 @@ import java.nio.file.StandardCopyOption;
 
 public class TableTop extends StackPane {
 
-    private final Rectangle table;
+    private final StackPane backgroundLayer;
+    private final StackPane tokenLayer;
+    private final ImageView imageView;
+
 
     public TableTop() {
-        table = new Rectangle();
-        table.setFill(Color.BLACK);
-        getChildren().add(table);
+        backgroundLayer = new StackPane();
+        tokenLayer = new StackPane();
 
         Rectangle clip = new Rectangle();
         clip.widthProperty().bind(widthProperty());
         clip.heightProperty().bind(heightProperty());
         setClip(clip);
+
+        getChildren().addAll(backgroundLayer, tokenLayer);
+
+        ScrollPane scrollPane = new ScrollPane();
+        getChildren().add(scrollPane);
+
+        imageView = new ImageView();
+        scrollPane.setContent(imageView);
 
         setOnDragOver(event -> {
             if (event.getDragboard().hasFiles()) {
@@ -54,12 +64,18 @@ public class TableTop extends StackPane {
                     Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
                 } catch (IOException e) {
-                    e.printStackTrace(); //TODO improve error logging
+                    System.err.println("Error copying file " + file.getName() + " to library: " + e.getMessage());
                 }
                 try {
                     Image image = new Image(new FileInputStream(file));
                     ImageView imageView = new ImageView(image);
-                    getChildren().add(imageView);
+
+                    // Check if the file is a background image or a token
+                    if (file.getName().endsWith(".jpg")) { // replace with your condition
+                        backgroundLayer.getChildren().add(imageView);
+                    } else {
+                        tokenLayer.getChildren().add(imageView);
+                    }
 
                     imageView.setOnMousePressed(mouseEvent -> imageView.setUserData(new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()}));
 
@@ -75,7 +91,7 @@ public class TableTop extends StackPane {
                         imageView.setUserData(new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()});
                     });
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace(); //TODO improve error logging
+                    System.err.println("Datei " + file.getName() + "konnte nicht gefunden werden: " + e.getMessage());
                 }
             }
             event.setDropCompleted(true);
@@ -84,7 +100,6 @@ public class TableTop extends StackPane {
     }
 
     public void setDimensions(double tableTopWidth, double tableTopHeight) {
-        table.setWidth(tableTopWidth);
-        table.setHeight(tableTopHeight);
+        setPrefSize(tableTopWidth, tableTopHeight);
     }
 }

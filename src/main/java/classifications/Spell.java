@@ -4,7 +4,7 @@ import handlers.Things;
 
 public class Spell extends Things{
     
-    private String spellname;
+    private String spellName;
     private String school;
     private String duration;
     private String components;
@@ -17,11 +17,11 @@ public class Spell extends Things{
     private boolean concentration;
 
     public String getName() {
-        return spellname;
+        return spellName;
     }
 
-    public void setName(String spellname) {
-        this.spellname = spellname;
+    public void setName(String spellName) {
+        this.spellName = spellName;
     }
 
     public String getRange() {
