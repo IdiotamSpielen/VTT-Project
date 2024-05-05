@@ -1,5 +1,6 @@
 package userInterface;
 
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,7 +21,7 @@ public class TableTop extends StackPane {
 
     private final StackPane backgroundLayer;
     private final StackPane tokenLayer;
-    private final ImageView imageView;
+    private final ScrollPane scrollPane;
 
 
     public TableTop() {
@@ -32,13 +33,17 @@ public class TableTop extends StackPane {
         clip.heightProperty().bind(heightProperty());
         setClip(clip);
 
-        getChildren().addAll(backgroundLayer, tokenLayer);
+        scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.prefWidthProperty().bind(widthProperty());
+        scrollPane.prefHeightProperty().bind(heightProperty());
 
-        ScrollPane scrollPane = new ScrollPane();
+        StackPane layers = new StackPane();
+        layers.getChildren().addAll(backgroundLayer, tokenLayer);
+        scrollPane.setContent(layers);
+
         getChildren().add(scrollPane);
-
-        imageView = new ImageView();
-        scrollPane.setContent(imageView);
 
         setOnDragOver(event -> {
             if (event.getDragboard().hasFiles()) {
@@ -52,7 +57,15 @@ public class TableTop extends StackPane {
                 try {
                     //Determine original filepath and search for intended filepath
                     Path sourcePath = file.toPath();
-                    Path targetDirectory = Paths.get("src/library/maps");
+                    Path targetDirectory;
+
+                    if (file.getName().endsWith(".jpg")) {
+                        targetDirectory = Paths.get("src/library/maps");
+                    }
+                    else{
+                        targetDirectory = Paths.get("src/library/tokens");
+                    }
+
                     Path targetPath = targetDirectory.resolve(file.getName());
 
                     //check if target directory exists. if not, create it.
@@ -73,25 +86,31 @@ public class TableTop extends StackPane {
                     // Check if the file is a background image or a token
                     if (file.getName().endsWith(".jpg")) { // replace with your condition
                         backgroundLayer.getChildren().add(imageView);
+                        System.out.println("background added");
                     } else {
                         tokenLayer.getChildren().add(imageView);
+                        System.out.println("Token added");
                     }
 
-                    imageView.setOnMousePressed(mouseEvent -> imageView.setUserData(new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()}));
+                    imageView.setOnMousePressed(e -> {
+                        imageView.setUserData(new double[]{e.getSceneX(), e.getSceneY()});
+                        System.out.println("Image clicked");
+                    });
 
-                    imageView.setOnMouseDragged(mouseEvent -> {
+                    imageView.setOnMouseDragged(e -> {
                         double[] initialPosition = (double[]) imageView.getUserData();
-                        double deltaX = mouseEvent.getSceneX() - initialPosition[0];
-                        double deltaY = mouseEvent.getSceneY() - initialPosition[1];
+                        double deltaX = e.getSceneX() - initialPosition[0];
+                        double deltaY = e.getSceneY() - initialPosition[1];
 
                         imageView.setTranslateX(imageView.getTranslateX() + deltaX);
                         imageView.setTranslateY(imageView.getTranslateY() + deltaY);
 
-                        // update saved position for next drop-event
-                        imageView.setUserData(new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()});
+                        // update saved position for next drag-event
+                        imageView.setUserData(new double[]{e.getSceneX(), e.getSceneY()});
                     });
+
                 } catch (FileNotFoundException e) {
-                    System.err.println("Datei " + file.getName() + "konnte nicht gefunden werden: " + e.getMessage());
+                    System.err.println("File " + file.getName() + "could not be found: " + e.getMessage());
                 }
             }
             event.setDropCompleted(true);

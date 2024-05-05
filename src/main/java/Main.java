@@ -24,6 +24,8 @@ public class Main extends Application {
             System.err.println("Fehler beim Abrufen der Bildschirmauflösung: " + e.getMessage());
         }
         setupUI(primaryStage, width, height);
+        primaryStage.setMinWidth(866);
+        primaryStage.setMinHeight(600);
     }
 
     private void setupUI(Stage primaryStage, double width, double height) throws IOException {
