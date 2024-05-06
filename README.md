@@ -13,7 +13,7 @@ Well, the Discord server will not be created by this, but I'm currently working 
 ## compatibility
 
 **Developed for Windows systems**, but due to the nature of Java it possibly is compatible with Linux and MacOS.  
-**I guarantee nothing**  
+**I GUARANTEE NOTHING!** Not even that it works on a Windows System.  
 
 Designed for Dungeons and Dragons 5E specifically, but you may use it for other systems, I'm not your dad.  
 (Maybe it'll get dedicated support for other RPG-Systems if I feel like it)  
