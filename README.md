@@ -48,7 +48,7 @@ Obviously, since I cannot access your Computer in programming, once again:
 
 I'm *probably* in the clear with this, but I'm not taking any chances.  
 Let's be honest, we know how Hasbro likes to fuck over its fans. As such:  
-You may modify, use and distribte this software however you please, as can be inferred from the Licence.  
+You may modify, use and distribte this software however you please.  
 I will not provide any support that goes beyond the instructions found in this README and other documentation.  
 This software **does not** come with any entries and is initially **not connected** to any database.  
 You will have to host the database yourself or look for another way to host it.  
