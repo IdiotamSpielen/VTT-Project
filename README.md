@@ -44,7 +44,7 @@ Obviously, since I cannot access your Computer in programming, once again:
 
 ## Disclaimer
 
-I'm probably in the clear with this, but I'm not taking any chances, we know how Hasbro likes to fuck over its fans. As such:
+I'm probably in the clear with this, but I'm not taking any chances, we know how Hasbro likes to fuck over its fans. As such:  
 You may modify, use and distribte this software however you please.  
 I will not provide any support that goes beyond the instructions found in this README and other documentation.  
 This software does not come with any entries and is initially not connected to any database.  
