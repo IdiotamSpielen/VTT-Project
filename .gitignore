@@ -1,7 +1,19 @@
+# IDE-Specific files
 /.idea/
-/target/
-/lib
 /.vscode
+*.iml
+
+# Maven-specific files
+/target/
+
+# Java-specific files
+*.class
+
+#temporary files
+*.tmp
+*.temp
+
+#other stuff
+/lib
 /bin
-VTT-Projekt.iml
 /src/library/
