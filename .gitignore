@@ -1,7 +1,45 @@
+# IDE-Specific files
 /.idea/
-/target/
-/lib
 /.vscode
+*.iml
+
+# Maven-specific files
+/target/
+/pom.xml.tag
+/pom.xml.releaseBackup
+/pom.xml.versionsBackup
+/pom.xml.next
+/release.properties
+/dependency-reduced-pom.xml
+/buildNumber.properties
+/.mvn/timing.properties
+
+#directories
+/lib
 /bin
-VTT-Projekt.iml
 /src/library/
+
+# Java-specific files
+*.class
+
+#temporary files
+*.tmp
+*.temp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
