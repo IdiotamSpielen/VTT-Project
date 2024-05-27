@@ -9,7 +9,7 @@
     <version>0.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>VTT-Projekt</name>
+    <name>VTT-Project</name>
 
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
