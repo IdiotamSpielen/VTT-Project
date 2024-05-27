@@ -1,8 +1,7 @@
-package creators;
+package idiotamspielen.vttproject.creators;
 
-import classifications.Spell;
-import handlers.FeedbackHandler;
-import handlers.FileHandler;
+import idiotamspielen.vttproject.classifications.Spell;
+import idiotamspielen.vttproject.handlers.FileHandler;
 
 public class SpellCreator {
 

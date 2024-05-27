@@ -1,4 +1,4 @@
-package classifications;
+package idiotamspielen.vttproject.classifications;
 
 public class Subrace extends CharacterRace {
     protected String subRaceName;

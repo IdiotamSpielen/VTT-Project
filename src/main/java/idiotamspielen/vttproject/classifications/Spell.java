@@ -1,8 +1,8 @@
-package classifications;
+package idiotamspielen.vttproject.classifications;
 
-import handlers.Things;
+import idiotamspielen.vttproject.handlers.Things;
 
-public class Spell extends Things{
+public class Spell extends Things {
     
     private String spellName;
     private String school;

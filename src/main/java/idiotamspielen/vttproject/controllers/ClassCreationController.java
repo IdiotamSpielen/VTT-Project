@@ -1,6 +1,6 @@
-package controllers;
+package idiotamspielen.vttproject.controllers;
 
-import classifications.CharacterClass;
+import idiotamspielen.vttproject.classifications.CharacterClass;
 
 public class ClassCreationController {
     public CharacterClass getCreatedClass() {

@@ -1,7 +1,7 @@
-package controllers;
+package idiotamspielen.vttproject.controllers;
 
-import classifications.Spell;
-import handlers.FileHandler;
+import idiotamspielen.vttproject.classifications.Spell;
+import idiotamspielen.vttproject.handlers.FileHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;

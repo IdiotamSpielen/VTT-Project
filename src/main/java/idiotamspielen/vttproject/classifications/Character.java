@@ -1,4 +1,4 @@
-package classifications;
+package idiotamspielen.vttproject.classifications;
 
 public class Character{
     private String name;

@@ -1,4 +1,4 @@
-package handlers;
+package idiotamspielen.vttproject.handlers;
 
 import java.io.*;
 import java.util.ArrayList;

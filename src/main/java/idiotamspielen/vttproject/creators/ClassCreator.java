@@ -1,7 +1,7 @@
-package creators;
+package idiotamspielen.vttproject.creators;
 
-import classifications.CharacterClass;
-import classifications.ClassFeature;
+import idiotamspielen.vttproject.classifications.CharacterClass;
+import idiotamspielen.vttproject.classifications.ClassFeature;
 
 import java.util.List;
 

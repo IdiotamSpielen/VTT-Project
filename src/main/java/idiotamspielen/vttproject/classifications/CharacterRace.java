@@ -1,6 +1,4 @@
-package classifications;
-
-import java.util.List;
+package idiotamspielen.vttproject.classifications;
 
 public class CharacterRace {
 //The race gives the character an armor class, a list of racial traits, a base weapon, Weapon and/or spell proficiencies, and potentially a subrace

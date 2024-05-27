@@ -1,4 +1,4 @@
-package classifications;
+package idiotamspielen.vttproject.classifications;
 
 import java.util.List;
 

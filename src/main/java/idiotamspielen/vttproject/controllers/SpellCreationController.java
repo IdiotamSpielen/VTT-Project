@@ -1,9 +1,9 @@
-package controllers;
+package idiotamspielen.vttproject.controllers;
 
-import classifications.Spell;
-import creators.SpellCreator;
-import handlers.FeedbackHandler;
-import handlers.FileHandler;
+import idiotamspielen.vttproject.classifications.Spell;
+import idiotamspielen.vttproject.creators.SpellCreator;
+import idiotamspielen.vttproject.handlers.FeedbackHandler;
+import idiotamspielen.vttproject.handlers.FileHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -106,7 +106,7 @@ public class SpellCreationController {
         String duration = DurationTF.getText();
 
 
-        // establish handlers
+        // establish me.idiotamspielen.vttproject.handlers
         FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, "src/library/data/spells");
 
         // Handle the spell creation using the retrieved values

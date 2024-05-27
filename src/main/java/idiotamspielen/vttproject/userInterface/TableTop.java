@@ -1,6 +1,5 @@
-package userInterface;
+package idiotamspielen.vttproject.userInterface;
 
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

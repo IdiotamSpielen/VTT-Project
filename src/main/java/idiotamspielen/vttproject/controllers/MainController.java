@@ -1,4 +1,4 @@
-package controllers;
+package idiotamspielen.vttproject.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -6,12 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import userInterface.TableTop;
+import idiotamspielen.vttproject.userInterface.TableTop;
 
 import java.io.IOException;
 

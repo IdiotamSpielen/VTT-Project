@@ -1,4 +1,4 @@
-package handlers;
+package idiotamspielen.vttproject.handlers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
