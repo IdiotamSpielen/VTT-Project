@@ -30,7 +30,9 @@ public class SpellSearchController {
     @FXML private GridPane gridPane;
 
     private final Map<String, Spell> spellMap = new HashMap<>();
-    private final FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, "src/library/data/spells");
+    private final String userHome = System.getProperty("user.home");
+    private final String documentsPath = userHome + "/Documents";
+    private final FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, documentsPath + "/VTT/library/data/spells");
 
     public void initialize(){
         gridPane.setVisible(false);
