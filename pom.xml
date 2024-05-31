@@ -41,8 +41,8 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>idiotamspielen.vttproject.Main</mainClass>
-                    <launcher>Launch VTT</launcher> <!-- Der Name der ausführbaren Datei -->
-                    <jlinkImageName>personal VTT</jlinkImageName> <!-- Der Name des von jlink erstellten Verzeichnisses -->
+                    <launcher>Launch VTT</launcher>
+                    <jlinkImageName>personal VTT</jlinkImageName>
                     <jlinkZipName>Personal VTT</jlinkZipName>
                 </configuration>
             </plugin>
