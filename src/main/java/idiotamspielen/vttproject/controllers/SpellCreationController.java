@@ -107,8 +107,8 @@ public class SpellCreationController {
 
 
         // establish handlers
-        String userHome = System.getProperty("user.home");
-        String documentsPath = userHome + "/Documents";
+        final String userHome = System.getProperty("user.home");
+        final String documentsPath = userHome + "/Documents";
         FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, documentsPath + "/VTT/library/data/spells");
 
         // Handle the spell creation using the retrieved values
