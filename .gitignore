@@ -33,7 +33,7 @@ Thumbs.db
 # Log files
 *.log
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.ear
