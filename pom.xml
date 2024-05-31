@@ -4,20 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.idiotamspielen</groupId>
-    <artifactId>vtt-projekt</artifactId>
+    <groupId>idiotamspielen</groupId>
+    <artifactId>vttproject</artifactId>
     <version>0.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>VTT-Projekt</name>
+    <name>VTT-Project</name>
 
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>21</javafx.version>
     </properties>
 
     <build>
         <plugins>
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -32,12 +34,16 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.0</version>
             </plugin>
+            <!-- JavaFX Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>Main</mainClass>
+                    <mainClass>idiotamspielen.vttproject.Main</mainClass>
+                    <launcher>Launch VTT</launcher> <!-- Der Name der ausführbaren Datei -->
+                    <jlinkImageName>personal VTT</jlinkImageName> <!-- Der Name des von jlink erstellten Verzeichnisses -->
+                    <jlinkZipName>Personal VTT</jlinkZipName>
                 </configuration>
             </plugin>
         </plugins>
@@ -47,13 +53,13 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>

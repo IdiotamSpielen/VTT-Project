@@ -7,7 +7,7 @@
 <?import javafx.scene.text.TextFlow?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.SpellSearchController"
+            fx:controller="idiotamspielen.vttproject.controllers.SpellSearchController"
             prefHeight="450.0" prefWidth="450.0"
             maxWidth="500" maxHeight="500"
             minWidth="500" minHeight="500">
