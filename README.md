@@ -46,9 +46,11 @@ once again: **these assets are not provided with the Software.**
 
 ## Secondary functions
 
-My current plans for secondary functions are:  
+My current plans for secondary functions are:
+
 - The possibility to roll dice
-- A random generator for names of places and characters  
+- A random generator for names of places and characters
+
 It should be noted that these have very low priority for me and I will only start working on them after the full release.
 
 ## Contribute
