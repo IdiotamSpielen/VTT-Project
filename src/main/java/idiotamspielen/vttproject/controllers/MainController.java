@@ -72,14 +72,35 @@ public class MainController {
         try {
             layoutPane = loader.load();
         } catch (IOException e) {
-            System.out.println("UI creation failed");
+            System.err.println("UI creation failed");
         }
 
         Scene spellCreationScene = new Scene(layoutPane, 500, 500);
         spellCreationStage.setScene(spellCreationScene);
         spellCreationStage.setMinWidth(500);
         spellCreationStage.setMinHeight(500);
-        spellCreationStage.show();
         spellCreationStage.setResizable(false);
+        spellCreationStage.show();
+    }
+
+    public void createItem() {
+        Stage itemCreationStage = new Stage();
+        itemCreationStage.setTitle("Create Item");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ItemCreation.fxml"));
+        Parent layoutPane = null;
+        try {
+            layoutPane = loader.load();
+        }
+        catch (IOException e) {
+            System.err.println("UI creation failed");
+        }
+
+        Scene itemCreationScene = new Scene(layoutPane, 500, 500);
+        itemCreationStage.setScene(itemCreationScene);
+        itemCreationStage.setMinWidth(500);
+        itemCreationStage.setMinHeight(500);
+        itemCreationStage.setResizable(false);
+        itemCreationStage.show();
     }
 }
