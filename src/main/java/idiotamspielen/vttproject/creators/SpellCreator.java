@@ -8,9 +8,7 @@ public class SpellCreator {
     private Spell spell;
     private final FileHandler<Spell> fileHandler;
 
-    public SpellCreator(FileHandler<Spell> fileHandler) {
-        this.fileHandler = fileHandler;
-    }
+    public SpellCreator(FileHandler<Spell> fileHandler){this.fileHandler = fileHandler;}
     public void create(String spellName, String range, String castingTime, String description, String ingredients, String school, String duration, boolean ritual, boolean concentration, String components, String levelString){
         Spell spell = new Spell();
          spell.setName(spellName);
@@ -80,13 +78,9 @@ public class SpellCreator {
         return true;
     }
 
-    public boolean isSpellCreated () {
-            return spell != null;
-    }
+    public boolean isSpellCreated (){return spell != null;}
 
     public boolean isSpellSaved() {return fileHandler.isSaved();}
 
-    public Spell getSpell() {
-        return spell;
-    }
+    public Spell getSpell(){return spell;}
 }

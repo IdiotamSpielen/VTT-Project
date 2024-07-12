@@ -64,7 +64,7 @@ public class Spell extends Things {
         this.ingredients = ingredients;
     }
 
-       public String getSchool() {
+    public String getSchool() {
         return school;
     }
 
