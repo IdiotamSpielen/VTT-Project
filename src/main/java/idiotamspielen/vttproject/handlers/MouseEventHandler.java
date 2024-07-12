@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MouseEventHandler implements EventHandler<MouseEvent> {
     private double[] initialPosition;
+    private Node grabbedNode;
 
     @Override
     public void handle(@NotNull MouseEvent event) {
@@ -14,16 +15,18 @@ public class MouseEventHandler implements EventHandler<MouseEvent> {
 
         if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
             initialPosition = new double[]{event.getSceneX(), event.getSceneY()};
-            System.out.println("image clicked");
+            grabbedNode = node;
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-            double deltaX = event.getSceneX() - initialPosition[0];
-            double deltaY = event.getSceneY() - initialPosition[1];
+            if (grabbedNode != null) {
+                double deltaX = event.getSceneX() - initialPosition[0];
+                double deltaY = event.getSceneY() - initialPosition[1];
 
-            node.setTranslateX(node.getTranslateX() + deltaX);
-            node.setTranslateY(node.getTranslateY() + deltaY);
+                grabbedNode.setTranslateX(grabbedNode.getTranslateX() + deltaX);
+                grabbedNode.setTranslateY(grabbedNode.getTranslateY() + deltaY);
 
-            // update saved position for next drag-event
-            initialPosition = new double[]{event.getSceneX(), event.getSceneY()};
+                // update saved position for next drag-event
+                initialPosition = new double[]{event.getSceneX(), event.getSceneY()};
+            }
         }
     }
 }
