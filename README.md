@@ -23,7 +23,7 @@ Made for Game Masters, but Players might also get a use out of it. If only for t
 ## "database" info
 
 Currently the "database" works with json-files saved on your hard-drive.  
--In later stages it is supposed to be able to access a database that you connect yourself.-
+--In later stages it is supposed to be able to access a database that you connect yourself.--  
 I have decided to scrap that idea. If you want to store your files on an external database, code it yourself.
 
 ## Core-Functionality
