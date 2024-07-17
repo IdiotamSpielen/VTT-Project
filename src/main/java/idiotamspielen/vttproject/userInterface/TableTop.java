@@ -116,7 +116,7 @@ public class TableTop extends StackPane {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent()) {
                         if (result.get() == buttonTypeMap) {
-                            targetDirectory = Paths.get(System.getProperty("user.home"), "Documents/library/maps");
+                            targetDirectory = Paths.get(System.getProperty("user.home"), "Documents/VTT/library/maps");
 
                             try {
                                 ImageView imageView = createImageView(file);
@@ -128,7 +128,7 @@ public class TableTop extends StackPane {
                             }
 
                         } else if (result.get() == buttonTypeToken) {
-                            targetDirectory = Paths.get(System.getProperty("user.home"), "Documents/library/tokens");
+                            targetDirectory = Paths.get(System.getProperty("user.home"), "Documents/VTT/library/tokens");
 
                             try {
                                 ImageView imageView = createImageView(file);
