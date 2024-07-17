@@ -10,25 +10,10 @@ public class SpellCreator {
 
     public SpellCreator(FileHandler<Spell> fileHandler){this.fileHandler = fileHandler;}
     public void create(String spellName, String range, String castingTime, String description, String ingredients, String school, String duration, boolean ritual, boolean concentration, String components, String levelString){
-        Spell spell = new Spell();
-         spell.setName(spellName);
-         spell.setRange(range);
-         spell.setTime(castingTime);
-         spell.setDescription(description);
-         if (ingredients != null && !ingredients.isEmpty()) {
-         spell.setIngredients(ingredients);}
-         else {
-             spell.setIngredients("N/A");}
-         spell.setRitual(ritual);
-         spell.setConcentration(concentration);
-         spell.setComponents(components);
-         spell.setSchool(school);
-         spell.setDuration(duration);
-
-
         if (validInputs(spellName, range, castingTime, description, levelString, components)) {
             int level = Integer.parseInt(levelString);
-            spell.setLevel(level);
+            Spell spell = new Spell(spellName, school, duration, components, level, range, castingTime, description,
+                    ingredients != null && !ingredients.isEmpty() ? ingredients : "N/A", ritual, concentration);
             this.spell = spell;
             fileHandler.saveToFile(getSpell());
         }
