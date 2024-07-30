@@ -12,9 +12,8 @@ public class SpellCreator {
     public void create(String spellName, String range, String castingTime, String description, String ingredients, String school, String duration, boolean ritual, boolean concentration, String components, String levelString){
         if (validInputs(spellName, range, castingTime, description, levelString, components)) {
             int level = Integer.parseInt(levelString);
-            Spell spell = new Spell(spellName, school, duration, components, level, range, castingTime, description,
+            spell = new Spell(spellName, school, duration, components, level, range, castingTime, description,
                     ingredients != null && !ingredients.isEmpty() ? ingredients : "N/A", ritual, concentration);
-            this.spell = spell;
             fileHandler.saveToFile(getSpell());
         }
     }
@@ -25,7 +24,7 @@ public class SpellCreator {
             return false;
         }
 
-        if (range == null || range.isEmpty()) {
+        if (range == null || range.isEmpty())  {
             System.out.println("Invalid spell range");
             return false;
         }
