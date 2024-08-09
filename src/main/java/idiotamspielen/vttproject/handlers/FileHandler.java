@@ -1,6 +1,7 @@
 package idiotamspielen.vttproject.handlers;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,11 +10,14 @@ public class FileHandler<T extends Things> {
     private boolean isSaved;
     private final ObjectMapper mapper = new ObjectMapper();
     private final Class<T> clazz;
-    private final String directoryPath;
+    private final Path categoryPath;
 
-    public FileHandler(Class<T> clazz, String directoryPath){
+    public FileHandler(Class<T> clazz, String category){
         this.clazz = clazz;
-        this.directoryPath = directoryPath;
+        // Base path without category
+        Path baseDirectoryPath = Paths.get(System.getProperty("user.home"), "Documents", "VTT", "library", "data");
+        //String baseDirectoryPath = System.getProperty("user.home") + "/Documents/VTT/library/data";
+        this.categoryPath = baseDirectoryPath.resolve(category);
     }
 
     public void saveToFile(T obj){
@@ -24,19 +28,23 @@ public class FileHandler<T extends Things> {
         }
 
         //save object to library. If library doesn't exist yet, create one.
-        File directory = new File(directoryPath);
-        directory.mkdirs();
+        try {
+            if (!Files.exists(categoryPath)) {
+                Files.createDirectories(categoryPath);
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to create directory: " + categoryPath + " - " + e.getMessage());
+        }
 
-        String fileName = obj.getName() + ".json";
-        File file = new File(directory, fileName);
-        try (FileWriter writer = new FileWriter(file)) {
+        Path filePath = categoryPath.resolve(obj.getName() + ".json");
+        try (FileWriter writer = new FileWriter(filePath.toFile())) {
             // Serialize the object to JSON
             String json = mapper.writeValueAsString(obj);
 
             writer.write(json);
             writer.flush();
 
-            System.out.println(clazz.getSimpleName() + " Saved as " + fileName);
+            System.out.println(clazz.getSimpleName() + " Saved as " + filePath.getFileName());
             isSaved = true;
         } catch (FileNotFoundException e){
         System.err.println("Failed to save: File not found");
@@ -52,7 +60,7 @@ public class FileHandler<T extends Things> {
     public List<T> getSavedObjectInformation() {
         List<T> objects = new ArrayList<>();
 
-        File objectDirectory = new File(directoryPath);
+        File objectDirectory = categoryPath.toFile();
         File[] objectFiles = objectDirectory.listFiles();
 
         if (objectFiles != null) {
@@ -63,7 +71,8 @@ public class FileHandler<T extends Things> {
                         T obj = mapper.readValue(fileReader, clazz);
                         objects.add(obj);
                     } catch (IOException e) {
-                        System.err.println("Failed to read file: " + objectFile.getName());
+                        System.err.println("Failed to read file: " + objectFile.getName() +
+                                            " due to " + e.getMessage());
                     }
                 }
             }
