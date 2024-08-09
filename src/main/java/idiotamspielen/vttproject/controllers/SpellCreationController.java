@@ -105,11 +105,8 @@ public class SpellCreationController {
         String school = SchoolTF.getText();
         String duration = DurationTF.getText();
 
-
-        // establish handlers
-        final String userHome = System.getProperty("user.home");
-        final String documentsPath = userHome + "/Documents";
-        FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, documentsPath + "/VTT/library/data/spells");
+        // establish fileHandler
+        FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, "spells");
 
         // Handle the spell creation using the retrieved values
         SpellCreator spellCreator = new SpellCreator(fileHandler);
