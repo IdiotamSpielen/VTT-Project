@@ -13,7 +13,7 @@ Well, the Discord server will not be created by this, but I'm currently working 
 ## compatibility
 
 This software has been **Developed for Windows systems**,  
-However, due to the cross-platform nature of Java, it may also be compatible with Linux and MacOS.  
+However, due to the cross-platform nature of Java, it may also be compatible with Linux and macOS.  
 **I GUARANTEE NOTHING!** Not even that it works on a Windows System.  
 
 Designed for Dungeons and Dragons 5E specifically, but you may try it with other systems. I'm not your dad.  
@@ -22,7 +22,7 @@ Made for Game Masters, but Players might also get a use out of it. If only for t
 
 ## "database" info
 
-Currently the "database" works with json-files saved on your hard-drive.  
+Currently, the "database" works with json-files saved on your hard-drive.  
 ~~In later stages it is supposed to be able to access a database that you connect yourself.~~  
 I have decided to scrap that idea. If you want to store your files on an external database, code it yourself.
 
