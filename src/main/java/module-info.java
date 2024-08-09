@@ -14,6 +14,6 @@ module idiotamspielen.vttproject{
         opens idiotamspielen.vttproject.controllers to javafx.fxml;
         opens idiotamspielen.vttproject.handlers to javafx.fxml;
         opens idiotamspielen.vttproject.creators to javafx.fxml;
-        opens idiotamspielen.vttproject.classifications to javafx.fxml;
+        opens idiotamspielen.vttproject.classifications to javafx.fxml, com.fasterxml.jackson.databind;
         opens idiotamspielen.vttproject.userInterface to javafx.fxml;
 }

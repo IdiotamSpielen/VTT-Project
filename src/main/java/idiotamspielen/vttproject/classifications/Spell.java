@@ -1,9 +1,10 @@
 package idiotamspielen.vttproject.classifications;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import idiotamspielen.vttproject.handlers.Things;
 
 public class Spell extends Things {
-    
+
     private final String spellName;
     private final String school;
     private final String duration;
@@ -16,8 +17,11 @@ public class Spell extends Things {
     private final boolean ritual;
     private final boolean concentration;
 
-    public Spell(String spellName, String school, String duration, String components, int level, String range,
-                 String castingTime, String description, String ingredients, boolean ritual, boolean concentration) {
+    public Spell(@JsonProperty("name") String spellName, @JsonProperty("school") String school,
+                 @JsonProperty("duration") String duration, @JsonProperty("components") String components,
+                 @JsonProperty("level") int level, @JsonProperty("range") String range, @JsonProperty("time") String castingTime,
+                 @JsonProperty("description") String description, @JsonProperty("ingredients") String ingredients,
+                 @JsonProperty("ritual") boolean ritual, @JsonProperty("concentration") boolean concentration) {
         this.spellName = spellName;
         this.school = school;
         this.duration = duration;
