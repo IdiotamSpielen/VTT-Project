@@ -27,12 +27,17 @@
     <center>
         <VBox style="-fx-padding: 10px;">
         <HBox>
-            <StackPane style="-fx-padding: 0px 10px 10px 0px;">
-                <Pane fx:id="tableTopPane" prefWidth="1.0" prefHeight="1.0">
-                    <TableTop fx:id="tableTop"/>
-                </Pane>
-            </StackPane>
+            <Pane fx:id="tableTopPane" prefWidth="1.0" prefHeight="1.0">
+                <TableTop fx:id="tableTop"/>
+            </Pane>
         </HBox>
         </VBox>
     </center>
+    <right>
+        <!-- Responsive Sidebar -->
+        <VBox fx:id="recentFilesSidebar" style="-fx-padding: 10px;" prefWidth="150">
+            <Label text="Recently Opened Files" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <ListView fx:id="recentFilesListView" prefHeight="Infinity" />
+        </VBox>
+    </right>
 </BorderPane>

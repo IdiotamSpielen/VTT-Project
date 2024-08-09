@@ -1,17 +1,23 @@
 package idiotamspielen.vttproject.controllers;
 
+import idiotamspielen.vttproject.handlers.FileHandler;
+import idiotamspielen.vttproject.handlers.Things;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import idiotamspielen.vttproject.userInterface.TableTop;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainController {
 
@@ -21,7 +27,17 @@ public class MainController {
     private TableTop tableTop;
     @FXML
     private Pane tableTopPane;
+    @FXML
+    private ListView<String> recentFilesListView;
+    @FXML
+    private VBox recentFilesSidebar; // Sidebar VBox
 
+    private final FileHandler<Things> fileHandler;
+
+    public MainController() {
+        // Initialize FileHandler with the appropriate directory and class type
+        this.fileHandler = new FileHandler<>(Things.class, "spells");
+    }
 
     public void initialize() {
         double minWidth = 400;
@@ -31,15 +47,64 @@ public class MainController {
         tableTop.setDimensions(minWidth, minHeight);
         tableTopPane.getChildren().add(tableTop);
 
+        loadRecentFiles();
+        setupRecentFilesListView();
+        // Set up a listener for the size changes to dynamically adjust the layout
+        setupDynamicResizing();
+    }
+
+    private void loadRecentFiles() {
+        // Fetch the list of recently opened files
+        List<Things> recentFiles = fileHandler.getSavedObjectInformation();
+
+        // Populate the ListView with the names of the recently opened files
+        for (Things file : recentFiles) {
+            recentFilesListView.getItems().add(file.getName());
+        }
+    }
+
+    private void setupRecentFilesListView() {
+        // Add click event handling to open files when clicked
+        recentFilesListView.setOnMouseClicked(this::handleFileClick);
+    }
+
+    private void handleFileClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            // Get the selected file name
+            String selectedFile = recentFilesListView.getSelectionModel().getSelectedItem();
+
+            if (selectedFile != null) {
+                openFile(selectedFile);
+            }
+        }
+    }
+
+    private void openFile(String fileName) {
+        // Implement your logic to open and display the file here
+        System.out.println("Opening file: " + fileName);
+        // Example: You might want to use fileHandler to load the file content
+        Things fileContent = fileHandler.search(fileName).get(0); // Assume the search function retrieves the correct file
+
+        // Further logic to display or process the opened file...
+    }
+
+    private void setupDynamicResizing() {
+        // Listener for resizing the layout
         ChangeListener<Number> sizeChangeListener = (observable, oldValue, newValue) -> {
             double tableTopWidth = rootPane.getWidth() * 0.765;
             double tableTopHeight = rootPane.getHeight() * 0.77;
             tableTop.setDimensions(tableTopWidth, tableTopHeight);
+
+            // Calculate the remaining width for the sidebar
+            double sidebarWidth = rootPane.getWidth() - tableTopWidth - 15;
+            recentFilesSidebar.setPrefWidth(sidebarWidth);
+            recentFilesSidebar.setMaxHeight(Double.MAX_VALUE); // Use the full height of the screen
         };
 
+        // Apply the listener to both width and height properties
         rootPane.widthProperty().addListener(sizeChangeListener);
         rootPane.heightProperty().addListener(sizeChangeListener);
-        }
+    }
 
     public void searchSpell(ActionEvent event) {
         Stage searchStage = new Stage();
