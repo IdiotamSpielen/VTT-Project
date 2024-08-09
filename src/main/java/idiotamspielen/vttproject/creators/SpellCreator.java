@@ -14,7 +14,7 @@ public class SpellCreator {
             int level = Integer.parseInt(levelString);
             spell = new Spell(spellName, school, duration, components, level, range, castingTime, description,
                     ingredients != null && !ingredients.isEmpty() ? ingredients : "N/A", ritual, concentration);
-            fileHandler.saveToFile(getSpell());
+            fileHandler.saveToFile(spell);
         }
     }
 
@@ -65,6 +65,4 @@ public class SpellCreator {
     public boolean isSpellCreated (){return spell != null;}
 
     public boolean isSpellSaved() {return fileHandler.isSaved();}
-
-    public Spell getSpell(){return spell;}
 }
