@@ -23,9 +23,10 @@ public class Main extends Application {
             width = Math.max(visualBounds.getWidth() / 2, DEFAULT_WIDTH);
             height = Math.max(visualBounds.getHeight() / 2, DEFAULT_HEIGHT);
         } catch (Exception e) {
-            System.err.println("Fehler beim Abrufen der Bildschirmauflösung: " + e.getMessage());
+            System.err.println("Error getting screen resolution: " + e.getMessage());
         }
         setupUI(primaryStage, width, height);
+
         primaryStage.setMinWidth(866);
         primaryStage.setMinHeight(600);
     }
