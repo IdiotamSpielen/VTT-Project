@@ -5,6 +5,7 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import idiotamspielen.vttproject.classifications.Things;
 
 public class FileHandler<T extends Things> {
     private boolean isSaved;

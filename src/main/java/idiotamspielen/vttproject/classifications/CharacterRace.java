@@ -3,7 +3,7 @@ package idiotamspielen.vttproject.classifications;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharacterRace {
+public class CharacterRace extends Things {
 //The race gives the character an armor class, a list of racial traits, a base weapon, Weapon and/or spell proficiencies, and potentially a subrace
     protected String name;
     protected String description;

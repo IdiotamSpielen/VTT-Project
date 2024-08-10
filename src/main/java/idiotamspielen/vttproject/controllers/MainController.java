@@ -1,7 +1,7 @@
 package idiotamspielen.vttproject.controllers;
 
 import idiotamspielen.vttproject.handlers.FileHandler;
-import idiotamspielen.vttproject.handlers.Things;
+import idiotamspielen.vttproject.classifications.Things;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
