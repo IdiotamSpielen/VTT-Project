@@ -1,6 +1,6 @@
 package idiotamspielen.vttproject.classifications;
 
-// Enum für Fähigkeiten, um Indices klarer darzustellen
+// Enum for abilities
 public enum Ability {
     STRENGTH(0),
     DEXTERITY(1),
