@@ -1,7 +1,6 @@
 package idiotamspielen.vttproject.classifications;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import idiotamspielen.vttproject.handlers.Things;
 
 public class Spell extends Things {
 

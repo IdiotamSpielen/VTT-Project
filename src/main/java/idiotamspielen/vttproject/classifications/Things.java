@@ -1,4 +1,4 @@
-package idiotamspielen.vttproject.handlers;
+package idiotamspielen.vttproject.classifications;
 
 public abstract class Things {
     public abstract String getName();
