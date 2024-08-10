@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="idiotamspielen.vttproject.controllers.CharacterCreationController"
+            prefHeight="400.0" prefWidth="600.0">
+    <GridPane>
+        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Spinner fx:id="strSpinner" min="3" max="20" initialValue="10" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Spinner fx:id="dexSpinner" min="3" max="20" initialValue="10" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Spinner fx:id="conSpinner" min="3" max="20" initialValue="10" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Spinner fx:id="intSpinner" min="3" max="20" initialValue="10" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Spinner fx:id="wisSpinner" min="3" max="20" initialValue="10" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Spinner fx:id="chaSpinner" min="3" max="20" initialValue="10" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <ComboBox fx:id="alignmentBox" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Lawful Good"/>
+                    <String fx:value="Neutral Good"/>
+                    <String fx:value="Chaotic Good"/>
+                    <String fx:value="Lawful Neutral"/>
+                    <String fx:value="Neutral"/>
+                    <String fx:value="Chaotic Neutral"/>
+                    <String fx:value="Lawful Evil"/>
+                    <String fx:value="Neutral Evil"/>
+                    <String fx:value="Chaotic Evil"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <ComboBox fx:id="raceBox" />
+        <ComboBox fx:id="classBox" />
+        <Label fx:id="initiativeLabel" />
+        <!-- continue with other fields -->
+        <Button text="Save Character" GridPane.columnIndex="1" GridPane.rowIndex="10" onAction="#createCharacter" />
+    </GridPane>
+</AnchorPane>
