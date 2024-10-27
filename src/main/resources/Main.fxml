@@ -11,13 +11,13 @@
         <MenuBar>
             <Menu text="Create">
                 <MenuItem text="Spell" onAction="#createSpell"/>
-                <MenuItem text="Item" onAction="#createItem"/>
+                <MenuItem text="Item"/>
                 <MenuItem text="Character"/>
                 <MenuItem text="Race"/>
                 <MenuItem text="Class"/>
             </Menu>
             <Menu text="Search">
-                <MenuItem text="Spell" onAction="#searchSpell"/>
+                <MenuItem text="Spell"/>
                 <MenuItem text="Character"/>
                 <MenuItem text="Race"/>
                 <MenuItem text="Class"/>

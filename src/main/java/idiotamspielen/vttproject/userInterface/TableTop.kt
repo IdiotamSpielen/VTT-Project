@@ -1,179 +1,179 @@
-package idiotamspielen.vttproject.userInterface;
+package idiotamspielen.vttproject.userInterface
 
-import javafx.geometry.Point2D;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
+import idiotamspielen.vttproject.handlers.MouseEventHandler
+import javafx.event.EventHandler
+import javafx.scene.Node
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonBar
+import javafx.scene.control.ButtonType
+import javafx.scene.control.ScrollPane
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.input.DragEvent
+import javafx.scene.input.MouseEvent
+import javafx.scene.input.TransferMode
+import javafx.scene.layout.StackPane
+import javafx.scene.shape.Rectangle
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.util.*
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import idiotamspielen.vttproject.handlers.MouseEventHandler;
-
-public class TableTop extends StackPane {
-
-    private final StackPane backgroundLayer;
-    private final StackPane tokenLayer;
-    private Node grabbedNode;
+class TableTop : StackPane() {
+    private val backgroundLayer = StackPane()
+    private val tokenLayer = StackPane()
+    private var grabbedNode: Node? = null
 
 
-    public TableTop() {
-        backgroundLayer = new StackPane();
-        tokenLayer = new StackPane();
-
-        tokenLayer.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            Node node = event.getPickResult().getIntersectedNode();
-            if (node == tokenLayer) {
+    init {
+        tokenLayer.addEventFilter(
+            MouseEvent.MOUSE_PRESSED
+        ) { event: MouseEvent ->
+            val node = event.pickResult.intersectedNode
+            if (node === tokenLayer) {
                 // Get the point where the mouse event occurred in the coordinate system of the backgroundLayer
-                Point2D pointInBackgroundLayer = backgroundLayer.screenToLocal(event.getScreenX(), event.getScreenY());
+                val pointInBackgroundLayer =
+                    backgroundLayer.screenToLocal(event.screenX, event.screenY)
 
                 // Check if the point is within the bounds of any child of the backgroundLayer
-                List<Node> children = new ArrayList<>(backgroundLayer.getChildren());
-                for (int i = children.size() - 1; i >= 0; i--) {
-                    Node child = children.get(i);
-                    if (child.getBoundsInParent().contains(pointInBackgroundLayer)) {
-                        grabbedNode = child;
-                        grabbedNode.fireEvent(event.copyFor(grabbedNode, grabbedNode));
-                        break;
+                val children: List<Node> =
+                    ArrayList(backgroundLayer.children)
+                for (i in children.indices.reversed()) {
+                    val child = children[i]
+                    if (child.boundsInParent.contains(pointInBackgroundLayer)) {
+                        grabbedNode = child
+                        grabbedNode!!.fireEvent(event.copyFor(grabbedNode, grabbedNode))
+                        break
                     }
                 }
             }
-        });
+        }
 
-        tokenLayer.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
-            if (grabbedNode != null) {
-                grabbedNode.fireEvent(event.copyFor(grabbedNode, grabbedNode));
+        tokenLayer.addEventFilter(
+            MouseEvent.MOUSE_DRAGGED
+        ) { event: MouseEvent ->
+            grabbedNode?.fireEvent(event.copyFor(grabbedNode, grabbedNode))
+        }
+
+        tokenLayer.addEventFilter(
+            MouseEvent.MOUSE_RELEASED
+        ) { event: MouseEvent? ->
+            grabbedNode = null
+        }
+
+        val tokenHandler = MouseEventHandler()
+        val backgroundHandler = MouseEventHandler()
+
+        val clip = Rectangle()
+        clip.widthProperty().bind(widthProperty())
+        clip.heightProperty().bind(heightProperty())
+        setClip(clip)
+
+        val scrollPane = ScrollPane()
+        scrollPane.hbarPolicy = ScrollPane.ScrollBarPolicy.NEVER
+        scrollPane.vbarPolicy = ScrollPane.ScrollBarPolicy.NEVER
+        scrollPane.prefWidthProperty().bind(widthProperty())
+        scrollPane.prefHeightProperty().bind(heightProperty())
+
+        val layers = StackPane()
+        layers.children.addAll(backgroundLayer, tokenLayer)
+        scrollPane.content = layers
+
+        children.add(scrollPane)
+
+        onDragOver = EventHandler { event: DragEvent ->
+            if (event.dragboard.hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY)
             }
-        });
+            event.consume()
+        }
 
-        tokenLayer.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
-            grabbedNode = null;
-        });
-
-        MouseEventHandler tokenHandler = new MouseEventHandler();
-        MouseEventHandler backgroundHandler = new MouseEventHandler();
-
-        Rectangle clip = new Rectangle();
-        clip.widthProperty().bind(widthProperty());
-        clip.heightProperty().bind(heightProperty());
-        setClip(clip);
-
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.prefWidthProperty().bind(widthProperty());
-        scrollPane.prefHeightProperty().bind(heightProperty());
-
-        StackPane layers = new StackPane();
-        layers.getChildren().addAll(backgroundLayer, tokenLayer);
-        scrollPane.setContent(layers);
-
-        getChildren().add(scrollPane);
-
-        setOnDragOver(event -> {
-            if (event.getDragboard().hasFiles()) {
-                event.acceptTransferModes(TransferMode.COPY);
-            }
-            event.consume();
-        });
-
-        setOnDragDropped(event -> {
-            for (File file : event.getDragboard().getFiles()) {
+        onDragDropped = EventHandler<DragEvent> { event: DragEvent ->
+            for (file in event.dragboard.files) {
                 try {
                     //Determine original filepath and search for intended filepath
-                    Path sourcePath = file.toPath();
-                    Path targetDirectory = null;
+                    val sourcePath = file.toPath()
+                    var targetDirectory: Path? = null
 
 
-                    String[] options = {"Map", "Token"};
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Import");
-                    alert.setHeaderText("Import as map or token?");
+                    val options = arrayOf("Map", "Token")
+                    val alert =
+                        Alert(Alert.AlertType.CONFIRMATION)
+                    alert.title = "Import"
+                    alert.headerText = "Import as map or token?"
 
-                    ButtonType buttonTypeMap = new ButtonType("Map");
-                    ButtonType buttonTypeToken = new ButtonType("Token");
-                    ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    val buttonTypeMap = ButtonType("Map")
+                    val buttonTypeToken = ButtonType("Token")
+                    val buttonTypeCancel = ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
 
-                    alert.getButtonTypes().setAll(buttonTypeMap, buttonTypeToken, buttonTypeCancel);
+                    alert.buttonTypes.setAll(buttonTypeMap, buttonTypeToken, buttonTypeCancel)
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent()) {
+                    val result = alert.showAndWait()
+                    if (result.isPresent) {
                         if (result.get() == buttonTypeMap) {
-                            targetDirectory = Paths.get(System.getProperty("user.home"), "Documents/VTT/library/maps");
+                            targetDirectory =
+                                Paths.get(System.getProperty("user.home"), "Documents/VTT/library/maps")
 
                             try {
-                                ImageView imageView = createImageView(file);
-                                backgroundLayer.getChildren().add(imageView);
-                                imageView.setOnMousePressed(backgroundHandler);
-                                imageView.setOnMouseDragged(backgroundHandler);
-                            } catch (FileNotFoundException e) {
-                                System.err.println("File " + file.getName() + "could not be found: " + e.getMessage());
+                                val imageView = createImageView(file)
+                                backgroundLayer.children.add(imageView)
+                                imageView.onMousePressed = backgroundHandler
+                                imageView.onMouseDragged = backgroundHandler
+                            } catch (e: FileNotFoundException) {
+                                System.err.println("File " + file.name + "could not be found: " + e.message)
                             }
-
                         } else if (result.get() == buttonTypeToken) {
-                            targetDirectory = Paths.get(System.getProperty("user.home"), "Documents/VTT/library/tokens");
+                            targetDirectory =
+                                Paths.get(System.getProperty("user.home"), "Documents/VTT/library/tokens")
 
                             try {
-                                ImageView imageView = createImageView(file);
-                                tokenLayer.getChildren().add(imageView);
-                                imageView.setOnMousePressed(tokenHandler);
-                                imageView.setOnMouseDragged(tokenHandler);
-                            } catch (FileNotFoundException e) {
-                                System.err.println("File " + file.getName() + "could not be found: " + e.getMessage());
+                                val imageView = createImageView(file)
+                                tokenLayer.children.add(imageView)
+                                imageView.onMousePressed = tokenHandler
+                                imageView.onMouseDragged = tokenHandler
+                            } catch (e: FileNotFoundException) {
+                                System.err.println("File " + file.name + "could not be found: " + e.message)
                             }
-
                         } else {
                             // If the user cancels the dialog, skip this file
-                            continue;
+                            continue
                         }
                     } else {
-                        continue; // Dialog was closed without making a choice
+                        continue  // Dialog was closed without making a choice
                     }
 
-                    Path targetPath = targetDirectory.resolve(file.getName());
+                    val targetPath = targetDirectory.resolve(file.name)
 
                     //check if target directory exists. if not, create it.
-                    if (!Files.exists(targetDirectory)) {
-                        Files.createDirectories(targetDirectory);
+                    if (!targetDirectory?.let { Files.exists(it) }!!) {
+                        Files.createDirectories(targetDirectory)
                     }
 
                     //Copy file into directory
-                    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-                }catch (IOException e) {
-                    System.err.println("Error copying file " + file.getName() + " to library: " + e.getMessage());
+                    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING)
+                } catch (e: IOException) {
+                    System.err.println("Error copying file " + file.name + " to library: " + e.message)
                 }
             }
-            event.setDropCompleted(true);
-            event.consume();
-        });
-
+            event.isDropCompleted = true
+            event.consume()
+        }
     }
 
-    private ImageView createImageView(File file) throws FileNotFoundException {
-        Image image = new Image(new FileInputStream(file));
-        ImageView imageView = new ImageView(image);
-        imageView.setFocusTraversable(true);
-        return imageView;
+    @Throws(FileNotFoundException::class)
+    private fun createImageView(file: File): ImageView {
+        val image = Image(FileInputStream(file))
+        val imageView = ImageView(image)
+        imageView.isFocusTraversable = true
+        return imageView
     }
 
-    public void setDimensions(double tableTopWidth, double tableTopHeight) {
-        setPrefSize(tableTopWidth, tableTopHeight);
+    fun setDimensions(tableTopWidth: Double, tableTopHeight: Double) {
+        setPrefSize(tableTopWidth, tableTopHeight)
     }
 }

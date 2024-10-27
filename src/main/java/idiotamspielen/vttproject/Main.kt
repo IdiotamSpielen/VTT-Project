@@ -1,51 +1,49 @@
-package idiotamspielen.vttproject;
+package idiotamspielen.vttproject
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.Screen;
-import javafx.geometry.Rectangle2D;
-import java.io.IOException;
+import idiotamspielen.vttproject.views.MainView
+import javafx.application.Application
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.stage.Screen
+import javafx.stage.Stage
+import tornadofx.*
+import java.io.IOException
+import kotlin.math.max
 
-public class Main extends Application {
-
-    private static final double DEFAULT_WIDTH = 1366;
-    private static final double DEFAULT_HEIGHT = 768;
-
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        double width = DEFAULT_WIDTH;
-        double height = DEFAULT_HEIGHT;
+class Main : App(MainView::class) {
+    @Throws(IOException::class)
+    override fun start(stage: Stage) {
+        var width = DEFAULT_WIDTH
+        var height = DEFAULT_HEIGHT
         try {
-            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-            width = Math.max(visualBounds.getWidth() / 2, DEFAULT_WIDTH);
-            height = Math.max(visualBounds.getHeight() / 2, DEFAULT_HEIGHT);
-        } catch (Exception e) {
-            System.err.println("Error getting screen resolution: " + e.getMessage());
+            val visualBounds = Screen.getPrimary().visualBounds
+            width = max(visualBounds.width / 2, DEFAULT_WIDTH)
+            height = max(visualBounds.height / 2, DEFAULT_HEIGHT)
+        } catch (e: Exception) {
+            System.err.println("Error getting screen resolution: " + e.message)
         }
-        setupUI(primaryStage, width, height);
+        setupUI(stage, width, height)
 
-        primaryStage.setMinWidth(866);
-        primaryStage.setMinHeight(600);
+        stage.minWidth = 866.0
+        stage.minHeight = 600.0
     }
 
-    private void setupUI(Stage primaryStage, double width, double height) throws IOException {
-        Scene mainScene = new Scene(loadFXML(), width, height);
-        primaryStage.setTitle("VTT V0.3.0");
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
+    @Throws(IOException::class)
+    private fun setupUI(primaryStage: Stage, width: Double, height: Double) {
+        val mainScene = Scene(MainView().root, width, height)
+        primaryStage.title = "VTT V0.3.0"
+        primaryStage.scene = mainScene
+        primaryStage.show()
     }
 
 
-
-    private static Parent loadFXML() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/Main.fxml"));
-        return fxmlLoader.load();
+    companion object {
+        private const val DEFAULT_WIDTH = 1366.0
+        private const val DEFAULT_HEIGHT = 768.0
     }
+}
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+fun main(args: Array<String>) {
+    Application.launch(Main::class.java, *args)
 }
