@@ -16,7 +16,7 @@ class MainController : Controller() {
     lateinit var tableTopPane: Pane
     lateinit var rootPane: Pane
 
-    val sizeChangeListener = ChangeListener<Number> { observable, oldValue, newValue ->
+    private val sizeChangeListener = ChangeListener<Number> { _, _, _ ->
         val tableTopWidth = rootPane.width * 0.765
         val tableTopHeight = rootPane.height * 0.77
         tableTop.setDimensions(tableTopWidth, tableTopHeight)
@@ -28,7 +28,7 @@ class MainController : Controller() {
         this.initialize()
     }
 
-    fun initialize() {
+    private fun initialize() {
         val minWidth = 400.0
         val minHeight = 400.0
 
