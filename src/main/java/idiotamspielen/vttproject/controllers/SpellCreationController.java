@@ -106,7 +106,7 @@ public class SpellCreationController {
         String duration = DurationTF.getText();
 
 
-        // establish handlers
+        // find path for library data
         final String userHome = System.getProperty("user.home");
         final String documentsPath = userHome + "/Documents";
         FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, documentsPath + "/VTT/library/data/spells");
@@ -119,7 +119,6 @@ public class SpellCreationController {
         if (isSpellCreated) {
             // Save the spell and handle the result
             boolean isSpellSaved = spellCreator.isSpellSaved();
-            System.out.println(isSpellSaved);
             // Create feedback based on the result of spell creation and saving
             if (isSpellSaved) feedbackHandler.displaySuccess(spellName);
             else feedbackHandler.displayError();
