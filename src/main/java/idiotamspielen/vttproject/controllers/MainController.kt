@@ -2,12 +2,14 @@ package idiotamspielen.vttproject.controllers
 
 // MainController.kt
 import idiotamspielen.vttproject.userInterface.TableTop
+import idiotamspielen.vttproject.views.SpellCreatorView
 import javafx.beans.value.ChangeListener
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
 import javafx.stage.Stage
+import javafx.stage.StageStyle
 import tornadofx.*
 import java.io.IOException
 
@@ -44,6 +46,19 @@ class MainController : Controller() {
     }
 
     fun createSpell() {
+
+        val spellCreatorView = find<SpellCreatorView>() // this line changes
+
+        with(Stage()) {
+            title = "Create Spell"
+            scene = Scene(spellCreatorView.root, 500.0, 500.0)
+            minWidth = 500.0
+            minHeight = 500.0
+            isResizable = false
+            show()
+        }
+
+        /*
         val spellCreationStage = Stage()
         spellCreationStage.title = "Create Spell"
 
@@ -62,5 +77,6 @@ class MainController : Controller() {
         spellCreationStage.minHeight = 500.0
         spellCreationStage.isResizable = false
         spellCreationStage.show()
+*/
     }
 }
