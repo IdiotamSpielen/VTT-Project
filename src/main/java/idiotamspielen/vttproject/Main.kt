@@ -2,45 +2,36 @@ package idiotamspielen.vttproject
 
 import idiotamspielen.vttproject.views.MainView
 import javafx.application.Application
-import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
-import javafx.scene.Scene
 import javafx.stage.Screen
 import javafx.stage.Stage
 import tornadofx.*
-import java.io.IOException
 import kotlin.math.max
 
 class Main : App(MainView::class) {
-    @Throws(IOException::class)
     override fun start(stage: Stage) {
-        var width = DEFAULT_WIDTH
-        var height = DEFAULT_HEIGHT
-        try {
-            val visualBounds = Screen.getPrimary().visualBounds
-            width = max(visualBounds.width / 2, DEFAULT_WIDTH)
-            height = max(visualBounds.height / 2, DEFAULT_HEIGHT)
-        } catch (e: Exception) {
-            System.err.println("Error getting screen resolution: " + e.message)
+        with(stage) {
+
+            try {
+                //A lot of logic for just... making the window a nice size
+                val visualBounds = Screen.getPrimary().visualBounds
+
+                minWidth = visualBounds.width * 0.3 // 30% of screen width
+                minHeight = visualBounds.height * 0.3 // 30% of screen height
+
+                width = max(visualBounds.width / 1.5, minWidth)
+                height = max(visualBounds.height / 1.2, minHeight)
+            } catch (e: Exception) {
+                //magic numbers go BRRRR
+                minWidth = 800.0
+                minHeight = 600.0
+
+                width = minWidth
+                height = minHeight
+
+                println("Error getting screen resolution: ${e.message}")
+            }
         }
-        setupUI(stage, width, height)
-
-        stage.minWidth = 866.0
-        stage.minHeight = 600.0
-    }
-
-    @Throws(IOException::class)
-    private fun setupUI(primaryStage: Stage, width: Double, height: Double) {
-        val mainScene = Scene(MainView().root, width, height)
-        primaryStage.title = "VTT V0.3.0"
-        primaryStage.scene = mainScene
-        primaryStage.show()
-    }
-
-
-    companion object {
-        private const val DEFAULT_WIDTH = 1366.0
-        private const val DEFAULT_HEIGHT = 768.0
+        super.start(stage)
     }
 }
 
