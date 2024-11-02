@@ -52,6 +52,7 @@ class MainView : View() {
 
     init {
         controller.setup(tableTopPane, rootPane)
+        title = "VTT V0.3.0"
     }
 
     override val root = rootPane
