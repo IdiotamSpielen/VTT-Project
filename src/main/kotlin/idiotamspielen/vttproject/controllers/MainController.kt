@@ -47,7 +47,7 @@ class MainController : Controller() {
 
     fun createSpell() {
 
-        val spellCreatorView = find<SpellCreatorView>() // this line changes
+        val spellCreatorView = SpellCreatorView()
 
         with(Stage()) {
             title = "Create Spell"
@@ -57,26 +57,5 @@ class MainController : Controller() {
             isResizable = false
             show()
         }
-
-        /*
-        val spellCreationStage = Stage()
-        spellCreationStage.title = "Create Spell"
-
-        val loader = FXMLLoader(javaClass.getResource("/SpellCreation.fxml"))
-        val layoutPane: Parent
-        try {
-            layoutPane = loader.load()
-        } catch (e: IOException) {
-            println("UI creation failed")
-            return
-        }
-
-        val spellCreationScene = Scene(layoutPane, 500.0, 500.0)
-        spellCreationStage.scene = spellCreationScene
-        spellCreationStage.minWidth = 500.0
-        spellCreationStage.minHeight = 500.0
-        spellCreationStage.isResizable = false
-        spellCreationStage.show()
-*/
     }
 }
