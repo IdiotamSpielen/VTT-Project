@@ -1,8 +1,6 @@
 package idiotamspielen.vttproject.views
 
 import idiotamspielen.vttproject.controllers.CreationController
-import javafx.geometry.HPos
-import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.TextField
 import javafx.scene.layout.ColumnConstraints
@@ -61,30 +59,34 @@ class SpellCreatorView : View() {
                 setupPromptField(ingredientsField, "Ingredients")
                 add(ingredientsField.gridpaneConstraints { columnSpan = 2 })
             }
-            row {
+            row { //Rows 4 and 5, contain Description
                 val descriptionArea = textarea(controller.description)
                 descriptionArea.promptText = "Description"
                 descriptionArea.isWrapText = true
                 add(descriptionArea.gridpaneConstraints { columnSpan = 2 })
-                /*stackpane {
-                    textarea {
-                        controller.description
-                    }
-                    label("Description") {
-                        style = "-fx-text-fill: grey;"
-                        padding = Insets(4.0, 0.0, 0.0, 8.0)
-                    }.gridpaneConstraints {
-                        rowIndex = 4
-                        columnIndex = 0
-                        rowSpan = 2 // Span 2 rows
-                        columnSpan = 2 // Span 2 columns
-                        hAlignment = HPos.LEFT
+            }
+            row {//Row 6 contains Level and School
+                val levelField = textfield()
+                setupPromptField(levelField, "Level")
+                levelField.textProperty().addListener { observable, oldValue, newValue ->
+                    if (newValue.isEmpty() || newValue.toIntOrNull() != null) {
+                        controller.level.set(newValue.toIntOrNull() ?: 0)
+                    } else {
+                        levelField.text = oldValue
                     }
                 }
-                    .gridpaneConstraints {
-                        columnSpan = 2
-                    }*/
+                add(levelField.gridpaneConstraints { columnSpan = 1 })
+                val schoolField = textfield(controller.school)
+                setupPromptField(schoolField, "School")
+                add(schoolField.gridpaneConstraints { columnSpan = 1 })
             }
+            row {
+                val ritualBox = checkbox("Ritual", controller.isRitual)
+                add(ritualBox.gridpaneConstraints { columnSpan = 1 })
+                val concentrationBox = checkbox("Concentration", controller.isConcentration)
+                add(concentrationBox.gridpaneConstraints { columnSpan = 1 })
+            }
+
         }
         top = grid
         center {
@@ -103,6 +105,6 @@ class SpellCreatorView : View() {
     }
 
     init {
-            applyStyles()
+        applyStyles()
     }
 }
