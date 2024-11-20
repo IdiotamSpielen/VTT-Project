@@ -10,7 +10,7 @@
     -fx-prompt-text-visible: true;
 }
 
-.text-field-centered-prompt {
+.centered-prompt {
     -fx-text-fill: black;
     -fx-alignment: center;
 }
