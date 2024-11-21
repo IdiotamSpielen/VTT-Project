@@ -1,6 +1,8 @@
 package idiotamspielen.vttproject.views
 
 import idiotamspielen.vttproject.controllers.SpellCreationController
+import idiotamspielen.vttproject.controllers.SpellNotSavedException
+import idiotamspielen.vttproject.controllers.InvalidSpellException
 import idiotamspielen.vttproject.handlers.FeedbackHandler
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.StringProperty
@@ -74,13 +76,19 @@ class SpellCreatorView : View() {
     private fun createBottomPane() = stackpane {
         alignment = Pos.BOTTOM_CENTER
         button("Create") {
+            action { controller.createSpell() }
             action {
-                if (controller.createSpell()) {
-                    feedbackHandler.saveSuccess(controller.spellName.get())
-                } else {
-                    feedbackHandler.saveError()
+                feedbackText.opacity = 1.0
+                try {
+                    controller.createSpell()
+                    feedbackHandler.displayFeedback("Spell saved as ${controller.spellName.get()}", FeedbackHandler.FeedbackType.SUCCESS)
+                } catch (e: InvalidSpellException) {
+                    feedbackHandler.displayFeedback("Failed to save Spell. Check your input and try again.", FeedbackHandler.FeedbackType.ERROR)
+                } catch (e: SpellNotSavedException) {
+                    feedbackHandler.displayFeedback("Failed to save Spell. Check log for further information.", FeedbackHandler.FeedbackType.ERROR)
+                } catch (e: Exception) {
+                    feedbackHandler.displayFeedback("An unexpected error occurred.", FeedbackHandler.FeedbackType.ERROR)
                 }
-                action { controller.createSpell() }
                 paddingAll = 10
             }
         }
