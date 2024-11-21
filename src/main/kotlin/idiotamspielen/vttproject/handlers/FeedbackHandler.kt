@@ -10,24 +10,17 @@ import javafx.util.Duration
 
 class FeedbackHandler(private val feedbackText: Text) {
 
-    fun saveSuccess(spellName: String?) {
-        feedbackText.opacity = 1.0
-        feedbackText.text = "Spell saved as $spellName"
-        feedbackText.fill = Color.GREEN
-        fadeOutFeedbackText()
+    enum class FeedbackType(val messagePrefix: String, val color: Color) {
+        SUCCESS("Success: ", Color.GREEN),
+        ERROR("Error: ", Color.RED),
+        WARNING("Warning: ", Color.ORANGE),
+        INFO("Info: ", Color.BLUE)
     }
 
-    fun saveError() {
-        feedbackText.opacity = 1.0
-        feedbackText.text = "Failed to save Spell. Check log for further information."
-        feedbackText.fill = Color.RED
-        fadeOutFeedbackText()
-    }
+    fun displayFeedback(message: String, type: FeedbackType) {
+        feedbackText.text = "${type.messagePrefix}$message"
+        feedbackText.fill = type.color
 
-    fun userdataError() {
-        feedbackText.opacity = 1.0
-        feedbackText.text = "Failed to save Spell. Check your inputs and try again."
-        feedbackText.fill = Color.RED
         fadeOutFeedbackText()
     }
 
@@ -36,7 +29,7 @@ class FeedbackHandler(private val feedbackText: Text) {
         fadeTransition.fromValue = 1.0
         fadeTransition.toValue = 0.0
 
-        val pauseTransition = PauseTransition(Duration.seconds(1.5))
+        val pauseTransition = PauseTransition(Duration.seconds(1.0))
         pauseTransition.onFinished = EventHandler { event: ActionEvent? -> fadeTransition.play() }
 
         pauseTransition.play()
