@@ -12,7 +12,7 @@ import javafx.scene.layout.ColumnConstraints
 import javafx.scene.text.Text
 import tornadofx.*
 
-class SpellCreatorView : View() {
+class SpellCreatorView : View("Spell Creator") {
     private val controller: SpellCreationController by inject()
     private val feedbackText = Text()
     private val feedbackHandler = FeedbackHandler(feedbackText)
@@ -28,7 +28,7 @@ class SpellCreatorView : View() {
     }
 
     private fun applyStyles() {
-        root.stylesheets.add("creator.css")
+        root.stylesheets.add("spell-creator.css")
     }
 
     private fun createGridPane() = gridpane {
@@ -62,7 +62,7 @@ class SpellCreatorView : View() {
         return textfield(property).apply {
             promptText = prompt
             addClass("text-field")
-            if (centered) addClass("centered-prompt")
+            if (centered) addClass("centered")
         }.gridpaneConstraints { this.columnSpan = columnSpan }
     }
 
