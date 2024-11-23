@@ -1,89 +1,66 @@
-package idiotamspielen.vttproject.controllers;
+package idiotamspielen.vttproject.controllers
 
-import idiotamspielen.vttproject.classifications.Spell;
-import idiotamspielen.vttproject.handlers.FileHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import idiotamspielen.vttproject.classifications.Spell
+import idiotamspielen.vttproject.handlers.FileHandler
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import tornadofx.*
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+class SpellSearchController : Controller() {
 
+    val searchInput = SimpleStringProperty()
+    val spellName = SimpleStringProperty()
+    val range = SimpleStringProperty()
+    val castingTime = SimpleStringProperty()
+    val components = SimpleStringProperty()
+    val duration = SimpleStringProperty()
+    val ingredients = SimpleStringProperty()
+    val descArea = SimpleStringProperty()
+    val level = SimpleStringProperty()
+    val school = SimpleStringProperty()
+    val ritual = SimpleStringProperty()
+    val concentration = SimpleStringProperty()
 
-public class SpellSearchController {
-    @FXML private TextField searchInput;
-    @FXML private Text spellName;
-    @FXML private Text range;
-    @FXML private Text castingTime;
-    @FXML private Text components;
-    @FXML private Text duration;
-    @FXML private  Text ingredients;
-    @FXML private Text descArea;
-    @FXML private Text level;
-    @FXML private Text school;
-    @FXML private Text ritual;
-    @FXML private Text concentration;
-    @FXML private ListView<String> spellListView;
-    @FXML private GridPane gridPane;
+    val spellList: ObservableList<String> = FXCollections.observableArrayList()
+    private val spellMap: MutableMap<String, Spell> = mutableMapOf()
+    private val fileHandler = FileHandler(Spell::class.java, "spells")
 
-    private final Map<String, Spell> spellMap = new HashMap<>();
-    private final String userHome = System.getProperty("user.home");
-    private final String documentsPath = userHome + "/Documents";
-    private final FileHandler<Spell> fileHandler = new FileHandler<>(Spell.class, documentsPath + "/VTT/library/data/spells");
-
-    public void initialize(){
-        gridPane.setVisible(false);
-        ritual.setVisible(false);
-        concentration.setVisible(false);
-    }
-    @FXML
-    public void handleSearch(){
-        String query = searchInput.getText();
-        List<Spell> spells = fileHandler.search(query);
-        displaySpells(spells);
-    }
-    private void displaySpells(List<Spell> spells){
-        spellListView.getItems().clear();
-        spellMap.clear();
-        for (Spell spell : spells) {
-            spellListView.getItems().add(spell.getName());
-            spellMap.put(spell.getName(), spell);
+    fun handleSearch() {
+        val query = searchInput.get() ?: ""
+        println("Searching for $query in spells")
+        val spells = fileHandler.search(query)
+        if (spells.isEmpty()) {
+            println("No spells found for query: $query")
+        } else {
+            println("Found ${spells.size} spells for query: $query")
         }
-        gridPane.setVisible(false);
-        spellListView.setVisible(true);
+        displaySpells(spells)
     }
-    @FXML
-    public void handleSpellSelection(){
-        String selectedSpellName = spellListView.getSelectionModel().getSelectedItem();
-        Spell selectedSpell = spellMap.get(selectedSpellName);
+
+    private fun displaySpells(spells: List<Spell>) {
+        spellList.clear()
+        spellMap.clear()
+        for (spell in spells) {
+            spellList.add(spell.spellName)
+            spellMap[spell.spellName] = spell
+        }
+    }
+
+    fun handleSpellSelection(selectedSpellName: String?) {
+        val selectedSpell = spellMap[selectedSpellName]
         if (selectedSpell != null) {
-            spellName.setText(selectedSpell.getName());
-            range.setText(selectedSpell.getRange());
-            castingTime.setText(selectedSpell.getTime());
-            components.setText(selectedSpell.getComponents());
-            duration.setText(selectedSpell.getDuration());
-            ingredients.setText(selectedSpell.getIngredients());
-            descArea.setText(selectedSpell.getDescription());
-            level.setText(String.valueOf(selectedSpell.getLevel()));
-            school.setText(selectedSpell.getSchool());
-            if(selectedSpell.isRitual()){ritual.setText("ritual");}
-            if(selectedSpell.isConcentration()){concentration.setText("concentration");}
-            // Hide the ListView
-            spellListView.setVisible(false);
-            // Make the text elements visible
-            if(selectedSpell.isRitual()){ritual.setVisible(true);}
-            if(selectedSpell.isConcentration()){concentration.setVisible(true);}
-            gridPane.setVisible(true);
-            gridPane.requestFocus();
-        }
-        else{
-            // Hide the text elements
-            gridPane.setVisible(false);
-            // Show the ListView
-            spellListView.setVisible(true);
+            spellName.set(selectedSpell.spellName)
+            range.set(selectedSpell.range)
+            castingTime.set(selectedSpell.castingTime)
+            components.set(selectedSpell.components)
+            duration.set(selectedSpell.duration)
+            ingredients.set(selectedSpell.ingredients)
+            descArea.set(selectedSpell.description)
+            level.set(selectedSpell.level.toString())
+            school.set(selectedSpell.school)
+            ritual.set(if (selectedSpell.ritual) "ritual" else "")
+            concentration.set(if (selectedSpell.concentration) "concentration" else "")
         }
     }
 }
