@@ -1,95 +1,84 @@
-package idiotamspielen.vttproject.handlers;
+package idiotamspielen.vttproject.handlers
 
-import java.io.*;
-import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper
+import idiotamspielen.vttproject.classifications.Nameable
+import java.io.*
+import java.nio.file.*
 
-public class FileHandler<T extends Things> {
-    private boolean isSaved;
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final Class<T> clazz;
-    private final Path categoryPath;
+class FileHandler<T : Nameable>(private val clazz: Class<T>, category: String) {
+    private var isSaved: Boolean = false
+    private val mapper = ObjectMapper()
+    private val categoryPath: Path
 
-    public FileHandler(Class<T> clazz, String category){
-        this.clazz = clazz;
-        // Base path without category
-        Path baseDirectoryPath = Paths.get(System.getProperty("user.home"), "Documents", "VTT", "library", "data");
-        //String baseDirectoryPath = System.getProperty("user.home") + "/Documents/VTT/library/data";
-        this.categoryPath = baseDirectoryPath.resolve(category);
+    init {
+        val baseDirectoryPath = Paths.get(System.getProperty("user.home"), "Documents", "VTT", "library", "data")
+        this.categoryPath = baseDirectoryPath.resolve(category)
     }
 
-    public void saveToFile(T obj){
-
+    fun saveToFile(obj: T?) {
         if (obj == null) {
-            System.err.println("Failed to save: Object is null");
-            return;
+            System.err.println("Failed to save: Object is null")
+            return
         }
 
-        //save object to library. If library doesn't exist yet, create one.
         try {
             if (!Files.exists(categoryPath)) {
-                Files.createDirectories(categoryPath);
+                Files.createDirectories(categoryPath)
             }
-        } catch (IOException e) {
-            System.err.println("Failed to create directory: " + categoryPath + " - " + e.getMessage());
+        } catch (e: IOException) {
+            System.err.println("Failed to create directory: $categoryPath - ${e.message}")
         }
 
-        Path filePath = categoryPath.resolve(obj.getName() + ".json");
-        try (FileWriter writer = new FileWriter(filePath.toFile())) {
-            // Serialize the object to JSON
-            String json = mapper.writeValueAsString(obj);
-
-            writer.write(json);
-            writer.flush();
-
-            System.out.println(clazz.getSimpleName() + " Saved as " + filePath.getFileName());
-            isSaved = true;
-        } catch (FileNotFoundException e){
-        System.err.println("Failed to save: File not found");
-        } catch (IOException e){
-            System.err.println("Failed to save: " + e.getMessage());
+        val filePath = categoryPath.resolve("${obj.getName()}.json")
+        try {
+            FileWriter(filePath.toFile()).use { writer ->
+                val json = mapper.writeValueAsString(obj)
+                writer.write(json)
+                writer.flush()
+                println("${clazz.simpleName} Saved as ${filePath.fileName}")
+                isSaved = true
+            }
+        } catch (e: FileNotFoundException) {
+            System.err.println("Failed to save: File not found")
+        } catch (e: IOException) {
+            System.err.println("Failed to save: ${e.message}")
         }
     }
 
-    public boolean isSaved(){
-        return  isSaved;
+    fun isSaved(): Boolean {
+        return isSaved
     }
 
-    public List<T> getSavedObjectInformation() {
-        List<T> objects = new ArrayList<>();
-
-        File objectDirectory = categoryPath.toFile();
-        File[] objectFiles = objectDirectory.listFiles();
+    fun getSavedObjectInformation(): List<T> {
+        val objects = mutableListOf<T>()
+        val objectDirectory = categoryPath.toFile()
+        val objectFiles = objectDirectory.listFiles()
 
         if (objectFiles != null) {
-            for (File objectFile : objectFiles) {
-                if (objectFile.isFile() && objectFile.getName().endsWith(".json")) { // Check for JSON files
-                    try (FileReader fileReader = new FileReader(objectFile)) {
-                        // Deserialize the JSON into an object
-                        T obj = mapper.readValue(fileReader, clazz);
-                        objects.add(obj);
-                    } catch (IOException e) {
-                        System.err.println("Failed to read file: " + objectFile.getName() +
-                                            " due to " + e.getMessage());
+            for (objectFile in objectFiles) {
+                if (objectFile.isFile && objectFile.name.endsWith(".json")) {
+                    try {
+                        FileReader(objectFile).use { fileReader ->
+                            val obj = mapper.readValue(fileReader, clazz)
+                            objects.add(obj)
+                        }
+                    } catch (e: IOException) {
+                        System.err.println("Failed to read file: ${objectFile.name} due to ${e.message}")
                     }
                 }
             }
         }
-        return objects;
+        return objects
     }
 
-    public List<T> search(String query) {
-        List<T> allObjects = getSavedObjectInformation();
-        List<T> matchingObjects = new ArrayList<>();
-
-        // Search for objects matching the query (case-insensitive)
-        for (T obj : allObjects) {
-            if (obj.getName().toLowerCase().contains(query.toLowerCase())) {
-                matchingObjects.add(obj);
+    fun search(query: String): List<T> {
+        val allObjects = getSavedObjectInformation()
+        val matchingObjects = mutableListOf<T>()
+        for (obj in allObjects) {
+            if (obj.getName().contains(query, ignoreCase = true)) {
+                matchingObjects.add(obj)
             }
         }
-        return matchingObjects;
+        return matchingObjects
     }
 }
