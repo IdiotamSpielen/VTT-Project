@@ -3,6 +3,7 @@ package idiotamspielen.vttproject.controllers
 // MainController.kt
 import idiotamspielen.vttproject.userInterface.TableTop
 import idiotamspielen.vttproject.views.SpellCreatorView
+import idiotamspielen.vttproject.views.SpellSearchView
 import javafx.beans.value.ChangeListener
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -52,6 +53,19 @@ class MainController : Controller() {
         with(Stage()) {
             title = "Create Spell"
             scene = Scene(spellCreatorView.root, 500.0, 500.0)
+            minWidth = 500.0
+            minHeight = 500.0
+            isResizable = false
+            show()
+        }
+    }
+
+    fun searchSpell(){
+        val spellSearchView = SpellSearchView()
+
+        with(Stage()) {
+            title = "Search Spell"
+            scene = Scene(spellSearchView.root, 500.0, 500.0)
             minWidth = 500.0
             minHeight = 500.0
             isResizable = false
