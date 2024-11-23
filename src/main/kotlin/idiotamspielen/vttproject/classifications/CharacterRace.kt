@@ -1,18 +1,10 @@
-package idiotamspielen.vttproject.classifications;
-
-public class CharacterRace {
-//The race gives the character an armor class, a list of racial traits, a base weapon, Weapon and/or spell proficiencies, and potentially a subrace
-    protected String name;
-    protected String description;
-    protected int armorClass;
-
-
-    public CharacterRace(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
+package idiotamspielen.vttproject.classifications
+/*The race gives the character an armor class, a list of racial traits, a base weapon,
+ * Weapon and/or spell proficiencies, and potentially a subrace
+ */
+open class CharacterRace(
+    var name: String?,
+    protected var description: String?
+) {
+    protected var armorClass: Int = 0
 }

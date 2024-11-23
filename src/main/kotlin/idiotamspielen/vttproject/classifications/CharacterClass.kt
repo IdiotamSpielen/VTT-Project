@@ -1,16 +1,11 @@
-package idiotamspielen.vttproject.classifications;
+package idiotamspielen.vttproject.classifications
 
-import java.util.List;
+open class CharacterClass(name1: String?, description1: String?, abilities1: MutableList<*>?) : Nameable{
+    private val name: String? = null
+    private val description: String? = null
+    private val abilities: List<Ability>? = null
 
-public class CharacterClass {
-    private String name;
-    private String description;
-    private int hitPoints;
-    private int armorClass;
-
-
-    public CharacterClass(String name, String description, List classFeatures) {
-        this.name = name;
-        this.description = description;
+    override fun getName(): String {
+        return name!!
     }
 }
