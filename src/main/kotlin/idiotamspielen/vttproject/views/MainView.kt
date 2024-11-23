@@ -14,7 +14,7 @@ import tornadofx.pane
 import tornadofx.stackpane
 import tornadofx.vbox
 
-class MainView : View() {
+class MainView : View("VTT 0.3.0") {
     private val controller: MainController by inject()
 
     val tableTopPane = pane{
@@ -33,7 +33,7 @@ class MainView : View() {
                 item("Class").action {}
             }
             menu("Search") {
-                item("Spell").action {}
+                item("Spell").action {controller.searchSpell()}
                 item("Character").action {}
                 item("Race").action {}
                 item("Class").action {}
@@ -52,7 +52,6 @@ class MainView : View() {
 
     init {
         controller.setup(tableTopPane, rootPane)
-        title = "VTT V0.3.0"
     }
 
     override val root = rootPane
