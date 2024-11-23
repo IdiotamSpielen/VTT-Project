@@ -1,14 +1,11 @@
 package idiotamspielen.vttproject.controllers
 
-import idiotamspielen.vttproject.classifications.SpellV2
+import idiotamspielen.vttproject.classifications.Spell
 import idiotamspielen.vttproject.creators.SpellCreator
-import idiotamspielen.vttproject.creators.SpellCreatorV2
-import idiotamspielen.vttproject.handlers.FileHandlerV2
+import idiotamspielen.vttproject.handlers.FileHandler
 import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.Controller
-import tornadofx.get
 
 class SpellCreationController : Controller() {
     val spellName = SimpleStringProperty()
@@ -25,7 +22,7 @@ class SpellCreationController : Controller() {
     val isConcentration = SimpleBooleanProperty(false)
 
     fun createSpell(){
-        val newSpellCreator = SpellCreatorV2(FileHandlerV2(SpellV2::class.java, "spells"))
+        val newSpellCreator = SpellCreator(FileHandler(Spell::class.java, "spells"))
 
         newSpellCreator.create(
             spellName = spellName.getOrElse(""),
