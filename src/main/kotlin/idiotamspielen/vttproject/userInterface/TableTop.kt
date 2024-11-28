@@ -22,7 +22,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-import java.util.*
 
 class TableTop : StackPane() {
     private val backgroundLayer = StackPane()
@@ -41,15 +40,14 @@ class TableTop : StackPane() {
                     backgroundLayer.screenToLocal(event.screenX, event.screenY)
 
                 // Check if the point is within the bounds of any child of the backgroundLayer
-                val children: List<Node> =
-                    ArrayList(backgroundLayer.children)
-                for (i in children.indices.reversed()) {
-                    val child = children[i]
-                    if (child.boundsInParent.contains(pointInBackgroundLayer)) {
-                        grabbedNode = child
-                        grabbedNode!!.fireEvent(event.copyFor(grabbedNode, grabbedNode))
-                        break
-                    }
+                val child = backgroundLayer.children.reversed().find {
+                    it.boundsInParent.contains(pointInBackgroundLayer)
+                }
+
+                // Wenn ein Kind gefunden wurde, setze es als 'grabbedNode' und löse ein Ereignis aus
+                child?.let {
+                    grabbedNode = it
+                    it.fireEvent(event.copyFor(it, it))
                 }
             }
         }
@@ -100,8 +98,6 @@ class TableTop : StackPane() {
                     val sourcePath = file.toPath()
                     var targetDirectory: Path? = null
 
-
-                    val options = arrayOf("Map", "Token")
                     val alert =
                         Alert(Alert.AlertType.CONFIRMATION)
                     alert.title = "Import"
