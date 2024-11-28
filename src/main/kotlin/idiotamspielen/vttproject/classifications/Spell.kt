@@ -15,7 +15,5 @@ data class Spell(
     @JsonProperty("ritual") val ritual: Boolean,
     @JsonProperty("concentration") val concentration: Boolean
 ) : Nameable {
-    override fun getName(): String {
-        return spellName
-    }
+    override fun getName(): String = spellName
 }
