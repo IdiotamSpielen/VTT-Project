@@ -1,0 +1,16 @@
+.text-field,
+.text-area {
+    -fx-prompt-text-fill: grey;
+}
+
+.text-field:empty::prompt-text,
+.text-area:empty::prompt-text,
+.text-field:focused:empty::prompt-text,
+.text-area:focused:empty::prompt-text {
+    -fx-prompt-text-visible: true;
+}
+
+.centered {
+    -fx-text-fill: black;
+    -fx-alignment: center;
+}
