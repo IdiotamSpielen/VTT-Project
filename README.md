@@ -1,87 +1,90 @@
 # Self-Hosted VTT
 
-## Motivation
+!!!README UNDER RECONSTRUCTION!!!
 
-The motivation for this project can most accurately be defined as spite.  
-It is unacceptable that Wizards of the Coast forces you to pay full price for digital versions of books
-you already bought physical copies of...  
-also at full price  
-And I refuse to pay a monthly subscription for something that could be done with a local application and a Discord server!
+A lightweight, self-hosted Virtual Tabletop (VTT) designed for Dungeons and Dragons 5E and potentially usable with other RPG systems.  
+The application offers a customizable experience for Game Masters and players alike.
 
-Well, the Discord server will not be created by this, but I'm currently working on the application.  
+## Features
 
-## compatibility
+### Core Features
 
-This software has been **Developed for Windows systems**,  
-However, due to the cross-platform nature of Java, it may also be compatible with Linux and macOS.  
-**I GUARANTEE NOTHING!** Not even that it works on a Windows System.  
+**1. Library Management**  
+Add and manage materials like spells, abilities, creatures, and more.
 
-Designed for Dungeons and Dragons 5E specifically, but you may try it with other systems. I'm not your dad.  
-(Maybe it'll get dedicated support for other RPG-Systems if I feel like it)  
-Made for Game Masters, but Players might also get a use out of it. If only for the library functions. Again, I'm not your dad.  
+**2. Character Management**  
+Create, edit, and update character sheets for players and NPCs.
 
-## "database" info
+**3. Maps and Tokens**  
+Import and use your own images as maps, tokens, or other assets.
 
-Currently, the "database" works with json-files saved on your hard-drive.  
-~~In later stages it is supposed to be able to access a database that you connect yourself.~~  
-I have decided to scrap that idea. If you want to store your files on an external database, code it yourself.
+### notes:
+- No preloaded content included
+- No Characters provided
 
-## Core-Functionality
+### Secondary Features
+
+*Low development priority.*
+
+1. Dice roller.
+2. Random name generator for characters and locations.
+
+------------------------------------------------------
+
+## Getting Started
+
+### Compatibility
+
+**Primary OS:** Windows.
+**Experimental:** Linux and macOS (due to Java's cross-platform capabilities).
+*No guarantees of functionality on any system.*
+
+### Installation
+
+1. Download the application from [insert link].
+2. Ensure Java is installed: The software requires Java (version 11 or higher).
+    - Download Java [here](https://www.oracle.com/java/technologies/downloads/?er=221886).
+3. Run the .jar file to start the application.
+
+### Database Setup
+
+- Currently uses JSON files stored locally.
+- Future plans include optional connection to a personal database.
+
+------------------------------------------------------
+
+## Usage
 
 ### Library
 
-The library functionality of this Software will contain any material  
-(e.g. spells, abilities, creatures, classes and races) that you have added.    
-**No entries are provided with the Software.**
+Import your own data to manage spells, creatures, and other resources.
 
-### character management
+### Character Management
 
-Be it character sheets for players or NPC sheets for Game Masters. Easily created, updated and altered.  
-I have to reiterate **These characters are not provided with the software**
+Easily create and edit characters. Player sheets and NPC sheets are managed under the Character tab.
 
-### Maps, Tokens and all the things between
+### Maps and Tokens
 
-Much like with the library, you can import any and all images you like.  
-as maps, tokens or whatever else you might need.
-once again: **these assets are not provided with the Software.**
-
-## Secondary functions
-
-My current plans for secondary functions are:
-
-- The possibility to roll dice
-- A random generator for names of places and characters
-
-It should be noted that these have very low priority for me and I will only start working on them after the full release.
+Upload your own images for use in the tabletop environment. Drag-and-drop functionality is supported.
 
 ## Contribute
 
-Honestly, I'm thankful for any help I can get with this. I noticed that I am in way over my head here, and I appreciate any and all support.
+We welcome contributions! Follow these steps:
 
-If you’re interested in contributing, here are the steps you can follow:
+1. Fork the repository.
+2. Create a development branch for your changes.
+3. Make and test your changes.
+4. Submit a pull request for review.
 
-**1. Fork the Repository:** Start by forking this repository to your own GitHub account.
-
-**2. Create a Development Branch:** Make a new branch in your forked repository.  
-It’s good practice to name the branch relevant to the feature or bug fix you plan to work on.
-
-**3. Make Your Changes:** On your new branch, make the changes or additions you want to propose for the project.
-
-**4.Test Your Changes:** Ensure that your changes do not break any existing functionality and that they fully achieve their intended purpose.
-
-**5. Send a Pull Request:** Once you’re satisfied with your changes, push your branch to your forked repository.
-Then, open a pull request from the new branch to the original repository.
+------------------------------------------------------
 
 ## Disclaimer
 
-I'm *probably* in the clear with this, but I'm not taking any chances.  
-Let's be honest, we know how Hasbro likes to fuck over its fans. As such:  
-You may **modify, use and distribute** this software however you please.  
-I will not provide any support that goes beyond the instructions found in this README and other documentation.  
-This software **does not** come with any entries and is initially **not connected** to any database.  
-You will have to host the database yourself or look for another way to host it.  
-I **will not** host any databases for you nor will I support you in setting up or finding someone to host your own database.  
-(As of now Databases are not functional anyway.)  
+This software is distributed under the MIT-License.  
+As such it is free to use, modify, and redistribute. However:
 
-**I do not condone the unlawful distribution of copyrighted materials using this software,
-nor do I take liability for any consequences you may face by publishing content you created using this software.**
+- It is not affiliated with Wizards of the Coast or any other entity.
+- Users are solely responsible for any copyrighted material imported into the app.
+- The software does not include preloaded content and does not connect to any database by default.
+
+*I do not condone the unlawful distribution of copyrighted materials. Use responsibly.*
