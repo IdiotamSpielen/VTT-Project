@@ -14,6 +14,18 @@ import tornadofx.pane
 import tornadofx.stackpane
 import tornadofx.vbox
 
+/**
+ * The MainView class represents the main interface of the application.
+ *
+ * It provides the primary layout, including a menu bar for creating and searching different entities like spells, items,
+ * characters, races, and classes. The center of the view contains a resizable tabletop Pane.
+ *
+ * @constructor Creates an instance of MainView, initializes the UI elements, and sets up the controller.
+ *
+ * @property controller An instance of [MainController] for handling actions triggered from the UI.
+ * @property tableTopPane A pane that holds a [TableTop] instance.
+ * @property rootPane The root BorderPane of the view containing the menu bar and the tableTopPane.
+ */
 class MainView : View("VTT 0.3.0") {
     private val controller: MainController by inject()
 
