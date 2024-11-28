@@ -5,6 +5,9 @@ package idiotamspielen.vttproject.classifications
 open class CharacterRace(
     var name: String?,
     protected var description: String?
-) {
+) : Nameable {
     protected var armorClass: Int = 0
+    override fun getName(): String {
+        TODO("Not yet implemented")
+    }
 }
