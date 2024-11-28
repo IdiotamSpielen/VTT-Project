@@ -2,83 +2,106 @@ package idiotamspielen.vttproject.handlers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import idiotamspielen.vttproject.classifications.Nameable
+import org.slf4j.LoggerFactory
 import java.io.*
 import java.nio.file.*
 
+/**
+ * A generic file handler for managing objects of type [T] which implements the [Nameable] interface.
+ * Provides functionality to save objects to files, retrieve stored objects, and search by name.
+ *
+ * @param T the type of objects which this handler will manage. Must implement [Nameable].
+ * @param clazz The [Class] type of the objects to be processed.
+ * @param category The category used to organize files in directories.
+ */
 class FileHandler<T : Nameable>(private val clazz: Class<T>, category: String) {
-    private var isSaved: Boolean = false
+    private val logger = LoggerFactory.getLogger(FileHandler::class.java)
     private val mapper = ObjectMapper()
-    private val categoryPath: Path
+    private val categoryPath: Path = Paths.get(
+        System.getProperty("user.home"),
+        "Documents",
+        "VTT",
+        "library",
+        "data",
+        category
+    )
+    @Volatile private var isSaved: Boolean = false
 
-    init {
-        val baseDirectoryPath = Paths.get(System.getProperty("user.home"), "Documents", "VTT", "library", "data")
-        this.categoryPath = baseDirectoryPath.resolve(category)
-    }
-
+    /**
+     * Saves an object to a file in the [category] directory. The file is named after the object's name.
+     *
+     * @param obj The object to be saved. If the object is null, the method logs an error and returns.
+     */
     fun saveToFile(obj: T?) {
         if (obj == null) {
-            System.err.println("Failed to save: Object is null")
+            logger.error("Failed to save: Object is null")
             return
         }
 
         try {
             if (!Files.exists(categoryPath)) {
                 Files.createDirectories(categoryPath)
+                logger.info("Created directory at {}", categoryPath)
             }
-        } catch (e: IOException) {
-            System.err.println("Failed to create directory: $categoryPath - ${e.message}")
-        }
 
-        val filePath = categoryPath.resolve("${obj.getName()}.json")
-        try {
+            val filePath = categoryPath.resolve("${obj.getName()}.json")
             FileWriter(filePath.toFile()).use { writer ->
                 val json = mapper.writeValueAsString(obj)
                 writer.write(json)
                 writer.flush()
-                println("${clazz.simpleName} Saved as ${filePath.fileName}")
+                logger.info("{} saved as {}", clazz.simpleName, filePath.fileName)
                 isSaved = true
             }
-        } catch (e: FileNotFoundException) {
-            System.err.println("Failed to save: File not found")
         } catch (e: IOException) {
-            System.err.println("Failed to save: ${e.message}")
+            logger.error("Failed to save object '{}': {}", obj.getName(), e.message, e)
         }
     }
 
-    fun isSaved(): Boolean {
-        return isSaved
-    }
+    /**
+     * Checks whether the last save operation was successful.
+     *
+     * @return `true` if the object is saved, `false` otherwise.
+     */
+    fun isSaved(): Boolean = isSaved
 
+    /**
+     * Retrieves a list of saved objects by reading JSON files from the specified directory.
+     *
+     * @return A list of objects of type [T].
+     * Returns an empty list if the directory does not exist or contains no valid files.
+     */
     fun getSavedObjectInformation(): List<T> {
         val objects = mutableListOf<T>()
         val objectDirectory = categoryPath.toFile()
-        val objectFiles = objectDirectory.listFiles()
 
-        if (objectFiles != null) {
-            for (objectFile in objectFiles) {
-                if (objectFile.isFile && objectFile.name.endsWith(".json")) {
-                    try {
-                        FileReader(objectFile).use { fileReader ->
-                            val obj = mapper.readValue(fileReader, clazz)
-                            objects.add(obj)
-                        }
-                    } catch (e: IOException) {
-                        System.err.println("Failed to read file: ${objectFile.name} due to ${e.message}")
-                    }
+        if (!objectDirectory.exists() || !objectDirectory.isDirectory) {
+            logger.warn("Directory {} does not exist or is not a directory", categoryPath)
+            return objects
+        }
+
+        val objectFiles = objectDirectory.listFiles { _, name -> name.endsWith(".json") } ?: emptyArray()
+
+        for (objectFile in objectFiles) {
+            try {
+                FileReader(objectFile).use { fileReader ->
+                    val obj = mapper.readValue(fileReader, clazz)
+                    objects.add(obj)
                 }
+            } catch (e: IOException) {
+                logger.error("Failed to read file '{}': {}", objectFile.name, e.message, e)
             }
         }
         return objects
     }
 
+    /**
+     * Searches for objects whose names contain the specified query string, ignoring case.
+     *
+     * @param query The search string used to filter object names.
+     * @return A list of objects of type [T] whose names contain the query string.
+     */
     fun search(query: String): List<T> {
         val allObjects = getSavedObjectInformation()
-        val matchingObjects = mutableListOf<T>()
-        for (obj in allObjects) {
-            if (obj.getName().contains(query, ignoreCase = true)) {
-                matchingObjects.add(obj)
-            }
-        }
-        return matchingObjects
+        return allObjects.filter { it.getName().contains(query, ignoreCase = true) }
     }
 }
