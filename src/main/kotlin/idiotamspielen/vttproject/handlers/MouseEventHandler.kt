@@ -1,31 +1,29 @@
-package idiotamspielen.vttproject.handlers;
+package idiotamspielen.vttproject.handlers
 
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
-import org.jetbrains.annotations.NotNull;
+import javafx.event.EventHandler
+import javafx.scene.Node
+import javafx.scene.input.MouseEvent
 
-public class MouseEventHandler implements EventHandler<MouseEvent> {
-    private double[] initialPosition;
-    private Node grabbedNode;
+class MouseEventHandler : EventHandler<MouseEvent?> {
+    private lateinit var initialPosition: DoubleArray
+    private var grabbedNode: Node? = null
 
-    @Override
-    public void handle(@NotNull MouseEvent event) {
-        Node node = (Node) event.getSource();
+    override fun handle(p0: MouseEvent?) {
+        val node = p0!!.getSource() as Node?
 
-        if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-            initialPosition = new double[]{event.getSceneX(), event.getSceneY()};
-            grabbedNode = node;
-        } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+        if (p0.getEventType() == MouseEvent.MOUSE_PRESSED) {
+            initialPosition = doubleArrayOf(p0.sceneX, p0.sceneY)
+            grabbedNode = node
+        } else if (p0.getEventType() == MouseEvent.MOUSE_DRAGGED) {
             if (grabbedNode != null) {
-                double deltaX = event.getSceneX() - initialPosition[0];
-                double deltaY = event.getSceneY() - initialPosition[1];
+                val deltaX = p0.sceneX - initialPosition[0]
+                val deltaY = p0.sceneY - initialPosition[1]
 
-                grabbedNode.setTranslateX(grabbedNode.getTranslateX() + deltaX);
-                grabbedNode.setTranslateY(grabbedNode.getTranslateY() + deltaY);
+                grabbedNode!!.translateX = grabbedNode!!.translateX + deltaX
+                grabbedNode!!.translateY = grabbedNode!!.translateY + deltaY
 
                 // update saved position for next drag-event
-                initialPosition = new double[]{event.getSceneX(), event.getSceneY()};
+                initialPosition = doubleArrayOf(p0.sceneX, p0.sceneY)
             }
         }
     }
