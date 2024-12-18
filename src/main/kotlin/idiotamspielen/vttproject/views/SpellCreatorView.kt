@@ -28,7 +28,7 @@ class SpellCreatorView : View("Spell Creator") {
     }
 
     private fun applyStyles() {
-        root.stylesheets.add("spell-creator.css")
+        root.stylesheets.add("styles/styles_spell_creator.css")
     }
 
     private fun createGridPane() = gridpane {
@@ -74,8 +74,11 @@ class SpellCreatorView : View("Spell Creator") {
     private fun createCheckbox(label: String, property: BooleanProperty) = checkbox(label, property)
 
     private fun createBottomPane() = stackpane {
+        paddingAll = 15
         alignment = Pos.BOTTOM_CENTER
         button("Create") {
+            minWidth = 150.0
+            minHeight = 30.0
             action { controller.createSpell() }
             action {
                 feedbackText.opacity = 1.0
@@ -89,8 +92,8 @@ class SpellCreatorView : View("Spell Creator") {
                 } catch (e: Exception) {
                     feedbackHandler.displayFeedback("An unexpected error occurred.", FeedbackHandler.FeedbackType.ERROR)
                 }
-                paddingAll = 10
             }
+            paddingAll = 10
         }
     }
 }
