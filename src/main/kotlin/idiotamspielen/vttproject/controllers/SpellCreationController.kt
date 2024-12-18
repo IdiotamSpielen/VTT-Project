@@ -1,11 +1,11 @@
 package idiotamspielen.vttproject.controllers
 
 import idiotamspielen.vttproject.classifications.Spell
-import idiotamspielen.vttproject.creators.SpellCreator
 import idiotamspielen.vttproject.handlers.FileHandler
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.Controller
+import kotlin.text.get
 
 /**
  * Controller class responsible for creating spells.
@@ -40,26 +40,59 @@ class SpellCreationController : Controller() {
      * @throws SpellNotSavedException if the spell could not be saved to the file system.
      */
     fun createSpell(){
-        val newSpellCreator = SpellCreator(FileHandler(Spell::class.java, "spells"))
+        if (!validateInputs()) {
+            throw InvalidSpellException("Validation failed. Check your input.")
+        }
 
-        newSpellCreator.create(
-            spellName = spellName.getOrElse(""),
-            castingTime = castingTime.getOrElse("instantaneous"),
-            range = range.getOrElse("touch"),
-            components = component.getOrElse(""),
-            duration = duration.getOrElse(""),
-            ingredients = ingredients.getOrElse("N/A"),
-            description = description.getOrElse(""),
-            levelString = level.getOrElse(""),
-            school = school.getOrElse(""),
-            ritual = isRitual.get(),
-            concentration = isConcentration.get()
+        val spell = Spell(
+            spellName.get(),
+            school.get(),
+            duration.get(),
+            component.get(),
+            level.get().toInt(),
+            range.get(),
+            castingTime.get(),
+            description.get(),
+            ingredients.get(),
+            isRitual.get(),
+            isConcentration.get()
         )
 
-        if (!newSpellCreator.isSpellValid()) {
-            throw InvalidSpellException("The Spell is invalid. Check your input.")
-        } else if (!newSpellCreator.isSpellSaved()) {
-            throw SpellNotSavedException("The Spell was not saved. Check the logs for more information.")
+        val fileHandler = FileHandler(Spell::class.java, "spells")
+        fileHandler.saveToFile(spell)
+        if (!fileHandler.isSaved()) {
+            throw SpellNotSavedException("The Spell was not saved.")
+        }
+    }
+
+    private fun validateInputs(): Boolean {
+        return when {
+            spellName.value.isNullOrEmpty() -> {
+                println("Invalid spell name")
+                false
+            }
+
+            duration.value.isNullOrEmpty() -> {
+                println("Invalid duration")
+                false
+            }
+
+            component.value.isNullOrEmpty() -> {
+                println("Invalid components")
+                false
+            }
+
+            description.value.isNullOrEmpty() -> {
+                println("Invalid description")
+                false
+            }
+
+            level.value.isNullOrEmpty() || level.get().toIntOrNull() !in 0..9 -> {
+                println("Invalid level value: ${level.get()}")
+                false
+            }
+
+            else -> true
         }
     }
 
@@ -77,7 +110,7 @@ class SpellCreationController : Controller() {
 /**
  * Exception thrown to indicate an invalid spell during creation or validation.
  *
- * This exception is typically used in the context of spell creation processes
+ * This exception is used in the context of spell creation processes
  * within the application, particularly when the provided spell data does not meet
  * the necessary validation criteria. It signifies that the spell being processed
  * is defective or non-conforming to expected standards.
