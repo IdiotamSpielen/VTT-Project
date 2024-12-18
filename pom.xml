@@ -13,10 +13,10 @@
 
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
-        <kotlin.version>2.0.21</kotlin.version>
+        <kotlin.version>2.1.0</kotlin.version>
         <tornadofx.version>1.7.20</tornadofx.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>23</javafx.version>
+        <javafx.version>24-ea+19</javafx.version>
     </properties>
 
     <build>
@@ -101,7 +101,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.18.1</version>
+            <version>2.18.2</version>
         </dependency>
 
         <dependency>
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.1.0</version>
+            <version>26.0.1</version>
             <scope>compile</scope>
         </dependency>
 
@@ -126,7 +126,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.12</version>
+            <version>1.5.12</version>
         </dependency>
     </dependencies>
 </project>
