@@ -1,0 +1,15 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "maven" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "org.jetbrains.kotlin"
+        versions: ["<2.0.0"] # Überspringe Updates, die kleiner als 2.0.0 sind
+    versioning-strategy: "widen" # Wähle zwischen widen, increase oder lockfile-only
