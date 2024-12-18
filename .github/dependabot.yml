@@ -12,4 +12,3 @@ updates:
     ignore:
       - dependency-name: "org.jetbrains.kotlin"
         versions: ["<2.0.0"] # Überspringe Updates, die kleiner als 2.0.0 sind
-    versioning-strategy: "increase" # Wähle zwischen widen, increase oder lockfile-only
