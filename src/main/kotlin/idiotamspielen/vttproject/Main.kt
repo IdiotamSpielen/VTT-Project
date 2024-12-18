@@ -4,6 +4,7 @@ import idiotamspielen.vttproject.views.MainView
 import javafx.application.Application
 import javafx.stage.Screen
 import javafx.stage.Stage
+import org.slf4j.ILoggerFactory
 import tornadofx.*
 import kotlin.math.max
 
@@ -21,7 +22,7 @@ class Main : App(MainView::class) {
                 width = max(visualBounds.width / 1.5, minWidth)
                 height = max(visualBounds.height / 1.2, minHeight)
             } catch (e: Exception) {
-                //magic numbers go BRRRR
+                //magic numbers go BRR
                 minWidth = 800.0
                 minHeight = 600.0
 
