@@ -16,7 +16,7 @@
         <kotlin.version>2.0.21</kotlin.version>
         <tornadofx.version>1.7.20</tornadofx.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>23</javafx.version>
+        <javafx.version>24-ea+19</javafx.version>
     </properties>
 
     <build>
