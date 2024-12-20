@@ -3,7 +3,18 @@
 /.vscode/
 *.iml
 
-# Maven-specific files
+# Gradle specific files
+/.gradle/
+/build/
+/out/
+.gradle/
+/.gradle-cache/
+/.gradle/kotlin/
+/!gradle-wrapper.jar # Erlaubt, dass Wrapper-jar unter Versionskontrolle bleibt
+!gradlew
+!gradlew.bat
+
+# Maven-specific files (legacy)
 /target/
 /pom.xml.tag
 /pom.xml.releaseBackup
