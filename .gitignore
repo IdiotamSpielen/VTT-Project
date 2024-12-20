@@ -26,6 +26,10 @@
 *.tmp
 *.temp
 
+# OS-specific files
+.DS_Store
+Thumbs.db
+
 # Log file
 *.log
 
