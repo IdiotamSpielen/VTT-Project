@@ -1,6 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm") version "2.1.0" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.0.8" // JavaFX Plugin
+    application
 }
 
 group = "idiotamspielen"
@@ -33,6 +36,23 @@ javafx {
     modules("javafx.controls", "javafx.fxml")
 }
 
+application {
+    mainClass.set("idiotamspielen.vttproject.MainKt") // Hauptklasse
+}
+
+tasks.register<JavaExec>("start") {
+    group = "application"
+    description = "Runs the project"
+    mainClass.set("idiotamspielen.vttproject.MainKt")
+    classpath = sourceSets["main"].runtimeClasspath
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11) // Stelle sicher, dass Kotlin auf Java 11 abzielt
+    }
 }
