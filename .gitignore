@@ -10,7 +10,7 @@
 .gradle/
 /.gradle-cache/
 /.gradle/kotlin/
-/!gradle-wrapper.jar # Erlaubt, dass Wrapper-jar unter Versionskontrolle bleibt
+/!gradle-wrapper.jar
 !gradlew
 !gradlew.bat
 
@@ -30,6 +30,9 @@
 /bin
 /src/library/
 
+# Temporary Kotlin Compiler files
+*.salive
+
 # Compiled class file
 *.class
 
@@ -37,8 +40,12 @@
 *.tmp
 *.temp
 
+# OS specific files
+.DS_Store
+Thumbs.db
+
 # Log file
-*.log
+*.log*
 
 # BlueJ files
 *.ctxt
