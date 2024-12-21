@@ -19,7 +19,8 @@ class ItemCreatorView : View("Create New Item") {
             }
 
             field("Type") {
-                combobox(controller.selectedType, ItemType.values().toList()) {
+                //FIXME - Figure out why this doesn't like ENUMS?
+                combobox(controller.selectedType){ //ItemType.values().toList())
                     promptText = "Select an Item Type"
                 }.validator {
                     if (it == null) error("You must select an item type.") else null
@@ -34,7 +35,7 @@ class ItemCreatorView : View("Create New Item") {
 
             field("Weapon Damage") {
                 textfield() {
-                    visibleWhen { controller.selectedType.isEqualTo(ItemType.WEAPON) }
+                    //visibleWhen { controller.selectedType.isEqualTo(ItemType.WEAPON) } FIXME - figure this out
                     required()
                 }
             }
@@ -42,9 +43,10 @@ class ItemCreatorView : View("Create New Item") {
             // Buttons
             hbox(10) {
                 button("Save") {
-                    enableWhen {
-                        controller.itemName.isNotEmpty.and(controller.selectedType.isNotNull) // Aktiv nur bei gültigen Eingaben
-                    }
+                    //FIXME - Do we need an isNotNull import?
+                    //enableWhen {
+                        //controller.itemName.isNotEmpty.and(controller.selectedType.isNotNull) Aktiv nur bei gültigen Eingaben
+                    //}
                     action {
                         controller.createNewItem()
                         close()
