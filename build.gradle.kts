@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "2.1.0" // Kotlin Plugin
-    id("org.openjfx.javafxplugin") version "0.0.8" // JavaFX Plugin
+    id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
     application
 }
 
@@ -38,13 +38,6 @@ javafx {
 
 application {
     mainClass.set("idiotamspielen.vttproject.MainKt") // Hauptklasse
-}
-
-tasks.register<JavaExec>("start") {
-    group = "application"
-    description = "Runs the project"
-    mainClass.set("idiotamspielen.vttproject.MainKt")
-    classpath = sourceSets["main"].runtimeClasspath
 }
 
 tasks.withType<Test> {
