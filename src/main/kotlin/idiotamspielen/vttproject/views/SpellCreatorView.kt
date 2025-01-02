@@ -91,6 +91,7 @@ class SpellCreatorView : View("Spell Creator") {
                     feedbackHandler.displayFeedback("Failed to save Spell. Check log for further information.", FeedbackHandler.FeedbackType.ERROR)
                 } catch (e: Exception) {
                     feedbackHandler.displayFeedback("An unexpected error occurred.", FeedbackHandler.FeedbackType.ERROR)
+                    println(e.message)
                 }
             }
             paddingAll = 10
