@@ -45,15 +45,15 @@ class SpellCreationController : Controller() {
         }
 
         val spell = Spell(
-            spellName.get(),
-            school.get(),
-            duration.get(),
-            component.get(),
+            spellName.getOrElse(""),
+            school.getOrElse(""),
+            duration.getOrElse(""),
+            component.getOrElse(""),
             level.get().toInt(),
-            range.get(),
-            castingTime.get(),
-            description.get(),
-            ingredients.get(),
+            range.getOrElse(""),
+            castingTime.getOrElse(""),
+            description.getOrElse(""),
+            ingredients.getOrElse("N/A"),
             isRitual.get(),
             isConcentration.get()
         )
