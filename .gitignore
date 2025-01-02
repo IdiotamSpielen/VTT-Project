@@ -3,21 +3,24 @@
 /.vscode/
 *.iml
 
-# Maven-specific files
-/target/
-/pom.xml.tag
-/pom.xml.releaseBackup
-/pom.xml.versionsBackup
-/pom.xml.next
-/release.properties
-/dependency-reduced-pom.xml
-/buildNumber.properties
-/.mvn/timing.properties
+# Gradle specific files
+/.gradle/
+/build/
+/out/
+.gradle/
+/.gradle-cache/
+/.gradle/kotlin/
+/!gradle-wrapper.jar
+!gradlew
+!gradlew.bat
 
 #directories
 /lib
 /bin
 /src/library/
+
+# Temporary Kotlin Compiler files
+*.salive
 
 # Compiled class file
 *.class
@@ -26,12 +29,12 @@
 *.tmp
 *.temp
 
-# OS-specific files
+# OS specific files
 .DS_Store
 Thumbs.db
 
 # Log file
-*.log
+*.log*
 
 # BlueJ files
 *.ctxt
