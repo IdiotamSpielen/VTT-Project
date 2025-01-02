@@ -24,7 +24,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.1")
-    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("org.slf4j:slf4j-api:2.0.16")
     implementation("ch.qos.logback:logback-classic:1.5.14")
 }
 
