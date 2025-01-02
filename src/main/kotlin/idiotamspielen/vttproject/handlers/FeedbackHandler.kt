@@ -10,15 +10,15 @@ import javafx.util.Duration
 
 class FeedbackHandler(private val feedbackText: Text) {
 
-    enum class FeedbackType(val messagePrefix: String, val color: Color) {
-        SUCCESS("Success: ", Color.GREEN),
-        ERROR("Error: ", Color.RED),
-        WARNING("Warning: ", Color.ORANGE),
-        INFO("Info: ", Color.BLUE)
+    enum class FeedbackType(val color: Color) {
+        SUCCESS(Color.GREEN),
+        ERROR(Color.RED),
+        WARNING(Color.ORANGE),
+        INFO(Color.BLUE)
     }
 
     fun displayFeedback(message: String, type: FeedbackType) {
-        feedbackText.text = "${type.messagePrefix}$message"
+        feedbackText.text = message
         feedbackText.fill = type.color
 
         fadeOutFeedbackText()

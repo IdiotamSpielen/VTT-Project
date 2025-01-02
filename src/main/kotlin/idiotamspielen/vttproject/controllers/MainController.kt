@@ -6,6 +6,7 @@ import idiotamspielen.vttproject.views.SpellSearchView
 import javafx.beans.value.ChangeListener
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
+import javafx.stage.Modality
 import javafx.stage.Stage
 import tornadofx.*
 
@@ -56,18 +57,19 @@ class MainController : Controller() {
      * The window is set with fixed dimensions and is not resizable.
      * It provides the user interface for creating and saving spells.
      */
-    fun createSpell() {
+    fun openSpellCreator(mainStage: Stage) {
 
         val spellCreatorView = SpellCreatorView()
+        val dialog = Stage()
 
-        with(Stage()) {
-            title = "Create Spell"
-            scene = Scene(spellCreatorView.root, 500.0, 500.0)
-            minWidth = 500.0
-            minHeight = 500.0
-            isResizable = false
-            show()
-        }
+        dialog.initOwner(mainStage)
+        dialog.initModality(Modality.WINDOW_MODAL)
+        dialog.title = "Create Spell"
+        dialog.scene = Scene(spellCreatorView.root, 500.0, 500.0)  // Beispielhafte angepasste Größe
+        dialog.minWidth = 500.0
+        dialog.minHeight = 500.0
+        dialog.isResizable = false
+        dialog.showAndWait()
     }
 
     /**
@@ -78,7 +80,7 @@ class MainController : Controller() {
      * It initializes the spell search interface where users can input spell names
      * to search for them and view the details in a structured layout.
      */
-    fun searchSpell(){
+    fun openSpellSearch(){
         val spellSearchView = SpellSearchView()
 
         with(Stage()) {
@@ -89,5 +91,13 @@ class MainController : Controller() {
             isResizable = false
             show()
         }
+    }
+
+    fun openCharacterCreator(){
+        TODO("Not yet implemented")
+    }
+
+    fun openCharacterSearch(){
+        TODO("Not yet implemented")
     }
 }

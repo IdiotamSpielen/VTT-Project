@@ -3,7 +3,6 @@ package idiotamspielen.vttproject.classifications
  * Weapon and/or spell proficiencies, and potentially a subrace
  */
 open class CharacterRace(
-    var name: String?,
     protected var description: String?
 ) : Nameable {
     protected var armorClass: Int = 0

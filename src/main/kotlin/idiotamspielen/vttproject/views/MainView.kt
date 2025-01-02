@@ -38,14 +38,14 @@ class MainView : View("VTT 0.3.0") {
     val rootPane = borderpane {
         top = menubar {
             menu("Create") {
-                item("Spell").action { controller.createSpell() }
+                item("Spell").action { controller.openSpellCreator(primaryStage) }
                 item("Item").action {}
                 item("Character").action {}
                 item("Race").action {}
                 item("Class").action {}
             }
             menu("Search") {
-                item("Spell").action {controller.searchSpell()}
+                item("Spell").action {controller.openSpellSearch()}
                 item("Character").action {}
                 item("Race").action {}
                 item("Class").action {}

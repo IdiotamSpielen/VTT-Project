@@ -1,8 +1,8 @@
 package idiotamspielen.vttproject.classifications
 
 class Character : Nameable {
-    var Charactername: String? = null
+    var characterName: String? = null
     override fun getName(): String {
-        return Charactername!!
+        return characterName!!
     }
 }

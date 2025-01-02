@@ -2,7 +2,6 @@ package idiotamspielen.vttproject.classifications
 
 class Ability : Nameable {
     private val name: String? = null
-    private val description: String? = null
     private val level: Int? = null
     private val type: String? = null
     private val cost: Int? = null
