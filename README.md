@@ -44,7 +44,7 @@ Import and use your own images as maps, tokens, or other assets.
 
 1. Download the application from [insert link].
 2. Ensure Java is installed: The software requires Java (version 11 or higher).
-    - Download Java [here](https://www.oracle.com/java/technologies/downloads/?er=221886).
+    - Download [Java](https://www.oracle.com/java/technologies/downloads/?er=221886).
 3. Run the .jar file to start the application.
 
 ### Database Setup
