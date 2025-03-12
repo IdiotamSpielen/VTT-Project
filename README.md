@@ -18,7 +18,8 @@ Create, edit, and update character sheets for players and NPCs.
 **3. Maps and Tokens**  
 Import and use your own images as maps, tokens, or other assets.
 
-### notes:
+### notes
+
 - No preloaded content included
 - No Characters provided
 
