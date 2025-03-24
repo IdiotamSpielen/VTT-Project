@@ -19,7 +19,7 @@ repositories {
 dependencies {
     implementation("org.openjfx:javafx-controls:24-ea+19")
     implementation("org.openjfx:javafx-fxml:24-ea+19")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20")
     implementation("no.tornado:tornadofx:1.7.20")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
