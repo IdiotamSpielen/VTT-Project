@@ -2,9 +2,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Locale
 
 plugins {
-    kotlin("jvm") version "2.1.0" // Kotlin Plugin
+    kotlin("jvm") version "2.1.10" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
-    id("com.gradleup.shadow") version "8.3.5" //Shadow Plugin
+    id("com.gradleup.shadow") version "8.3.6" //Shadow Plugin
     application
 }
 
@@ -19,13 +19,13 @@ repositories {
 dependencies {
     implementation("org.openjfx:javafx-controls:24-ea+19")
     implementation("org.openjfx:javafx-fxml:24-ea+19")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20")
     implementation("no.tornado:tornadofx:1.7.20")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
-    implementation("org.slf4j:slf4j-api:2.0.16")
-    implementation("ch.qos.logback:logback-classic:1.5.16")
+    implementation("org.slf4j:slf4j-api:2.0.17")
+    implementation("ch.qos.logback:logback-classic:1.5.17")
 }
 
 java {

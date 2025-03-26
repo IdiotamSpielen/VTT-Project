@@ -18,7 +18,8 @@ Create, edit, and update character sheets for players and NPCs.
 **3. Maps and Tokens**  
 Import and use your own images as maps, tokens, or other assets.
 
-### notes:
+### notes
+
 - No preloaded content included
 - No Characters provided
 
@@ -43,7 +44,7 @@ Import and use your own images as maps, tokens, or other assets.
 
 1. Download the application from [insert link].
 2. Ensure Java is installed: The software requires Java (version 11 or higher).
-    - Download Java [here](https://www.oracle.com/java/technologies/downloads/?er=221886).
+    - Download [Java](https://www.oracle.com/java/technologies/downloads/?er=221886).
 3. Run the .jar file to start the application.
 
 ### Database Setup
