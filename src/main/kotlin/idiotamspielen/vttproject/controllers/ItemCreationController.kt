@@ -1,12 +1,10 @@
 package idiotamspielen.vttproject.controllers
 
-import idiotamspielen.vttproject.classifications.Item
-import idiotamspielen.vttproject.handlers.FileHandler
+import idiotamspielen.vttproject.models.Item
+import idiotamspielen.vttproject.services.FileHandler
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.Controller
-import tornadofx.information
-import tornadofx.value
 
 class ItemCreationController : Controller(){
     internal val itemName = SimpleStringProperty()

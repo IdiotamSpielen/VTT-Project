@@ -1,6 +1,6 @@
 package idiotamspielen.vttproject.controllers
 
-import idiotamspielen.vttproject.userInterface.TableTop
+import idiotamspielen.vttproject.views.TableTop
 import idiotamspielen.vttproject.views.SpellCreatorView
 import idiotamspielen.vttproject.views.SpellSearchView
 import javafx.beans.value.ChangeListener
