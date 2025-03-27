@@ -1,8 +1,8 @@
 package idiotamspielen.vttproject.views
 
 import idiotamspielen.vttproject.controllers.SpellCreationController
-import idiotamspielen.vttproject.controllers.SpellNotSavedException
-import idiotamspielen.vttproject.controllers.InvalidSpellException
+import idiotamspielen.vttproject.exceptions.InvalidSpellException
+import idiotamspielen.vttproject.exceptions.SpellNotSavedException
 import idiotamspielen.vttproject.views.FeedbackHandler
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.StringProperty
