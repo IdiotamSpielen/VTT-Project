@@ -1,12 +1,6 @@
 package idiotamspielen.vttproject.views
 
-import idiotamspielen.vttproject.classifications.Item
-import idiotamspielen.vttproject.classifications.ItemType
 import idiotamspielen.vttproject.controllers.ItemCreationController
-import idiotamspielen.vttproject.handlers.FileHandler
-import javafx.beans.property.SimpleDoubleProperty
-import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
 class ItemCreatorView : View("Create New Item") {

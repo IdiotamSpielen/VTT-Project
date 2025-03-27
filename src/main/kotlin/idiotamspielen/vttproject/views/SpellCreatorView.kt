@@ -3,7 +3,7 @@ package idiotamspielen.vttproject.views
 import idiotamspielen.vttproject.controllers.SpellCreationController
 import idiotamspielen.vttproject.controllers.SpellNotSavedException
 import idiotamspielen.vttproject.controllers.InvalidSpellException
-import idiotamspielen.vttproject.handlers.FeedbackHandler
+import idiotamspielen.vttproject.views.FeedbackHandler
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.StringProperty
 import javafx.geometry.Pos

@@ -1,7 +1,7 @@
 package idiotamspielen.vttproject.views
 
 import idiotamspielen.vttproject.controllers.MainController
-import idiotamspielen.vttproject.userInterface.TableTop
+import idiotamspielen.vttproject.views.TableTop
 import tornadofx.View
 import tornadofx.action
 import tornadofx.borderpane
