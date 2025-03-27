@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Locale
+import java.util.*
 
 plugins {
     kotlin("jvm") version "2.1.10" // Kotlin Plugin
@@ -28,9 +28,21 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.17")
 }
 
+sourceSets {
+    main {
+        java.srcDirs("src/main/java") // Setzt Java-Quellenverzeichnis
+        kotlin.srcDirs("src/main/kotlin") // Setzt Kotlin-Quellenverzeichnis
+    }
+    test {
+        java.srcDirs("src/test/java") // Testquellen für Java
+        kotlin.srcDirs("src/test/kotlin") // Testquellen für Kotlin
+    }
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+    modularity.inferModulePath.set(true)
 }
 
 javafx {
@@ -81,6 +93,6 @@ tasks.withType<Test> {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11) // Stelle sicher, dass Kotlin auf Java 11 abzielt
+        jvmTarget.set(JvmTarget.JVM_11)
     }
 }
