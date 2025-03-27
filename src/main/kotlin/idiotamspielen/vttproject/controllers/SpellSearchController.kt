@@ -1,7 +1,7 @@
 package idiotamspielen.vttproject.controllers
 
-import idiotamspielen.vttproject.classifications.Spell
-import idiotamspielen.vttproject.handlers.FileHandler
+import idiotamspielen.vttproject.models.Spell
+import idiotamspielen.vttproject.services.FileHandler
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -42,15 +42,15 @@ class SpellSearchController : Controller() {
         spellList.clear()
         spellMap.clear()
         for (spell in spells) {
-            spellList.add(spell.spellName)
-            spellMap[spell.spellName] = spell
+            spellList.add(spell.name)
+            spellMap[spell.name] = spell
         }
     }
 
     fun handleSpellSelection(selectedSpellName: String?) {
         val selectedSpell = spellMap[selectedSpellName]
         if (selectedSpell != null) {
-            spellName.set(selectedSpell.spellName)
+            spellName.set(selectedSpell.name)
             range.set(selectedSpell.range)
             castingTime.set(selectedSpell.castingTime)
             components.set(selectedSpell.components)
