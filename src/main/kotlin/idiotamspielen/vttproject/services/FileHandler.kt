@@ -1,10 +1,14 @@
-package idiotamspielen.vttproject.handlers
+package idiotamspielen.vttproject.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import idiotamspielen.vttproject.classifications.Nameable
+import idiotamspielen.vttproject.models.Nameable
 import org.slf4j.LoggerFactory
-import java.io.*
-import java.nio.file.*
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 /**
  * A generic file handler for managing objects of type [T] which implements the [Nameable] interface.
@@ -44,7 +48,7 @@ class FileHandler<T : Nameable>(private val clazz: Class<T>, category: String) {
                 logger.info("Created directory at {}", categoryPath)
             }
 
-            val filePath = categoryPath.resolve("${obj.getName()}.json")
+            val filePath = categoryPath.resolve("${obj.name}.json")
             FileWriter(filePath.toFile()).use { writer ->
                 val json = mapper.writeValueAsString(obj)
                 writer.write(json)
@@ -53,7 +57,7 @@ class FileHandler<T : Nameable>(private val clazz: Class<T>, category: String) {
                 isSaved = true
             }
         } catch (e: IOException) {
-            logger.error("Failed to save object '{}': {}", obj.getName(), e.message, e)
+            logger.error("Failed to save object '{}': {}", obj.name, e.message, e)
         }
     }
 
@@ -102,6 +106,6 @@ class FileHandler<T : Nameable>(private val clazz: Class<T>, category: String) {
      */
     fun search(query: String): List<T> {
         val allObjects = getSavedObjectInformation()
-        return allObjects.filter { it.getName().contains(query, ignoreCase = true) }
+        return allObjects.filter { it.name.contains(query, ignoreCase = true) }
     }
 }

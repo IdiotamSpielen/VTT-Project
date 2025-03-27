@@ -1,4 +1,4 @@
-package idiotamspielen.vttproject.classifications
+package idiotamspielen.vttproject.models
 
 enum class ItemType {
     WEAPON,

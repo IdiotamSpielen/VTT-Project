@@ -1,4 +1,4 @@
-package idiotamspielen.vttproject.handlers
+package idiotamspielen.vttproject.services
 
 import javafx.event.EventHandler
 import javafx.scene.Node
