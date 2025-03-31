@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.*
 
 plugins {
-    kotlin("jvm") version "2.1.10" // Kotlin Plugin
+    kotlin("jvm") version "2.1.20" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
     id("com.gradleup.shadow") version "8.3.6" //Shadow Plugin
     application
