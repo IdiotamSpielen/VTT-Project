@@ -21,5 +21,6 @@ open class CharacterRace(
     val description: String,
     val racialTraits: List<String>,
 ) : Nameable{
-    override val name: String get() = subRace?.let { "it$name" } ?: baseName
+    override val name: String
+        get() = subRace?.let { "$it $baseName" } ?: baseName
 }
