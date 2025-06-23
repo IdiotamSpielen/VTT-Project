@@ -78,7 +78,6 @@ class SpellCreatorView : View("Spell Creator") {
         button("Create") {
             minWidth = 150.0
             minHeight = 30.0
-            action { controller.createSpell() }
             action {
                 feedbackText.opacity = 1.0
                 try {
