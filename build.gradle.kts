@@ -21,7 +21,7 @@ dependencies {
     implementation("org.openjfx:javafx-fxml:24-ea+19")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21")
     implementation("no.tornado:tornadofx:1.7.20")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.1")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
     implementation("org.slf4j:slf4j-api:2.0.17")
