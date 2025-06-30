@@ -4,7 +4,7 @@ import java.util.*
 plugins {
     kotlin("jvm") version "2.1.21" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
-    id("com.gradleup.shadow") version "8.3.6" //Shadow Plugin
+    id("com.gradleup.shadow") version "8.3.7" //Shadow Plugin
     application
 }
 
