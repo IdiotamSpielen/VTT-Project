@@ -11,7 +11,7 @@ import tornadofx.Controller
  * Controller class responsible for creating spells.
  *
  * This class provides functionality for setting spell properties and
- * creating a spell using the `SpellCreator` class. It also ensures
+ * creating a spell using the `SpellHandler` class. It also ensures
  * that the created spell is valid and saved properly.
  */
 class SpellCreationController : Controller() {
