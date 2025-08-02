@@ -62,10 +62,6 @@ tasks {
         archiveClassifier.set("")          // Entfernt das "-all"
         archiveVersion.set(project.version.toString())        // Nutzt die in der Version definierte Nummer
         mergeServiceFiles()                // Wichtig für das Zusammenführen
-        dependencies {
-            include(dependency("org.openjfx:javafx-controls"))
-            include(dependency("org.openjfx:javafx-fxml"))
-        }
     }
 }
 
@@ -76,14 +72,14 @@ tasks.register<Exec>("jpackage") {
     dependsOn("shadowJar") // Stelle sicher, dass die JAR-Datei erstellt wird
 
     commandLine = listOf(
-        "jpackage", // Stelle sicher, dass `jpackage` zur Verfügung steht
-        "--input", "build/libs", // Ort, der die generierte JAR enthält
-        "--dest", "build/jpackage", // Ort, wo das distributable Paket landen soll
-        "--name", "VTT", // Der Name der Anwendung
-        "--main-jar", "VTT-0.2.3-SNAPSHOT.jar", // Deine Fat-JAR-Datei
-        "--main-class", "idiotamspielen.vttproject.MainKt", // Deine Main-Klasse
+        "jpackage",
+        "--input", "build/libs",
+        "--dest", "build/jpackage",
+        "--name", "VTT",
+        "--main-jar", "VTT-0.2.3-SNAPSHOT.jar",
+        "--main-class", "idiotamspielen.vttproject.MainKt",
         "--type", if (System.getProperty("os.name").lowercase(Locale.getDefault()).contains("windows")) "exe" else "app-image",
-        "--add-modules", "javafx.controls,javafx.fxml",
+        "--add-modules", "javafx-controls,javafx.fxml",
         "--java-options",
             "--enable-preview"
     )

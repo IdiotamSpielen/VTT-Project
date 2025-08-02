@@ -4,8 +4,7 @@ import idiotamspielen.vttproject.views.MainView
 import javafx.application.Application
 import javafx.stage.Screen
 import javafx.stage.Stage
-import org.slf4j.ILoggerFactory
-import tornadofx.*
+import tornadofx.App
 import kotlin.math.max
 
 class Main : App(MainView::class) {
@@ -33,6 +32,7 @@ class Main : App(MainView::class) {
             }
         }
         super.start(stage)
+        print("test")
     }
 }
 
