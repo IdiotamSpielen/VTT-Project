@@ -34,8 +34,8 @@ dependencies {
 
 sourceSets {
     main {
-        java.srcDirs("src/main/java") // Setzt Java-Quellenverzeichnis
-        kotlin.srcDirs("src/main/kotlin") // Setzt Kotlin-Quellenverzeichnis
+        java.srcDirs("src/main/java")
+        kotlin.srcDirs("src/main/kotlin")
     }
     test {
         java.srcDirs("src/test/java") // Testquellen für Java
@@ -56,8 +56,8 @@ javafx {
 
 launch4j {
     mainClassName = "idiotamspielen.vttproject.MainKt"
-    jarTask = tasks.shadowJar
-    outfile = "build/launch4j/VTT.exe"
+    jarTask = tasks.shadowJar.get()
+    outfile = "build/VTT.exe"
 }
 
 application {
@@ -66,10 +66,10 @@ application {
 
 tasks {
     shadowJar {
-        archiveBaseName.set("VTT") // Name der JAR-Datei
-        archiveClassifier.set("")          // Entfernt das "-all"
-        archiveVersion.set(project.version.toString())        // Nutzt die in der Version definierte Nummer
-        mergeServiceFiles()                // Wichtig für das Zusammenführen
+        archiveBaseName.set("VTT")
+        archiveClassifier.set("")
+        archiveVersion.set(project.version.toString())
+        mergeServiceFiles()
     }
 }
 
