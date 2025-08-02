@@ -14,7 +14,5 @@ module idiotamspielen.vttproject{
     opens idiotamspielen.vttproject to javafx.fxml, tornadofx, org.slf4j;
     opens idiotamspielen.vttproject.controllers to javafx.fxml, tornadofx, org.slf4j;
     opens idiotamspielen.vttproject.services to javafx.fxml, tornadofx, org.slf4j;
-    opens idiotamspielen.vttproject.classifications to javafx.fxml, com.fasterxml.jackson.databind, tornadofx, org.slf4j;
-    opens idiotamspielen.vttproject.userInterface to javafx.fxml, tornadofx, org.slf4j;
     opens idiotamspielen.vttproject.views to javafx.fxml, tornadofx, org.slf4j;
 }
