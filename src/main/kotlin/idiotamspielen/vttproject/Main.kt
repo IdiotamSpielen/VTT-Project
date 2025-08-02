@@ -32,7 +32,6 @@ class Main : App(MainView::class) {
             }
         }
         super.start(stage)
-        print("test")
     }
 }
 
