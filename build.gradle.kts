@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "2.2.0" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
     id("com.gradleup.shadow") version "8.3.8" //Shadow Plugin
-    id("edu.sc.seis.launch4j") version "3.0.0"
+    id("edu.sc.seis.launch4j") version "4.0.0"
     application
 }
 
@@ -26,7 +26,7 @@ dependencies {
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
     implementation("org.slf4j:slf4j-api:2.0.17")
-    implementation("edu.sc.seis.launch4j:launch4j:3.0.0")
+    implementation("edu.sc.seis.launch4j:launch4j:4.0.0")
     implementation("ch.qos.logback:logback-classic:1.5.18")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.4")
