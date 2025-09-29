@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     kotlin("jvm") version "2.2.0" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
-    id("com.gradleup.shadow") version "8.3.8" //Shadow Plugin
+    id("com.gradleup.shadow") version "9.2.2" //Shadow Plugin
     id("edu.sc.seis.launch4j") version "3.0.0"
     application
 }
