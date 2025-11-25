@@ -91,6 +91,8 @@ tasks.register<Exec>("jpackage") {
     group = "distribution"
     description = "Create a Windows installer"
 
+    val normalizedVersion = version.toString().replace("-SNAPSHOT", "")
+
     commandLine = listOf(
         "jpackage",
         "--type", "exe",
@@ -103,6 +105,7 @@ tasks.register<Exec>("jpackage") {
         "--win-shortcut",
         "--win-per-user-install",
         "--win-dir-chooser",
+        "--app-version", normalizedVersion,
         "--runtime-image", "${System.getProperty("java.home")}",
         "--dest", "build/jpackage")
 }
