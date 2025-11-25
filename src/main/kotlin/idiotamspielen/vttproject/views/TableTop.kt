@@ -52,7 +52,7 @@ class TableTop : StackPane() {
                     it.boundsInParent.contains(pointInBackgroundLayer)
                 }
 
-                // Wenn ein Kind gefunden wurde, setze es als 'grabbedNode' und löse ein Ereignis aus
+                // If a child is found, declare it "grabbedNode" to fire events for it.
                 child?.let {
                     grabbedNode = it
                     it.fireEvent(event.copyFor(it, it))
