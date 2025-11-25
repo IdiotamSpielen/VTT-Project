@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.2.0" // Kotlin Plugin
+    kotlin("jvm") version "2.2.21" // Kotlin Plugin
     id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
     id("com.gradleup.shadow") version "8.3.8" //Shadow Plugin
     id("edu.sc.seis.launch4j") version "3.0.0"
@@ -20,7 +20,7 @@ repositories {
 dependencies {
     implementation("org.openjfx:javafx-controls:24-ea+19")
     implementation("org.openjfx:javafx-fxml:24-ea+19")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.21")
     implementation("no.tornado:tornadofx:1.7.20")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
