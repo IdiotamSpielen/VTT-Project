@@ -24,6 +24,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
+    implementation("org.slf4j:slf4j-api:2.0.17\"")
     implementation("ch.qos.logback:logback-classic:1.5.21")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
@@ -77,4 +78,31 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
     }
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "idiotamspielen.vttproject.MainKt"
+    }
+}
+
+tasks.register<Exec>("jpackage") {
+    dependsOn("shadowJar")
+    group = "distribution"
+    description = "Create a Windows installer"
+
+    commandLine = listOf(
+        "jpackage",
+        "--type", "exe",
+        "--input", "build/libs",
+        "--main-jar", "VTT-Project-0.2.3-SNAPSHOT.jar",
+        "--main-class", application.mainClass.get(),
+        "--name", "Personal VTT",
+        "--vendor", "idiotamspielen",
+        "--win-menu",
+        "--win-shortcut",
+        "--win-per-user-install",
+        "--win-dir-chooser",
+        "--runtime-image", "${System.getProperty("java.home")}",
+        "--dest", "build/jpackage")
 }
