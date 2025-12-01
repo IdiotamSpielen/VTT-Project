@@ -23,7 +23,7 @@ dependencies {
     implementation("no.tornado:tornadofx:1.7.20")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
-    implementation("org.jetbrains:annotations:26.0.2")
+    implementation("org.jetbrains:annotations:26.0.2-1")
     implementation("org.slf4j:slf4j-api:2.0.17\"")
     implementation("ch.qos.logback:logback-classic:1.5.21")
 
