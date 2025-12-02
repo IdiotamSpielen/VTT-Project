@@ -19,8 +19,8 @@ class MouseEventHandler : EventHandler<MouseEvent?> {
                 val deltaX = p0.sceneX - initialPosition[0]
                 val deltaY = p0.sceneY - initialPosition[1]
 
-                grabbedNode!!.translateX = grabbedNode!!.translateX + deltaX
-                grabbedNode!!.translateY = grabbedNode!!.translateY + deltaY
+                grabbedNode!!.translateX += deltaX
+                grabbedNode!!.translateY += deltaY
 
                 // update saved position for next drag-event
                 initialPosition = doubleArrayOf(p0.sceneX, p0.sceneY)
