@@ -70,7 +70,7 @@ javafx {
 }
 
 application {
-    mainClass.set("idiotamspielen.vttproject.MainKt") // Hauptklasse
+    mainClass.set("MainKt") // Hauptklasse
 }
 
 tasks.withType<Test> {
@@ -82,7 +82,7 @@ tasks.withType<Test> {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
     }
