@@ -90,7 +90,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "idiotamspielen.vttproject.MainKt"
+        attributes["Main-Class"] = "MainKt"
     }
 }
 
