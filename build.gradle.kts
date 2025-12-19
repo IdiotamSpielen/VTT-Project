@@ -35,11 +35,11 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.21")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
-    testImplementation("org.junit.platform:junit-platform-commons:1.13.4")
+    testImplementation("org.junit.platform:junit-platform-commons:6.0.1")
     testImplementation("org.mockito:mockito-core:5.+")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.4")
-    testRuntimeOnly("org.junit.platform:junit-platform-engine:1.13.4")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.13.4")
+    testRuntimeOnly("org.junit.platform:junit-platform-engine:6.0.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.1")
 
     runtimeOnly("org.openjfx:javafx-controls:24-ea+19:win")
     runtimeOnly("org.openjfx:javafx-fxml:24-ea+19:win")
