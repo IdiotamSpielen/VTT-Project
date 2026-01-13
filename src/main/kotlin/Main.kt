@@ -1,42 +1,41 @@
 
-import javafx.application.Application
-import javafx.stage.Screen
-import javafx.stage.Stage
-import tornadofx.App
-import views.MainView
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
+import java.awt.Toolkit
 import kotlin.math.max
 
-class Main : App(MainView::class) {
+fun main() = application { {
     private val defaultMinWidth = 800.0
     private val defaultMinHeight = 600.0
 
-    override fun start(stage: Stage) {
-        with(stage) {
+    val state = rememberWindowState().apply {
+        try {
+            val screenSize = Toolkit.getDefaultToolkit().screenSize
+            val screenWidth = screenSize.width.toDouble()
+            val screenHeight = screenSize.height.toDouble()
 
-            try {
-                //A lot of logic for just... making the window a nice size
-                val visualBounds = Screen.getPrimary().visualBounds
+            val minW = screenWidth * 0.3
+            val minH = screenHeight * 0.3
 
-                minWidth = visualBounds.width * 0.3 // 30% of screen width
-                minHeight = visualBounds.height * 0.3 // 30% of screen height
+            val targetW = max(screenWidth / 1.5, minW)
+            val targetH = max(screenHeight / 1.2, minH)
 
-                width = max(visualBounds.width / 1.5, minWidth)
-                height = max(visualBounds.height / 1.2, minHeight)
-            } catch (e: Exception) {
-                //magic numbers go BRR
-                minWidth = defaultMinWidth
-                minHeight = defaultMinHeight
+            size = DpSize(targetW.dp, targetH.dp)
 
-                width = minWidth
-                height = minHeight
-
-                println("Error getting screen resolution: ${e.message}")
-            }
+        } catch (e: Exception) {
+            size = DpSize(800.dp, 600.dp)
+            println("Error getting screen resolution: ${e.message}")
         }
-        super.start(stage)
     }
-}
 
-fun main(args: Array<String>) {
-    Application.launch(Main::class.java, *args)
-}
+    Window(
+        onCloseRequest = ::exitApplication,
+        state = state,
+        title = "VTT 0.3.0 - Compose Edition",
+    ) {
+        MainView()
+    }

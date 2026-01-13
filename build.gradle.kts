@@ -1,16 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.compilerOptions {
-    freeCompilerArgs.set(listOf("-Xannotation-default-target=param-property"))
-}
-
 plugins {
-    kotlin("jvm") version "2.2.21" // Kotlin Plugin
-    id("org.openjfx.javafxplugin") version "0.1.0" // JavaFX Plugin
-    id("com.gradleup.shadow") version "8.3.9"
-    id("com.bakdata.mockito") version "1.11.1"
+    kotlin("jvm") version "2.2.21"
+    id("org.jetbrains.compose") version "1.10.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.3.0"
     application
 }
 
@@ -19,101 +13,71 @@ version = "0.2.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://jitpack.io") }
     gradlePluginPortal()
+    maven { url = uri("https://jitpack.io") }
 }
 
+// Konfiguration für den Mockito-Agent (Tests von final classes)
+val mockitoAgent: Configuration by configurations.creating
+
 dependencies {
-    implementation("org.openjfx:javafx-controls:24-ea+19")
-    implementation("org.openjfx:javafx-fxml:24-ea+19")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.21")
-    implementation("no.tornado:tornadofx:1.7.20")
+    // 1. Compose Desktop Dependencies
+    implementation(compose.desktop.currentOs)
+    implementation(compose.material) // Für Button, TextField, Scaffold etc.
+    implementation(compose.ui)
+    implementation(compose.foundation)
+
+    // 2. Deine Logik-Bibliotheken (bleiben erhalten)
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
-    implementation("org.slf4j:slf4j-api:2.0.17\"")
+    implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("ch.qos.logback:logback-classic:1.5.21")
 
+    // 3. Testing (identisch zu vorher)
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
-    testImplementation("org.junit.platform:junit-platform-commons:1.13.4")
     testImplementation("org.mockito:mockito-core:5.+")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.4")
-    testRuntimeOnly("org.junit.platform:junit-platform-engine:1.13.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.13.4")
 
-    runtimeOnly("org.openjfx:javafx-controls:24-ea+19:win")
-    runtimeOnly("org.openjfx:javafx-fxml:24-ea+19:win")
-    runtimeOnly("org.openjfx:javafx-graphics:24-ea+19:win")
-    runtimeOnly("org.openjfx:javafx-base:24-ea+19:win")
-    runtimeOnly("org.slf4j:slf4j-api:2.0.17")
-    runtimeOnly("ch.qos.logback:logback-classic:1.5.21")
-}
-
-sourceSets {
-    main {
-        kotlin.srcDirs("src/main/kotlin")
-    }
-    test {
-        kotlin.srcDirs("src/test/kotlin")
-    }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-    modularity.inferModulePath.set(false)
-}
-
-javafx {
-    version = "24-ea+19"
-    modules("javafx.controls", "javafx.fxml")
+    mockitoAgent("org.mockito:mockito-core:5.21.0") { isTransitive = false }
 }
 
 application {
-    mainClass.set("MainKt") // Hauptklasse
+    // Hinweis: Die Main-Klasse ist jetzt die Datei, in der deine fun main() steht.
+    mainClass.set("MainKt")
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+        // Wichtig für Compose:
+        freeCompilerArgs.add("-Xannotation-default-target=param-property")
+    }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    // Mockito Agent einbinden
+    val agentFile = mockitoAgent.find { it.name.startsWith("mockito-core") }
+    if (agentFile != null) {
+        jvmArgs("-javaagent:${agentFile.absolutePath}")
+    }
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+
     testLogging {
-        events("passed", "skipped", "failed") // Zeigt Details zu den Tests
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL // Stacktraces anzeigen
-        showStandardStreams = true // Standard-Ausgaben anzeigen
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
     }
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+        nativeDistributions {
+            targetFormats(org.jetbrains.compose.desktop.application.dsl.TargetFormat.Exe)
+            packageName = "PersonalVTT"
+            packageVersion = "0.2.3"
+        }
     }
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "MainKt"
-    }
-}
-
-tasks.register<Exec>("jpackage") {
-    dependsOn("shadowJar")
-    group = "distribution"
-    description = "Create a Windows installer"
-
-    val normalizedVersion = version.toString().replace("-SNAPSHOT", "")
-
-    commandLine = listOf(
-        "jpackage",
-        "--type", "exe",
-        "--input", "build/libs",
-        "--main-jar", "VTT-Project-0.2.3-SNAPSHOT.jar",
-        "--main-class", application.mainClass.get(),
-        "--name", "Personal VTT",
-        "--vendor", "idiotamspielen",
-        "--win-menu",
-        "--win-shortcut",
-        "--win-per-user-install",
-        "--win-dir-chooser",
-        "--app-version", normalizedVersion,
-        "--runtime-image", "${System.getProperty("java.home")}",
-        "--dest", "build/jpackage")
 }
