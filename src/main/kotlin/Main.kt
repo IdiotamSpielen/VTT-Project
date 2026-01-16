@@ -2,27 +2,31 @@
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
+import views.TableTopState
 import java.awt.Toolkit
 import kotlin.math.max
 import views.MainView
+import java.awt.datatransfer.DataFlavor
+import java.awt.dnd.DnDConstants
+import java.awt.dnd.DropTarget
+import java.awt.dnd.DropTargetDropEvent
+import java.io.File
 
 fun main() = application {
     val defaultMinWidth = 800.0
     val defaultMinHeight = 600.0
 
+    val mainController = remember { MainController() }
+    val tableTopState = remember { TableTopState() }
     val state = rememberWindowState().apply {
         try {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
@@ -42,13 +46,29 @@ fun main() = application {
         }
     }
 
-    val mainController = remember { MainController() }
-
     Window(
         onCloseRequest = ::exitApplication,
         state = state,
         title = "VTT 0.3.0",
     ) {
+        window.dropTarget = object : DropTarget() {
+            override fun drop(dtde: DropTargetDropEvent) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY)
+                try {
+                    // Das ist pures Java - keine Compose Magie, keine Import-Fehler
+                    val transferable = dtde.transferable
+                    if (transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                        @Suppress("UNCHECKED_CAST")
+                        val files = transferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>
+
+                        // Wir reichen die Dateien an unseren State weiter
+                        tableTopState.onFilesDropped(files)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
         MenuBar {
             Menu("Create") {
                 Item("Spell", icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
@@ -61,6 +81,6 @@ fun main() = application {
                 Item("Spell", icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
             }
         }
-        MainView(mainController)
+        MainView(mainController, tableTopState)
     }
 }

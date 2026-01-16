@@ -11,7 +11,7 @@ import controllers.MainController
  * The MainView
  */
 @Composable
-fun MainView(controller: MainController) {
+fun MainView(controller: MainController, tableTopState: TableTopState) {
     val spellController = remember { SpellCreationController() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)

@@ -1,151 +1,170 @@
 package views
-//class TableTop : StackPane() {
-//    private val backgroundLayer = StackPane()
-//    private val tokenLayer = StackPane()
-//    private var grabbedNode: Node? = null
-//
-//
-//    init {
-//        tokenLayer.addEventFilter(
-//            MouseEvent.MOUSE_PRESSED
-//        ) { event: MouseEvent ->
-//            val node = event.pickResult.intersectedNode
-//            if (node === tokenLayer) {
-//                // Get the point where the mouse event occurred in the coordinate system of the backgroundLayer
-//                val pointInBackgroundLayer =
-//                    backgroundLayer.screenToLocal(event.screenX, event.screenY)
-//
-//                // Check if the point is within the bounds of any child of the backgroundLayer
-//                val child = backgroundLayer.children.reversed().find {
-//                    it.boundsInParent.contains(pointInBackgroundLayer)
-//                }
-//
-//                // If a child is found, declare it "grabbedNode" to fire events for it.
-//                child?.let {
-//                    grabbedNode = it
-//                    it.fireEvent(event.copyFor(it, it))
-//                }
-//            }
-//        }
-//
-//        tokenLayer.addEventFilter(
-//            MouseEvent.MOUSE_DRAGGED
-//        ) { event: MouseEvent ->
-//            grabbedNode?.fireEvent(event.copyFor(grabbedNode, grabbedNode))
-//        }
-//
-//        tokenLayer.addEventFilter(
-//            MouseEvent.MOUSE_RELEASED
-//        ) { event: MouseEvent? ->
-//            grabbedNode = null
-//        }
-//
-//        val tokenHandler = MouseEventHandler()
-//        val backgroundHandler = MouseEventHandler()
-//
-//        val clip = Rectangle()
-//        clip.widthProperty().bind(widthProperty())
-//        clip.heightProperty().bind(heightProperty())
-//        setClip(clip)
-//
-//        val scrollPane = ScrollPane()
-//        scrollPane.hbarPolicy = ScrollPane.ScrollBarPolicy.NEVER
-//        scrollPane.vbarPolicy = ScrollPane.ScrollBarPolicy.NEVER
-//        scrollPane.prefWidthProperty().bind(widthProperty())
-//        scrollPane.prefHeightProperty().bind(heightProperty())
-//
-//        val layers = StackPane()
-//        layers.children.addAll(backgroundLayer, tokenLayer)
-//        scrollPane.content = layers
-//
-//        children.add(scrollPane)
-//
-//        onDragOver = EventHandler { event: DragEvent ->
-//            if (event.dragboard.hasFiles()) {
-//                event.acceptTransferModes(TransferMode.COPY)
-//            }
-//            event.consume()
-//        }
-//
-//        onDragDropped = EventHandler<DragEvent> { event: DragEvent ->
-//            for (file in event.dragboard.files) {
-//                try {
-//                    //Determine original filepath and search for intended filepath
-//                    val sourcePath = file.toPath()
-//                    var targetDirectory: Path? = null
-//
-//                    val alert =
-//                        Alert(Alert.AlertType.CONFIRMATION)
-//                    alert.title = "Import"
-//                    alert.headerText = "Import as map or token?"
-//
-//                    val buttonTypeMap = ButtonType("Map")
-//                    val buttonTypeToken = ButtonType("Token")
-//                    val buttonTypeCancel = ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
-//
-//                    alert.buttonTypes.setAll(buttonTypeMap, buttonTypeToken, buttonTypeCancel)
-//
-//                    val result = alert.showAndWait()
-//                    if (result.isPresent) {
-//                        if (result.get() == buttonTypeMap) {
-//                            targetDirectory =
-//                                Paths.get(System.getProperty("user.home"), "Documents/VTT/library/maps")
-//
-//                            try {
-//                                val imageView = createImageView(file)
-//                                backgroundLayer.children.add(imageView)
-//                                imageView.onMousePressed = backgroundHandler
-//                                imageView.onMouseDragged = backgroundHandler
-//                            } catch (e: FileNotFoundException) {
-//                                System.err.println("File " + file.name + "could not be found: " + e.message)
-//                            }
-//                        } else if (result.get() == buttonTypeToken) {
-//                            targetDirectory =
-//                                Paths.get(System.getProperty("user.home"), "Documents/VTT/library/tokens")
-//
-//                            try {
-//                                val imageView = createImageView(file)
-//                                tokenLayer.children.add(imageView)
-//                                imageView.onMousePressed = tokenHandler
-//                                imageView.onMouseDragged = tokenHandler
-//                            } catch (e: FileNotFoundException) {
-//                                System.err.println("File " + file.name + "could not be found: " + e.message)
-//                            }
-//                        } else {
-//                            // If the user cancels the dialog, skip this file
-//                            continue
-//                        }
-//                    } else {
-//                        continue  // Dialog was closed without making a choice
-//                    }
-//
-//                    val targetPath = targetDirectory.resolve(file.name)
-//
-//                    //check if target directory exists. if not, create it.
-//                    if (!targetDirectory?.let { Files.exists(it) }!!) {
-//                        Files.createDirectories(targetDirectory)
-//                    }
-//
-//                    //Copy file into directory
-//                    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING)
-//                } catch (e: IOException) {
-//                    System.err.println("Error copying file " + file.name + " to library: " + e.message)
-//                }
-//            }
-//            event.isDropCompleted = true
-//            event.consume()
-//        }
-//    }
-//
-//    @Throws(FileNotFoundException::class)
-//    private fun createImageView(file: File): ImageView {
-//        val image = Image(FileInputStream(file))
-//        val imageView = ImageView(image)
-//        imageView.isFocusTraversable = true
-//        return imageView
-//    }
-//
-//    fun setDimensions(tableTopWidth: Double, tableTopHeight: Double) {
-//        setPrefSize(tableTopWidth, tableTopHeight)
-//    }
-//}
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.*
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asComposeImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import java.io.File
+import java.net.URI
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.nio.file.Paths
+import kotlin.math.roundToInt
+import org.jetbrains.skia.Image as SkiaImage
+import org.jetbrains.skia.Bitmap as SkiaBitmap
+
+data class VisualElement(val file: File, var offset: Offset = Offset.Zero)
+
+// Wir erstellen ein "State Object", das wir von außen steuern können
+class TableTopState {
+    val maps = mutableStateListOf<VisualElement>()
+    val tokens = mutableStateListOf<VisualElement>()
+    var pendingImportFile by mutableStateOf<File?>(null)
+
+    fun onFilesDropped(files: List<File>) {
+        // Wir nehmen einfach die erste Datei für den Dialog
+        if (files.isNotEmpty()) {
+            pendingImportFile = files.first()
+        }
+    }
+}
+
+
+@Composable
+fun TableTop(state: TableTopState) { // Wir bekommen den State von außen!
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF222222))
+    ) {
+        state.maps.forEach { DraggableImage(it) }
+        state.tokens.forEach { DraggableImage(it) }
+
+        state.pendingImportFile?.let { file ->
+            ImportDialog(
+                file = file,
+                onCancel = { state.pendingImportFile = null },
+                onImport = { type ->
+                    val newFile = copyFileToLibrary(file, type)
+                    if (type == "Map") {
+                        state.maps.add(VisualElement(newFile))
+                    } else {
+                        state.tokens.add(VisualElement(newFile))
+                    }
+                    state.pendingImportFile = null
+                }
+            )
+        }
+    }
+}
+
+// --- Hilfskomponente: Bewegliches Bild ---
+@Composable
+fun DraggableImage(element: VisualElement) {
+    var offset by remember { mutableStateOf(element.offset) }
+
+    // Bild laden (mit Caching via remember)
+    val imageBitmap = remember(element.file) {
+        loadImageFromFile(element.file)
+    }
+
+    if (imageBitmap != null) {
+        Image(
+            bitmap = imageBitmap,
+            contentDescription = null,
+            modifier = Modifier
+                .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
+                .pointerInput(Unit) {
+                    detectDragGestures { change, dragAmount ->
+                        change.consume()
+                        offset += dragAmount
+                        element.offset = offset
+                    }
+                }
+        )
+    }
+}
+
+// --- Hilfskomponente: Der Dialog ---
+@Composable
+fun ImportDialog(
+    file: File,
+    onCancel: () -> Unit,
+    onImport: (String) -> Unit
+) {
+    // Abdunklung des Hintergrunds
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.6f))
+            .clickable(enabled = false) {}, // Klicks abfangen
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            elevation = 8.dp,
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Import File", style = MaterialTheme.typography.h6)
+                Text("File: ${file.name}", style = MaterialTheme.typography.body2, modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { onImport("Map") }) { Text("Map") }
+                    Button(onClick = { onImport("Token") }) { Text("Token") }
+                    OutlinedButton(onClick = onCancel) { Text("Cancel") }
+                }
+            }
+        }
+    }
+}
+
+// --- Hilfsfunktion: Bild laden (Skia Fix) ---
+fun loadImageFromFile(file: File): ImageBitmap? {
+    return try {
+        val bytes = file.readBytes()
+        val skiaImage = SkiaImage.makeFromEncoded(bytes)
+        val skiaBitmap = SkiaBitmap()
+        skiaBitmap.allocPixels(skiaImage.imageInfo)
+        skiaImage.readPixels(skiaBitmap, 0, 0)
+        skiaBitmap.asComposeImageBitmap()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+// --- Hilfsfunktion: Datei kopieren (JavaIO Logik) ---
+fun copyFileToLibrary(sourceFile: File, type: String): File {
+    val userHome = System.getProperty("user.home")
+    val subFolder = if (type == "Map") "maps" else "tokens"
+    val targetDir = Paths.get(userHome, "Documents", "VTT", "library", subFolder)
+
+    if (!Files.exists(targetDir)) {
+        Files.createDirectories(targetDir)
+    }
+
+    val targetPath = targetDir.resolve(sourceFile.name)
+    Files.copy(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
+
+    return targetPath.toFile()
+}
