@@ -1,15 +1,17 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.2.21"
     id("org.jetbrains.compose") version "1.10.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.3.0"
-    application
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
 }
 
 group = "idiotamspielen"
 version = "0.2.3-SNAPSHOT"
+
+kotlin {
+    jvmToolchain(21)
+}
 
 repositories {
     mavenCentral()
@@ -17,15 +19,17 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 
-// Konfiguration für den Mockito-Agent (Tests von final classes)
+// setting up a mockito agent for testing
 val mockitoAgent: Configuration by configurations.creating
 
 dependencies {
     // 1. Compose Desktop Dependencies
     implementation(compose.desktop.currentOs)
-    implementation(compose.material) // Für Button, TextField, Scaffold etc.
-    implementation(compose.ui)
-    implementation(compose.foundation)
+    implementation("org.jetbrains.compose.material:material:1.10.0")
+    implementation("org.jetbrains.compose.ui:ui:1.10.0")
+    implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+    implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1")
 
     // 2. Deine Logik-Bibliotheken (bleiben erhalten)
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
@@ -43,15 +47,8 @@ dependencies {
     mockitoAgent("org.mockito:mockito-core:5.21.0") { isTransitive = false }
 }
 
-application {
-    // Hinweis: Die Main-Klasse ist jetzt die Datei, in der deine fun main() steht.
-    mainClass.set("MainKt")
-}
-
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
-        // Wichtig für Compose:
         freeCompilerArgs.add("-Xannotation-default-target=param-property")
     }
 }

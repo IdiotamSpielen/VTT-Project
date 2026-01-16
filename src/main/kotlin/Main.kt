@@ -1,16 +1,27 @@
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ManageSearch
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import controllers.MainController
 import java.awt.Toolkit
 import kotlin.math.max
+import views.MainView
 
-fun main() = application { {
-    private val defaultMinWidth = 800.0
-    private val defaultMinHeight = 600.0
+fun main() = application {
+    val defaultMinWidth = 800.0
+    val defaultMinHeight = 600.0
 
     val state = rememberWindowState().apply {
         try {
@@ -25,17 +36,31 @@ fun main() = application { {
             val targetH = max(screenHeight / 1.2, minH)
 
             size = DpSize(targetW.dp, targetH.dp)
-
         } catch (e: Exception) {
             size = DpSize(800.dp, 600.dp)
             println("Error getting screen resolution: ${e.message}")
         }
     }
 
+    val mainController = remember { MainController() }
+
     Window(
         onCloseRequest = ::exitApplication,
         state = state,
-        title = "VTT 0.3.0 - Compose Edition",
+        title = "VTT 0.3.0",
     ) {
-        MainView()
+        MenuBar {
+            Menu("Create") {
+                Item("Spell", icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
+                    mainController.openSpellCreator()
+                })
+                Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { })
+                Separator() // Zieht eine Linie im Menü
+            }
+            Menu("Search") {
+                Item("Spell", icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
+            }
+        }
+        MainView(mainController)
     }
+}

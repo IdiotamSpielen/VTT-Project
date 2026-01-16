@@ -1,52 +1,58 @@
 package controllers
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import models.Spell
+import services.FeedbackHandler
 import services.FileHandler
 import services.SpellHandler
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleStringProperty
-import tornadofx.Controller
-
-/**
- * Controller class responsible for creating spells.
- *
- * This class provides functionality for setting spell properties and
- * creating a spell using the `SpellHandler` class. It also ensures
- * that the created spell is valid and saved properly.
- */
-class SpellCreationController : Controller() {
+//
+///**
+// * Controller class responsible for creating spells.
+// *
+// * This class provides functionality for setting spell properties and
+// * creating a spell using the `SpellHandler` class. It also ensures
+// * that the created spell is valid and saved properly.
+// */
+class SpellCreationController {
     private val fileHandler = FileHandler(Spell::class.java, "spells")
     private val spellHandler = SpellHandler(fileHandler)
+    val feedbackHandler = FeedbackHandler()
 
-    val spellName = SimpleStringProperty("")
-    val castingTime = SimpleStringProperty("")
-    val range = SimpleStringProperty("")
-    val component = SimpleStringProperty("")
-    val duration = SimpleStringProperty("")
-    val ingredients = SimpleStringProperty("")
-    val description = SimpleStringProperty("")
-    val level = SimpleStringProperty("")
-    val school = SimpleStringProperty("")
+    var spellName by mutableStateOf("")
+    var castingTime by mutableStateOf("")
+    var range by mutableStateOf("")
+    var component by mutableStateOf("")
+    var duration by mutableStateOf("")
+    var ingredients by mutableStateOf("")
+    var description by mutableStateOf("")
+    var level by mutableStateOf("")
+    var school by mutableStateOf("")
 
-    val isRitual = SimpleBooleanProperty(false)
-    val isConcentration = SimpleBooleanProperty(false)
+    var isRitual by mutableStateOf(false)
+    var isConcentration by mutableStateOf(false)
 
     fun createSpell() {
-        val spell = Spell(
-            spellName.get(),
-            school.get(),
-            duration.get(),
-            component.get(),
-            level.get().toIntOrNull() ?: -1,
-            range.get(),
-            castingTime.get(),
-            description.get(),
-            ingredients.get(),
-            isRitual.get(),
-            isConcentration.get()
-        )
+        try {
+            val spell = Spell(
+                name = spellName,
+                school = school,
+                duration = duration,
+                components = component,
+                level = level.toIntOrNull() ?: -1,
+                range = range,
+                castingTime = castingTime,
+                description = description,
+                ingredients = ingredients,
+                ritual = isRitual,
+                concentration = isConcentration
+            )
 
-        spellHandler.createAndSaveSpell(spell)
+            spellHandler.createAndSaveSpell(spell)
+            feedbackHandler.displayFeedback("Spell '${spell.name}' saved!", FeedbackHandler.FeedbackType.SUCCESS)
+        }catch (e: Exception){
+            feedbackHandler.displayFeedback("Error: ${e.message}", FeedbackHandler.FeedbackType.ERROR)
+        }
     }
 }
-

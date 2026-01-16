@@ -1,37 +1,44 @@
 package services
 
-import javafx.animation.FadeTransition
-import javafx.animation.PauseTransition
-import javafx.event.ActionEvent
-import javafx.event.EventHandler
-import javafx.scene.paint.Color
-import javafx.scene.text.Text
-import javafx.util.Duration
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import kotlinx.coroutines.*
+import org.slf4j.LoggerFactory
 
-class FeedbackHandler(private val feedbackText: Text) {
+
+
+class FeedbackHandler() {
+    private val logger = LoggerFactory.getLogger(FeedbackHandler::class.java)
+
+    var message by mutableStateOf("")
+    var color by mutableStateOf(Color.Transparent)
+
+    private var fadeJob: Job? = null
 
     enum class FeedbackType(val color: Color) {
-        SUCCESS(Color.GREEN),
-        ERROR(Color.RED),
-        WARNING(Color.ORANGE),
-        INFO(Color.BLUE)
+        SUCCESS(Color(0xFF2E7D32)),
+        ERROR(Color.Red),
+        WARNING(Color(0xFFFFA000)),
+        INFO(Color.Blue)
     }
 
-    fun displayFeedback(message: String, type: FeedbackType) {
-        feedbackText.text = message
-        feedbackText.fill = type.color
+    fun displayFeedback(text: String, type: FeedbackType) {
+        when (type) {
+            FeedbackType.SUCCESS -> logger.info(text)
+            FeedbackType.ERROR -> logger.error(text)
+            FeedbackType.WARNING -> logger.warn(text)
+            FeedbackType.INFO -> logger.info(text)
+        }
 
-        fadeOutFeedbackText()
-    }
+        message = text
+        color = type.color
 
-    private fun fadeOutFeedbackText() {
-        val fadeTransition = FadeTransition(Duration.seconds(1.0), feedbackText)
-        fadeTransition.fromValue = 1.0
-        fadeTransition.toValue = 0.0
-
-        val pauseTransition = PauseTransition(Duration.seconds(1.0))
-        pauseTransition.onFinished = EventHandler { event: ActionEvent? -> fadeTransition.play() }
-
-        pauseTransition.play()
+        fadeJob?.cancel()
+        fadeJob = CoroutineScope(Dispatchers.Main).launch {
+            delay(3000)
+            message = ""
+        }
     }
 }
