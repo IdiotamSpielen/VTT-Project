@@ -22,16 +22,23 @@ class SpellHandler(private val fileHandler: FileHandler<Spell>){
     }
 
     /**
-     * Validiert die Eingaben für den Zauber.
+     * validate values passed for the Spell to be saved
      *
-     * @param spell Der zu validierende Zauber.
-     * @throws InvalidSpellException wenn die Eingaben ungültig sind.
+     * @param spell The [Spell] Object to be saved
      */
     private fun validateSpell(spell: Spell) {
-        if (spell.name.isEmpty()) throw InvalidSpellException("Spell name cannot be empty.")
-        if (spell.duration.isEmpty()) throw InvalidSpellException("Duration cannot be empty.")
-        if (spell.components.isEmpty()) throw InvalidSpellException("Components cannot be empty.")
-        if (spell.level !in 0..9) throw InvalidSpellException("Spell level must be between 0 and 9.")
-        if (spell.description.isEmpty()) throw InvalidSpellException("Description cannot be empty.")
+        val validationRules = listOf(
+            spell.name.isEmpty() to "Spell name cannot be empty.",
+            spell.castingTime.isEmpty() to "Casting time cannot be empty.",
+            spell.duration.isEmpty() to "Duration cannot be empty.",
+            spell.range.isEmpty() to "Range cannot be empty.",
+            spell.components.isEmpty() to "Components cannot be empty.",
+            spell.description.isEmpty() to "Description cannot be empty.",
+            (spell.level !in 0..9) to "Spell level must be between 0 and 9.",
+            spell.school.isEmpty() to "School cannot be empty."
+        )
+        validationRules.find { it.first }?.let {
+            throw InvalidSpellException(it.second)
+        }
     }
 }
