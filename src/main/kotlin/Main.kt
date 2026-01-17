@@ -1,7 +1,8 @@
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Backpack
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.DpSize
@@ -11,16 +12,19 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
+import views.MainView
 import views.TableTopState
 import java.awt.Toolkit
-import kotlin.math.max
-import views.MainView
 import java.awt.datatransfer.DataFlavor
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
 import java.awt.dnd.DropTargetDropEvent
 import java.io.File
+import kotlin.math.max
 
+/**
+ * Main entry point for the application.
+ */
 fun main() = application {
     val defaultMinWidth = 800.0
     val defaultMinHeight = 600.0
@@ -81,6 +85,6 @@ fun main() = application {
                 Item("Spell", icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
             }
         }
-        MainView(mainController, tableTopState)
+        MainView(mainController)
     }
 }
