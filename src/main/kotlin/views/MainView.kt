@@ -13,8 +13,9 @@ import controllers.SpellSearchController
  * The MainView
  */
 @Composable
-fun MainView(controller: MainController, tableTopState: TableTopState) {
+fun MainView(controller: MainController) {
     val spellController = remember { SpellCreationController() }
+    val searchController = remember { SpellSearchController() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)
     Box(modifier = Modifier.fillMaxSize()) {
@@ -35,8 +36,7 @@ fun MainView(controller: MainController, tableTopState: TableTopState) {
                     title = "Search Spells",
                     onClose = { controller.closeOverlay() }
                 ) {
-                    // SpellSearchView(searchController) // Kommt als nächstes!
-                    Text("Hier wird bald gesucht...")
+                    SpellSearchView(searchController)
                 }
             }
             MainController.Screen.TABLETOP -> {
