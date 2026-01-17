@@ -3,16 +3,13 @@ package views
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draganddrop.*
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -21,17 +18,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import java.io.File
-import java.net.URI
 import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import kotlin.math.roundToInt
-import org.jetbrains.skia.Image as SkiaImage
 import org.jetbrains.skia.Bitmap as SkiaBitmap
+import org.jetbrains.skia.Image as SkiaImage
 
 data class VisualElement(val file: File, var offset: Offset = Offset.Zero)
 
-// Wir erstellen ein "State Object", das wir von außen steuern können
+//
 class TableTopState {
     val maps = mutableStateListOf<VisualElement>()
     val tokens = mutableStateListOf<VisualElement>()
@@ -74,7 +70,6 @@ fun TableTop(state: TableTopState) { // Wir bekommen den State von außen!
     }
 }
 
-// --- Hilfskomponente: Bewegliches Bild ---
 @Composable
 fun DraggableImage(element: VisualElement) {
     var offset by remember { mutableStateOf(element.offset) }
@@ -101,7 +96,6 @@ fun DraggableImage(element: VisualElement) {
     }
 }
 
-// --- Hilfskomponente: Der Dialog ---
 @Composable
 fun ImportDialog(
     file: File,
