@@ -12,21 +12,13 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
 import views.MainView
-import views.TableTopState
 import java.awt.Toolkit
-import java.awt.datatransfer.DataFlavor
-import java.awt.dnd.DnDConstants
-import java.awt.dnd.DropTarget
-import java.awt.dnd.DropTargetDropEvent
-import java.io.File
 import kotlin.math.max
 
 /**
  * Main entry point for the application.
  */
 fun main() = application {
-    val defaultMinWidth = 800.0
-    val defaultMinHeight = 600.0
 
     val mainController = remember { MainController() }
 
