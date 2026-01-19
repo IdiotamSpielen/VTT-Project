@@ -1,8 +1,7 @@
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Backpack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.DpSize
@@ -30,7 +29,7 @@ fun main() = application {
     val defaultMinHeight = 600.0
 
     val mainController = remember { MainController() }
-    val tableTopState = remember { TableTopState() }
+
     val state = rememberWindowState().apply {
         try {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
@@ -55,24 +54,6 @@ fun main() = application {
         state = state,
         title = "VTT 0.3.0",
     ) {
-        window.dropTarget = object : DropTarget() {
-            override fun drop(dtde: DropTargetDropEvent) {
-                dtde.acceptDrop(DnDConstants.ACTION_COPY)
-                try {
-                    // Das ist pures Java - keine Compose Magie, keine Import-Fehler
-                    val transferable = dtde.transferable
-                    if (transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                        @Suppress("UNCHECKED_CAST")
-                        val files = transferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>
-
-                        // Wir reichen die Dateien an unseren State weiter
-                        tableTopState.onFilesDropped(files)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
         MenuBar {
             Menu("Create") {
                 Item("Spell", icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
