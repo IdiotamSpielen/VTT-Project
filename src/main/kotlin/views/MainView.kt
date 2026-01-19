@@ -8,18 +8,20 @@ import androidx.compose.ui.Modifier
 import controllers.MainController
 import controllers.SpellCreationController
 import controllers.SpellSearchController
+import controllers.TableTopController
 
 /**
  * The MainView
  */
 @Composable
-fun MainView(controller: MainController) {
+fun MainView(controller: MainController, tableTopController: TableTopController) {
     val spellController = remember { SpellCreationController() }
     val searchController = remember { SpellSearchController() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)
     Box(modifier = Modifier.fillMaxSize()) {
-        //TableTop()
+
+        TableTopView(tableTopController)
 
         // Die Overlay-Logik
         when (controller.currentScreen) {

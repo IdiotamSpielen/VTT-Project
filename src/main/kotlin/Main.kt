@@ -1,4 +1,3 @@
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.filled.*
@@ -11,7 +10,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
+import controllers.TableTopController
 import views.MainView
+import services.FileDropHandler
 import java.awt.Toolkit
 import kotlin.math.max
 
@@ -21,6 +22,7 @@ import kotlin.math.max
 fun main() = application {
 
     val mainController = remember { MainController() }
+    val tableTopController = remember { TableTopController() }
 
     val state = rememberWindowState().apply {
         try {
@@ -58,6 +60,9 @@ fun main() = application {
                 Item("Spell", icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
             }
         }
-        MainView(mainController)
+        FileDropHandler(onFileDrop = { file ->
+            tableTopController.onFileDropped(file)
+        })
+        MainView(mainController, tableTopController)
     }
 }
