@@ -8,7 +8,8 @@ class MainController {
     enum class Screen {
         TABLETOP,
         SPELL_CREATOR,
-        SPELL_SEARCH
+        SPELL_SEARCH,
+        ITEM_CREATOR
     }
 
     var currentScreen by mutableStateOf(Screen.TABLETOP)
@@ -20,6 +21,10 @@ class MainController {
 
     fun openSpellSearch() {
         currentScreen = Screen.SPELL_SEARCH
+    }
+
+    fun openItemCreator() {
+        currentScreen = Screen.ITEM_CREATOR
     }
 
     fun closeOverlay() {

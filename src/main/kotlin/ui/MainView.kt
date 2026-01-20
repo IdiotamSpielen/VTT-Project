@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import controllers.ItemCreationController
 import controllers.MainController
 import controllers.SpellCreationController
 import controllers.SpellSearchController
@@ -16,6 +17,7 @@ import controllers.TableTopController
 @Composable
 fun MainView(controller: MainController, tableTopController: TableTopController) {
     val spellController = remember { SpellCreationController() }
+    val itemController = remember { ItemCreationController() }
     val searchController = remember { SpellSearchController() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)
@@ -43,6 +45,14 @@ fun MainView(controller: MainController, tableTopController: TableTopController)
             }
             MainController.Screen.TABLETOP -> {
                 // Kein Overlay anzeigen
+            }
+            MainController.Screen.ITEM_CREATOR -> {
+                OverlayWindow(
+                    title = "Create New Item", // Oder L.TITLE_CREATE_ITEM.t()
+                    onClose = { controller.closeOverlay() }
+                ) {
+                    ItemCreatorView(itemController, onClose = { controller.closeOverlay() })
+                }
             }
         }
     }
