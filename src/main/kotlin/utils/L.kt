@@ -1,4 +1,4 @@
-package util
+package utils
 
 import services.LocalizationService
 
@@ -18,6 +18,16 @@ enum class L(val key: String) {
     SPELL_LEVEL("label.spell.level"),
     SPELL_SCHOOL("label.spell.school"),
     SPELL_DESCRIPTION("label.spell.description"),
+
+    // Items
+    ITEM_NAME("item.name"),
+    ITEM_TYPE("item.type"),
+    ITEM_DESC("item.description"),
+    ITEM_DAMAGE("item.damage"),
+
+    // Actions
+    BTN_SAVE("button.save"),
+    BTN_CANCEL("button.cancel"),
 
     // Checkboxes
     RITUAL("label.checkbox.ritual"),

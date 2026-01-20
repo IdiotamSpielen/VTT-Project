@@ -1,9 +1,23 @@
 package controllers
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import models.Item
+import models.ItemType
+import services.FeedbackHandler
+import services.FileHandler
+import utils.L
+
 //import models.Item
 //import services.FileHandler
 //
-//class ItemCreationController : Controller(){
+class ItemCreationController{
+    var name by mutableStateOf("")
+    var selectedType by mutableStateOf<ItemType?>(null)
+    var description by mutableStateOf("")
+    var damage by mutableStateOf("")
+}
 //    internal val itemName = SimpleStringProperty()
 //    internal val selectedType = SimpleIntegerProperty()
 //    internal val itemDescription = SimpleStringProperty()

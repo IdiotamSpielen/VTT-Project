@@ -8,9 +8,6 @@ enum class ItemType {
     OTHER;
 
     override fun toString(): String {
-        return name
-            .replace('_', ' ')
-            .lowercase()
-            .replaceFirstChar { it.uppercase() }
+        return name.lowercase().replaceFirstChar { it.uppercase() }
     }
 }

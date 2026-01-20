@@ -1,6 +1,6 @@
 package exceptions
 
-import util.L
+import utils.L
 
 /**
  * Exception thrown when a spell could not be saved to the file system.

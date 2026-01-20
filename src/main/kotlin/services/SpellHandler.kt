@@ -3,7 +3,7 @@ package services
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
 import models.Spell
-import util.L
+import utils.L
 
 class SpellHandler(private val fileHandler: FileHandler<Spell>){
 
