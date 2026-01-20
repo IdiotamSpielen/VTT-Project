@@ -1,90 +1,137 @@
 package ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import controllers.ItemCreationController
+import models.ItemType
+import utils.L
 
 @Composable
-fun ItemCreatorView(controller: ItemCreationController) {
+fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
+    // Styling Konstanten
+    val spacing = 16.dp
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(spacing),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Text("Create New Item", style = MaterialTheme.typography.h5)
-
+        // --- NAME ---
         OutlinedTextField(
             value = controller.name,
             onValueChange = { controller.name = it },
-            label = {Text("Name of the item")},
+            label = { Text(L.ITEM_NAME.t()) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
 
+        // --- TYPE DROPDOWN ---
+        // Compose hat kein einfaches "ComboBox" Widget, man baut es aus Box + DropdownMenu
+        ItemTypeDropdown(
+            selectedType = controller.selectedType,
+            onTypeSelected = { controller.selectedType = it }
+        )
 
+        // --- CONDITIONAL FIELD: DAMAGE ---
+        // Das ist der Ersatz für "visibleWhen". Einfach ein if!
+        // Wird nur gerendert, wenn der Typ WEAPON ist.
+        if (controller.selectedType == ItemType.WEAPON) {
+            OutlinedTextField(
+                value = controller.damage,
+                onValueChange = { controller.damage = it },
+                label = { Text(L.ITEM_DAMAGE.t()) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+        }
+
+        // --- DESCRIPTION ---
+        OutlinedTextField(
+            value = controller.description,
+            onValueChange = { controller.description = it },
+            label = { Text(L.ITEM_DESC.t()) },
+            modifier = Modifier.fillMaxWidth().height(100.dp),
+            maxLines = 5
+        )
+
+        // --- BUTTONS ---
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(top = spacing),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextButton(onClick = onClose) {
+                Text(L.BTN_CANCEL.t())
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = {
+                    controller.createAndSaveItem(onSuccess = {
+                        controller.clear()
+                        onClose()
+                    })
+                },
+                // Button ist disabled, wenn Name leer oder Typ fehlt
+                enabled = controller.name.isNotBlank() && controller.selectedType != null
+            ) {
+                Text(L.BTN_SAVE.t())
+            }
+        }
     }
 }
 
-//import controllers.ItemCreationController
-//import tornadofx.*
-//
-//class ItemCreatorView : View("Create New Item") {
-//    private val controller: ItemCreationController by inject()
-//
-//    override val root  = form {
-//        fieldset("Item Creation") {
-//            field("Name") {
-//                textfield(controller.itemName).required() // Name ist verpflichtend
-//            }
-//
-//            field("Type") {
-//                //FIXME - Figure out why this doesn't like ENUMS?
-//                combobox(controller.selectedType){ //ItemType.values().toList())
-//                    promptText = "Select an Item Type"
-//                }.validator {
-//                    if (it == null) error("You must select an item type.") else null
-//                }
-//            }
-//
-//            field("Description") {
-//                textarea(controller.itemDescription) {
-//                    promptText = "Write the item description here"
-//                }
-//            }
-//
-//            field("Weapon Damage") {
-//                textfield() {
-//                    //visibleWhen { controller.selectedType.isEqualTo(ItemType.WEAPON) } FIXME - figure this out
-//                    required()
-//                }
-//            }
-//
-//            // Buttons
-//            hbox(10) {
-//                button("Save") {
-//                    //FIXME - Do we need an isNotNull import?
-//                    //enableWhen {
-//                        //controller.itemName.isNotEmpty.and(controller.selectedType.isNotNull) Aktiv nur bei gültigen Eingaben
-//                    //}
-//                    action {
-//                        controller.createNewItem()
-//                        close()
-//                    }
-//                }
-//                button("Cancel") {
-//                    action {
-//                        close()
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+/**
+ * Hilfs-Composable für das Dropdown, um den Hauptcode sauber zu halten
+ */
+@Composable
+fun ItemTypeDropdown(
+    selectedType: ItemType?,
+    onTypeSelected: (ItemType) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = selectedType?.toString() ?: "",
+            onValueChange = {},
+            readOnly = true, // Man kann nicht tippen, nur auswählen
+            label = { Text(L.ITEM_TYPE.t()) },
+            trailingIcon = {
+                Icon(Icons.Filled.ArrowDropDown, "Select", Modifier.clickable { expanded = !expanded })
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Eine unsichtbare Box über dem Textfeld fängt Klicks ab, um das Menü zu öffnen
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .clickable { expanded = true }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth(0.9f) // Breite relativ zur Box anpassen
+        ) {
+            ItemType.values().forEach { type ->
+                DropdownMenuItem(onClick = {
+                    onTypeSelected(type)
+                    expanded = false
+                }) {
+                    Text(text = type.toString())
+                }
+            }
+        }
+    }
+}

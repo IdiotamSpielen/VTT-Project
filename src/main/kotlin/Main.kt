@@ -56,7 +56,7 @@ fun main() = application {
                 Item(L.SPELL.t(), icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
                     mainController.openSpellCreator()
                 })
-                Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { })
+                Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { mainController.openItemCreator() })
                 Separator() // Zieht eine Linie im Menü
             }
             Menu("Search") {
