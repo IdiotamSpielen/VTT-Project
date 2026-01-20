@@ -1,6 +1,6 @@
 package exceptions
 
-import util.L
+import utils.L
 
 /**
  * Exception thrown to indicate an invalid spell during creation or validation.

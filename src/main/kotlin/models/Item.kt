@@ -1,8 +1,14 @@
 package models
 
-abstract class Item(
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class Item(
     override val name: String,
-    var description: String?,
-    var weight: Double,
-    var value: Int
+    val type: ItemType,
+    val description: String,
+    // Diese Felder sind optional, je nach Typ
+    val damage: String? = null,
+    val weight: Double = 0.0,
+    val value: Int = 0
 ) : Nameable

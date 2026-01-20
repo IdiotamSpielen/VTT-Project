@@ -14,7 +14,7 @@ import controllers.TableTopController
 import ui.MainView
 import services.FileDropHandler
 import services.LocalizationService
-import util.L
+import utils.L
 import java.awt.Toolkit
 import java.util.Locale
 import kotlin.math.max

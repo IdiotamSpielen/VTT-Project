@@ -10,8 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import controllers.SpellCreationController
-import services.LocalizationService
-import util.L
+import utils.L
 
 @Composable
 fun SpellCreatorView(controller: SpellCreationController){
@@ -20,7 +19,7 @@ fun SpellCreatorView(controller: SpellCreationController){
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()), // Macht die Seite scrollbar
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text("Create New Spell", style = MaterialTheme.typography.h5)
