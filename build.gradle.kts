@@ -13,12 +13,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-    maven { url = uri("https://jitpack.io") }
-}
-
 // setting up a mockito agent for testing
 val mockitoAgent: Configuration by configurations.creating
 

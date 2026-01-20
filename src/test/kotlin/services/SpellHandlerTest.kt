@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
+import java.io.IOException
 
 class SpellHandlerTest {
 
@@ -23,42 +24,24 @@ class SpellHandlerTest {
 
     @Test
     fun `createAndSaveSpell calls saveToFile on FileHandler when spell is valid`() {
+        //GIVEN
         val spell = createValidSpell()
 
-        `when`(mockFileHandler.isSaved()).thenReturn(true)
+        //WHEN
         spellHandler.createAndSaveSpell(spell)
+        //THEN
         verify(mockFileHandler).saveToFile(spell)
-        verify(mockFileHandler).isSaved()
     }
 
     @Test
-    fun `createAndSaveSpell throws SpellNotSavedException if spell is not saved`() {
-        @Suppress("UNCHECKED_CAST")
-        val mockFileHandler = mock(FileHandler::class.java) as FileHandler<Spell>
-        `when`(mockFileHandler.isSaved()).thenReturn(false)
+    fun `createAndSaveSpell throws SpellNotSavedException if FileHandler throws IOException`() {
 
-        val spellHandlerWithMock = SpellHandler(mockFileHandler)
-
-        val spell = Spell(
-            // ... deine Spell Daten ...
-            name = "Fireball", school = "Evocation", duration = "Instant", components = "V,S,M",
-            level = 3, range = "150 feet", castingTime = "1 action", description = "desc",
-            ingredients = "ing", ritual = false, concentration = false
-        )
-
-        assertThrows(SpellNotSavedException::class.java) {
-            spellHandlerWithMock.createAndSaveSpell(spell)
-        }
-    }
-
-    @Test
-    fun `createAndSaveSpell throws SpellNotSavedException if FileHandler fails`() {
         // GIVEN
         val spell = createValidSpell()
 
-        `when`(mockFileHandler.isSaved()).thenReturn(false)
+        doThrow(IOException()).`when`(mockFileHandler).saveToFile(spell)
 
-        // WHEN / THEN
+        //WHEN / THEN
         assertThrows(SpellNotSavedException::class.java) {
             spellHandler.createAndSaveSpell(spell)
         }

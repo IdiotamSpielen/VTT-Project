@@ -3,12 +3,12 @@ package services
 import com.fasterxml.jackson.databind.ObjectMapper
 import models.Nameable
 import org.slf4j.LoggerFactory
-import java.io.FileReader
-import java.io.FileWriter
+import kotlin.jvm.Throws
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.io.path.name
 
 /**
  * A generic file handler for managing objects of type [T] which implements the [Nameable] interface.
@@ -18,6 +18,7 @@ import java.nio.file.Paths
  * @param clazz The [Class] type of the objects to be processed.
  * @param category The category used to organize files in directories.
  */
+
 class FileHandler<T : Nameable>(
     private val clazz: Class<T>,
     category: String,
@@ -26,13 +27,13 @@ class FileHandler<T : Nameable>(
     private val logger = LoggerFactory.getLogger(FileHandler::class.java)
     private val mapper = ObjectMapper()
     private val categoryPath: Path = basePath.resolve(category)
-    @Volatile private var isSaved: Boolean = false
 
     /**
      * Saves an object to a file in the [category] directory. The file is named after the object's name.
      *
      * @param obj The object to be saved. If the object is null, the method logs an error and returns.
      */
+    @Throws(IOException::class)
     fun saveToFile(obj: T?) {
         if (obj == null) {
             throw IllegalArgumentException("Object cannot be Null")
@@ -45,23 +46,16 @@ class FileHandler<T : Nameable>(
             }
 
             val filePath = categoryPath.resolve("${obj.name}.json")
-            FileWriter(filePath.toFile()).use { writer ->
+            Files.newBufferedWriter(filePath).use { writer ->
                 val json = mapper.writeValueAsString(obj)
                 writer.write(json)
-                logger.info("{} saved successfully", clazz.simpleName)
+                logger.info("{} '{}' saved successfully", clazz.simpleName, obj.name)
             }
         } catch (e: IOException) {
-            logger.error("IO Error during save", e)
+            logger.error("IO Error during save of {}: {}", obj.name, e.message)
             throw e
         }
     }
-
-    /**
-     * Checks whether the last save operation was successful.
-     *
-     * @return `true` if the object is saved, `false` otherwise.
-     */
-    fun isSaved(): Boolean = isSaved
 
     /**
      * Retrieves a list of saved objects by reading JSON files from the specified directory.
@@ -71,24 +65,27 @@ class FileHandler<T : Nameable>(
      */
     fun getSavedObjectInformation(): List<T> {
         val objects = mutableListOf<T>()
-        val objectDirectory = categoryPath.toFile()
 
-        if (!objectDirectory.exists() || !objectDirectory.isDirectory) {
-            logger.warn("Directory {} does not exist or is not a directory", categoryPath)
+        if (!Files.exists(categoryPath) || !Files.isDirectory(categoryPath)) {
+            logger.warn("Directory {} does ot exist", categoryPath)
             return objects
         }
 
-        val objectFiles = objectDirectory.listFiles { _, name -> name.endsWith(".json") } ?: emptyArray()
-
-        for (objectFile in objectFiles) {
-            try {
-                FileReader(objectFile).use { fileReader ->
-                    val obj = mapper.readValue(fileReader, clazz)
-                    objects.add(obj)
+        try {
+            Files.newDirectoryStream(categoryPath, "*.json").use { stream ->
+                for (path in stream) {
+                    try {
+                        Files.newBufferedReader(path).use { reader ->
+                            val obj = mapper.readValue(reader, clazz)
+                            objects.add(obj)
+                        }
+                    } catch (e: IOException) {
+                        logger.error("Failed to read file '{}': {}", path.name, e.message)
+                    }
                 }
-            } catch (e: IOException) {
-                logger.error("Failed to read file '{}': {}", objectFile.name, e.message, e)
             }
+        } catch (e: IOException) {
+            logger.error("Error accessing directory {}: {}", categoryPath, e.message)
         }
         return objects
     }
@@ -100,7 +97,6 @@ class FileHandler<T : Nameable>(
      * @return A list of objects of type [T] whose names contain the query string.
      */
     fun search(query: String): List<T> {
-        val allObjects = getSavedObjectInformation()
-        return allObjects.filter { it.name.contains(query, ignoreCase = true) }
+        return getSavedObjectInformation().filter { it.name.contains(query, ignoreCase = true) }
     }
 }
