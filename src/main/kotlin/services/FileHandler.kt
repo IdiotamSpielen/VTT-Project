@@ -35,8 +35,7 @@ class FileHandler<T : Nameable>(
      */
     fun saveToFile(obj: T?) {
         if (obj == null) {
-            logger.error("Failed to save: Object is null")
-            return
+            throw IllegalArgumentException("Object cannot be Null")
         }
 
         try {
@@ -49,12 +48,11 @@ class FileHandler<T : Nameable>(
             FileWriter(filePath.toFile()).use { writer ->
                 val json = mapper.writeValueAsString(obj)
                 writer.write(json)
-                writer.flush()
-                logger.info("{} saved as {}", clazz.simpleName, filePath.fileName)
-                isSaved = true
+                logger.info("{} saved successfully", clazz.simpleName)
             }
         } catch (e: IOException) {
-            logger.error("Failed to save object '{}': {}", obj.name, e.message, e)
+            logger.error("IO Error during save", e)
+            throw e
         }
     }
 

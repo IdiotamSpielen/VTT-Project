@@ -1,5 +1,7 @@
 package exceptions
 
+import util.L
+
 /**
  * Exception thrown when a spell could not be saved to the file system.
  *
@@ -8,4 +10,4 @@ package exceptions
  *
  * @param message Detailed message explaining the reason for the failure.
  */
-class SpellNotSavedException(message: String) : Exception(message)
+class SpellNotSavedException(val errorKey: L) : Exception(errorKey.key)
