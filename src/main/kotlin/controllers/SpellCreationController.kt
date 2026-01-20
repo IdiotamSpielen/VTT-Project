@@ -3,10 +3,15 @@ package controllers
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import exceptions.InvalidSpellException
+import exceptions.SpellNotSavedException
 import models.Spell
 import services.FeedbackHandler
+import services.FeedbackHandler.FeedbackType.*
 import services.FileHandler
 import services.SpellHandler
+import util.L
+
 //
 ///**
 // * Controller class responsible for creating spells.
@@ -50,9 +55,15 @@ class SpellCreationController {
             )
 
             spellHandler.createAndSaveSpell(spell)
-            feedbackHandler.displayFeedback("Spell '${spell.name}' saved!", FeedbackHandler.FeedbackType.SUCCESS)
-        }catch (e: Exception){
-            feedbackHandler.displayFeedback("Error: ${e.message}", FeedbackHandler.FeedbackType.ERROR)
+            feedbackHandler.displayFeedback(
+                L.SUCCESS.t(mapOf("spellName" to spellName)), SUCCESS)
+        }catch (e: InvalidSpellException){
+            feedbackHandler.displayFeedback(e.errorKey.t(), ERROR)
+        } catch (e: SpellNotSavedException) {
+            feedbackHandler.displayFeedback(e.errorKey.t(), ERROR)
+        } catch (e: Exception) {
+            feedbackHandler.displayFeedback(L.ERR_GENERIC_INVALID.t(), ERROR)
+            e.printStackTrace()
         }
     }
 }

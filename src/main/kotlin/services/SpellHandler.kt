@@ -3,6 +3,7 @@ package services
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
 import models.Spell
+import util.L
 
 class SpellHandler(private val fileHandler: FileHandler<Spell>){
 
@@ -15,9 +16,10 @@ class SpellHandler(private val fileHandler: FileHandler<Spell>){
      */
     fun createAndSaveSpell(spell: Spell) {
         validateSpell(spell)
-        fileHandler.saveToFile(spell)
-        if (!fileHandler.isSaved()) {
-            throw SpellNotSavedException("The Spell was not saved.")
+        try {
+            fileHandler.saveToFile(spell)
+        } catch (e: Exception) {
+            throw SpellNotSavedException(L.ERR_SAVE_FAILED)
         }
     }
 
@@ -28,14 +30,14 @@ class SpellHandler(private val fileHandler: FileHandler<Spell>){
      */
     private fun validateSpell(spell: Spell) {
         val validationRules = listOf(
-            spell.name.isEmpty() to "Spell name cannot be empty.",
-            spell.castingTime.isEmpty() to "Casting time cannot be empty.",
-            spell.duration.isEmpty() to "Duration cannot be empty.",
-            spell.range.isEmpty() to "Range cannot be empty.",
-            spell.components.isEmpty() to "Components cannot be empty.",
-            spell.description.isEmpty() to "Description cannot be empty.",
-            (spell.level !in 0..9) to "Spell level must be between 0 and 9.",
-            spell.school.isEmpty() to "School cannot be empty."
+            spell.name.isEmpty() to L.ERR_NAME_EMPTY,
+            spell.castingTime.isEmpty() to L.ERR_CASTING_EMPTY,
+            spell.duration.isEmpty() to L.ERR_DURATION_EMPTY,
+            spell.range.isEmpty() to L.ERR_RANGE_EMPTY,
+            spell.components.isEmpty() to L.ERR_COMP_EMPTY,
+            spell.description.isEmpty() to L.ERR_DESC_EMPTY,
+            (spell.level !in 0..9) to L.ERR_LEVEL_RANGE,
+            spell.school.isEmpty() to L.ERR_SCHOOL_EMPTY,
         )
         validationRules.find { it.first }?.let {
             throw InvalidSpellException(it.second)

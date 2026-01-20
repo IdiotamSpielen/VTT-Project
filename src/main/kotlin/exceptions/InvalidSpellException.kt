@@ -1,5 +1,7 @@
 package exceptions
 
+import util.L
+
 /**
  * Exception thrown to indicate an invalid spell during creation or validation.
  *
@@ -10,4 +12,4 @@ package exceptions
  *
  * @param message Detailed message describing the reason for the exception.
  */
-class InvalidSpellException(message: String) : Exception(message)
+class InvalidSpellException(val errorKey: L) : Exception(errorKey.key)

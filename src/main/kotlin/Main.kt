@@ -11,9 +11,12 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
 import controllers.TableTopController
-import views.MainView
+import ui.MainView
 import services.FileDropHandler
+import services.LocalizationService
+import util.L
 import java.awt.Toolkit
+import java.util.Locale
 import kotlin.math.max
 
 /**
@@ -46,18 +49,28 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         state = state,
-        title = "VTT 0.3.0",
+        title = "VTT 0.5.0",
     ) {
         MenuBar {
-            Menu("Create") {
-                Item("Spell", icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
+            Menu(L.CREATE.t()) {
+                Item(L.SPELL.t(), icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
                     mainController.openSpellCreator()
                 })
                 Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { })
                 Separator() // Zieht eine Linie im Menü
             }
             Menu("Search") {
-                Item("Spell", icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
+                Item(L.SPELL.t(), icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
+            }
+            Menu(L.SETTINGS.t()) {
+                Menu("Language"){
+                    Item("English", onClick = {
+                        LocalizationService.currentLocale = Locale.US
+                    })
+                    Item("Deutsch", onClick = {
+                        LocalizationService.currentLocale = Locale.GERMANY
+                    })
+                }
             }
         }
         FileDropHandler(onFileDrop = { file ->
