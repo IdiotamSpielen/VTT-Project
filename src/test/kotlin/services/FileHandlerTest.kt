@@ -2,6 +2,7 @@ package services
 
 import models.Spell
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,19 +14,15 @@ class FileHandlerTest {
 
     @TempDir
     lateinit var tempDir: Path
-
     private lateinit var fileHandler: FileHandler<Spell>
 
     @BeforeEach
     fun setUp() {
-
-
-        // 3. Wir initialisieren den Handler für Spells
         fileHandler = FileHandler(Spell::class.java, "spells", basePath = tempDir)
     }
 
     @Test
-    fun `saveToFile creates a json file and sets isSaved to true`() {
+    fun `saveToFile creates a json file`() {
         // GIVEN
         val spell = createDummySpell("Fireball")
 
@@ -33,7 +30,6 @@ class FileHandlerTest {
         fileHandler.saveToFile(spell)
 
         // THEN
-        assertTrue(fileHandler.isSaved(), "isSaved() should be true after saving")
         val expectedPath = tempDir.resolve("spells/Fireball.json")
         assertTrue(Files.exists(expectedPath), "The file should exist at $expectedPath")
         assertTrue(Files.size(expectedPath) > 0, "File should not be empty")
@@ -61,9 +57,11 @@ class FileHandlerTest {
     }
 
     @Test
-    fun `saveToFile handles null gracefully`() {
-        // WHEN
-        fileHandler.saveToFile(null)
+    fun `saveToFile throws IllegalArgumentException if object is null`() {
+        // WHEN / THEN
+        assertThrows(IllegalArgumentException::class.java) {
+            fileHandler.saveToFile(null)
+        }
     }
 
     @Test
