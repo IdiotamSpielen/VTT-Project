@@ -38,35 +38,6 @@ fun main() = application {
         SchemaUtils.create(SpellsTable)
     }
 
-    //test-operations
-    transaction {
-        val existingSpell = SpellEntity.find { SpellsTable.name eq "fireball" }.firstOrNull()
-        if (existingSpell == null) {
-            SpellEntity.new {
-                name = "fireball"
-                duration = "way too long"
-                components = "M"
-                ingredients = "Fire"
-                description = "I didn't ask how big the room was"
-                school = "fuck everything in that general area"
-                level = 5
-                range = "Roughly the size of a large"
-                castingTime = "Some time"
-                ritual = false
-                concentration = false
-            }
-        } else {
-            println("Feuerball existiert schon. ID: ${existingSpell.id}")
-            // Optional: Update durchführen
-            existingSpell.description = "New description"
-        }
-    }
-    transaction {
-        val allSpells = SpellEntity.all()
-        for (spell in allSpells) {
-            println("${spell.name} - ${spell.duration}")
-        }
-    }
 
     val state = rememberWindowState().apply {
         try {

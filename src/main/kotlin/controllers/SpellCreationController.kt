@@ -8,7 +8,6 @@ import exceptions.SpellNotSavedException
 import models.Spell
 import services.FeedbackHandler
 import services.FeedbackHandler.FeedbackType.*
-import services.FileHandler
 import services.SpellHandler
 import utils.L
 
@@ -21,8 +20,7 @@ import utils.L
 // * that the created spell is valid and saved properly.
 // */
 class SpellCreationController {
-    private val fileHandler = FileHandler(Spell::class.java, "spells")
-    private val spellHandler = SpellHandler(fileHandler)
+    private val spellHandler = SpellHandler()
     val feedbackHandler = FeedbackHandler()
 
     var spellName by mutableStateOf("")

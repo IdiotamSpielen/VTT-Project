@@ -1,11 +1,12 @@
 package services
 
+import Repositories.SpellRepository
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
 import models.Spell
 import utils.L
 
-class SpellHandler(private val fileHandler: FileHandler<Spell>){
+class SpellHandler(private val repository: SpellRepository = SpellRepository()) {
 
     /**
      * Erstellt einen neuen Zauber und speichert ihn.
@@ -17,7 +18,7 @@ class SpellHandler(private val fileHandler: FileHandler<Spell>){
     fun createAndSaveSpell(spell: Spell) {
         validateSpell(spell)
         try {
-            fileHandler.saveToFile(spell)
+            repository.save(spell)
         } catch (e: Exception) {
             throw SpellNotSavedException(L.ERR_SAVE_FAILED)
         }
