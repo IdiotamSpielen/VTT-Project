@@ -17,7 +17,7 @@ kotlin {
 val mockitoAgent: Configuration by configurations.creating
 
 dependencies {
-    // 1. Compose Desktop Dependencies
+    // Compose Desktop Dependencies
     implementation(compose.desktop.currentOs)
     implementation("org.jetbrains.compose.material:material:1.10.0")
     implementation("org.jetbrains.compose.ui:ui:1.10.0")
@@ -25,14 +25,20 @@ dependencies {
     implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1")
 
-    // 2. Deine Logik-Bibliotheken (bleiben erhalten)
+    // libraries for working with database
+    implementation("org.jetbrains.exposed:exposed-core:1.0.0-rc-3")
+    implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0-rc-3")
+    implementation("org.jetbrains.exposed:exposed-dao:1.0.0-rc-3")
+    implementation("org.xerial:sqlite-jdbc:3.49.1.0")
+
+    // logic libraries (might become obsolete in this change)
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("ch.qos.logback:logback-classic:1.5.21")
 
-    // 3. Testing (identisch zu vorher)
+    // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
     testImplementation("org.mockito:mockito-core:5.+")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.4")

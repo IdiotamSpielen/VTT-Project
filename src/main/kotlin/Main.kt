@@ -11,6 +11,12 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
 import controllers.TableTopController
+import database.DBSettings
+import database.SpellEntity
+import database.SpellsTable
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.SchemaUtils
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ui.MainView
 import services.FileDropHandler
 import services.LocalizationService
@@ -23,9 +29,44 @@ import kotlin.math.max
  * Main entry point for the application.
  */
 fun main() = application {
-
+    val database = DBSettings.db
     val mainController = remember { MainController() }
     val tableTopController = remember { TableTopController() }
+
+    //Initialize DataBase
+    transaction {
+        SchemaUtils.create(SpellsTable)
+    }
+
+    //test-operations
+    transaction {
+        val existingSpell = SpellEntity.find { SpellsTable.name eq "fireball" }.firstOrNull()
+        if (existingSpell == null) {
+            SpellEntity.new {
+                name = "fireball"
+                duration = "way too long"
+                components = "M"
+                ingredients = "Fire"
+                description = "I didn't ask how big the room was"
+                school = "fuck everything in that general area"
+                level = 5
+                range = "Roughly the size of a large"
+                castingTime = "Some time"
+                ritual = false
+                concentration = false
+            }
+        } else {
+            println("Feuerball existiert schon. ID: ${existingSpell.id}")
+            // Optional: Update durchführen
+            existingSpell.description = "New description"
+        }
+    }
+    transaction {
+        val allSpells = SpellEntity.all()
+        for (spell in allSpells) {
+            println("${spell.name} - ${spell.duration}")
+        }
+    }
 
     val state = rememberWindowState().apply {
         try {
@@ -45,6 +86,8 @@ fun main() = application {
             println("Error getting screen resolution: ${e.message}")
         }
     }
+
+    print(database)
 
     Window(
         onCloseRequest = ::exitApplication,
