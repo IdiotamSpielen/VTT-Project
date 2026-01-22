@@ -12,6 +12,7 @@ import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
 import controllers.TableTopController
 import database.DBSettings
+import database.ImageAssetsTable
 import database.SpellEntity
 import database.SpellsTable
 import org.jetbrains.exposed.v1.core.eq
@@ -36,6 +37,7 @@ fun main() = application {
     //Initialize DataBase
     transaction {
         SchemaUtils.create(SpellsTable)
+        SchemaUtils.create(ImageAssetsTable)
     }
 
 

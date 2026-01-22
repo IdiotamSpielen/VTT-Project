@@ -1,6 +1,6 @@
 package services
 
-import Repositories.SpellRepository
+import repositories.SpellRepository
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
 import models.Spell
@@ -20,6 +20,7 @@ class SpellHandler(private val repository: SpellRepository = SpellRepository()) 
         try {
             repository.save(spell)
         } catch (e: Exception) {
+            e.printStackTrace()
             throw SpellNotSavedException(L.ERR_SAVE_FAILED)
         }
     }

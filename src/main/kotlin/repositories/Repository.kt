@@ -1,8 +1,6 @@
-package Repositories
+package repositories
 
-import models.Nameable
-
-interface Repository<T: Nameable> {
+interface Repository<T> {
     fun save(item: T)
     fun getAll(): List<T>
     fun search(query: String): List<T>

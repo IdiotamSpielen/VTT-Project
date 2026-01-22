@@ -1,10 +1,12 @@
-package Repositories
+package repositories
 
 import database.SpellEntity
 import database.SpellsTable
 import models.Spell
+import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
+import org.jetbrains.exposed.v1.core.lowerCase
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 class SpellRepository: Repository<Spell> {
@@ -27,31 +29,40 @@ class SpellRepository: Repository<Spell> {
 
     override fun search(query: String): List<Spell> {
         return transaction {
-            SpellEntity.find { SpellsTable.name like "%${query}%" }
-                .map { entity -> Spell(
-                    name = entity.name,
-                    description = entity.description,
-                    components = entity.components,
-                    castingTime = entity.castingTime,
-                    duration = entity.duration,
-                    level = entity.level,
-                    range = entity.range,
-                    ingredients = entity.ingredients,
-                    school = entity.school,
-                    ritual = entity.ritual,
-                    concentration = entity.concentration
-                ) }
+            SpellEntity.find { SpellsTable.name.lowerCase() like "%${query.lowercase()}%" }
+                .map { entityToModel(it) }
         }
     }
 
     override fun getAll(): List<Spell> {
-        TODO("Not yet implemented")
+        return transaction {
+            SpellEntity.all()
+                .orderBy(SpellsTable.name to SortOrder.ASC)
+                .map { entityToModel(it) }
+        }
     }
 
     override fun delete(item: Spell) {
         transaction {
-            item
+            val spell = SpellEntity.find { SpellsTable.name eq item.name }.firstOrNull()
+            spell?.delete()
         }
+    }
+
+    private fun entityToModel(e: SpellEntity): Spell {
+        return Spell(
+            name = e.name,
+            description = e.description,
+            components = e.components,
+            castingTime = e.castingTime,
+            duration = e.duration,
+            level = e.level,
+            range = e.range,
+            ingredients = e.ingredients,
+            school = e.school,
+            ritual = e.ritual,
+            concentration = e.concentration
+        )
     }
 
     private fun assignValues(entity: SpellEntity, spell: Spell) {

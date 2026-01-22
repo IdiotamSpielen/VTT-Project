@@ -1,68 +1,41 @@
 package controllers
 
+import repositories.SpellRepository
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import models.Spell
-import services.FileHandler
 
 class SpellSearchController {
+    private val repository = SpellRepository()
     var searchInput by mutableStateOf("")
-    var spellList = mutableStateListOf<String>()
-    
-    var spellName by mutableStateOf("")
-    var range by mutableStateOf("")
-    var castingTime by mutableStateOf("")
-    var components by mutableStateOf("")
-    var duration by mutableStateOf("")
-    var ingredients by mutableStateOf("")
-    var descArea by mutableStateOf("")
-    var level by mutableStateOf("")
-    var school by mutableStateOf("")
-    var ritual by mutableStateOf("")
-    var concentration by mutableStateOf("")
+    var searchResults = mutableStateListOf<Spell>()
 
-    private val spellMap: MutableMap<String, Spell> = mutableMapOf()
-    private val fileHandler = FileHandler(Spell::class.java, "spells")
+    var selectedSpell by mutableStateOf<Spell?>(null)
 
     fun handleSearch() {
-        val query = searchInput
-        println("Searching for $query in spells")
-        val spells = fileHandler.search(query)
-        if (spells.isEmpty()) {
-            println("No spells found for query: $query")
+        searchResults.clear()
+        val results = if (searchInput.isBlank()) {
+            repository.getAll() // Zeige alle, wenn Suche leer ist (optional)
         } else {
-            println("Found ${spells.size} spells for query: $query")
+            repository.search(searchInput)
         }
-        displaySpells(spells)
+
+        searchResults.addAll(results)
+        selectedSpell = null
     }
 
-    private fun displaySpells(spells: List<Spell>) {
-        spellList.clear()
-        spellMap.clear()
-        for (spell in spells) {
-            spellList.add(spell.name)
-            spellMap[spell.name] = spell
-        }
-        // Clear selection when searching
-        spellName = ""
+    fun selectSpell(spell: Spell) {
+        selectedSpell = spell
     }
 
-    fun handleSpellSelection(selectedSpellName: String?) {
-        val selectedSpell = spellMap[selectedSpellName]
-        if (selectedSpell != null) {
-            spellName = selectedSpell.name
-            range = selectedSpell.range
-            castingTime = selectedSpell.castingTime
-            components = selectedSpell.components
-            duration = selectedSpell.duration
-            ingredients = selectedSpell.ingredients
-            descArea = selectedSpell.description
-            level = selectedSpell.level.toString()
-            school = selectedSpell.school
-            ritual = if (selectedSpell.ritual) "ritual" else ""
-            concentration = if (selectedSpell.concentration) "concentration" else ""
-        }
+    fun clearSelection() {
+        selectedSpell = null
+    }
+
+    fun clearAll(){
+        searchInput = ""
+        searchResults.clear()
     }
 }

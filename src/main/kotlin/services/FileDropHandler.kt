@@ -46,8 +46,6 @@ fun WindowScope.FileDropHandler(
             }
         }
 
-        // STRATEGIE: Wir suchen die Compose-Komponente.
-        // In einer Compose Desktop App ist das usually das erste (und einzige) Kind im ContentPane.
         val composeLayer = jFrame.contentPane.components.firstOrNull()
 
         if (composeLayer != null) {
