@@ -1,34 +1,44 @@
-# Self-Hosted VTT
+# Open VTT
 
-!!!README UNDER RECONSTRUCTION!!!
+![Kotlin](https://img.shields.io/badge/Kotlin-1.9-purple) ![Compose](https://img.shields.io/badge/Jetpack%20Compose-Desktop-blue) ![License](https://img.shields.io/badge/License-MIT-green)
 
-A lightweight, self-hosted Virtual Tabletop (VTT) designed for Dungeons and Dragons 5E and potentially usable with other RPG systems.  
-The application offers a customizable experience for Game Masters and players alike.
+**Current Status:** *Active Development (Alpha)*
 
-## Features
+A lightweight, **local-first** Virtual Tabletop (VTT) designed primarily for Dungeons and Dragons 5E.  
+Unlike web-based VTTs, this application runs natively on your desktop, ensuring full control over your data without subscriptions or external servers.
 
-### Core Features
+------------------------------------------------------
 
-**1. Library Management**  
-Add and manage materials like spells, abilities, creatures, and more.
+## Key Features
 
-**2. Character Management**  
-Create, edit, and update character sheets for players and NPCs.
+### Database Backed Library
 
-**3. Maps and Tokens**  
-Import and use your own images as maps, tokens, or other assets.
+Powered by an SQLite backend with Exposed ORM
 
-### notes
+- Create and manage Abilities, Items, Characters and much more.
+- Import your maps and Tokens via a simple Drag-and-Drop.
 
-- No preloaded content included
-- No Characters provided
+### Tabletop
 
-### Secondary Features
+- A full-fledged layer system with up to five map and token layers (NOT FULLY IMPLEMENTED)
+- Move maps and Tokens via simple Drag-and-Drop
+- State persistence over sessions (PLANNED)
 
-*Low development priority.*
+### Character Sheet Management
 
-1. Dice roller.
-2. Random name generator for characters and locations.
+- Create and edit character sheets for PCs and NPCs
+- Integrated references to your library
+- Note there is no preloaded content or copyrighted characters provided.
+
+------------------------------------------------------
+
+## Tech Stack
+
+For anyone interested in contributing:
+- **Language:** Kotlin
+- **UI Framework:** Jetpack Compose for Desktop
+- **Database:** SQLite (via Exposed Framework)
+- **Media:** Native image loading / (Planned) VLCj for Audio
 
 ------------------------------------------------------
 
@@ -36,56 +46,47 @@ Import and use your own images as maps, tokens, or other assets.
 
 ### Compatibility
 
-**Primary OS:** Windows.
-**Experimental:** Linux and macOS (due to Java's cross-platform capabilities).
-*No guarantees of functionality on any system.*
+### Prerequisites
+- **Java 17+** (Required for running the JAR/Compose runtime).
+   - [Download JDK](https://adoptium.net/)
 
 ### Installation
 
-1. Download the application from [insert link].
-2. Ensure Java is installed: The software requires Java (version 11 or higher).
-    - Download [Java](https://www.oracle.com/java/technologies/downloads/?er=221886).
-3. Run the .jar file to start the application.
+1. Download the latest release `.jar` or installer.
+2. Run the application.
+3. **Zero-Config Database:** The application will automatically generate a local `vtt.db` file in your Documents folder (`~/Documents/VTT/`) upon first launch.
 
-### Database Setup
-
-- Currently uses JSON files stored locally.
-- Future plans include optional connection to a personal database.
+### OS Compatibility
+- **Windows:** Primary support.
+- **Linux/macOS:** Supported via JVM (Experimental).
 
 ------------------------------------------------------
 
-## Usage
+## Roadmap (Nice-to-Have)
 
-### Library
-
-Import your own data to manage spells, creatures, and other resources.
-
-### Character Management
-
-Easily create and edit characters. Player sheets and NPC sheets are managed under the Character tab.
-
-### Maps and Tokens
-
-Upload your own images for use in the tabletop environment. Drag-and-drop functionality is supported.
+- **Music Player:** Integrated audio control (VLC based) for local playlists.
+- **Dice Roller:** 3D or 2D physics-based dice rolling.
+- **Random Generators:** Names, Loot, and Encounters.
 
 ## Contribute
 
-We welcome contributions! Follow these steps:
+Contributions are always welcome! Follow these steps:
 
 1. Fork the repository.
-2. Create a development branch for your changes.
-3. Make and test your changes.
-4. Submit a pull request for review.
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes.
+4. Open a Pull Request.
 
 ------------------------------------------------------
 
 ## Disclaimer
 
-This software is distributed under the MIT-License.  
+This software is distributed under the **MIT-License**.  
 As such it is free to use, modify, and redistribute. However:
 
-- It is not affiliated with Wizards of the Coast or any other entity.
-- Users are solely responsible for any copyrighted material imported into the app.
-- The software does not include preloaded content and does not connect to any database by default.
+- I am **not affiliated** with Wizards of the Coast or any other entity.
+- The software **does not** include preloaded content (no SRD data, no copyrighted images).
+- Users are **solely responsible** for any copyrighted material (maps, music, spell descriptions) imported into the app.
+- All data is stored locally in a private database on the user's machine; **No data is transmitted to external servers.**
 
 *I do not condone the unlawful distribution of copyrighted materials. Use responsibly.*
