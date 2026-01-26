@@ -1,18 +1,15 @@
 package models
 
-import com.fasterxml.jackson.annotation.JsonAlias
-import com.fasterxml.jackson.annotation.JsonProperty
-
 data class Spell(
-    @JsonProperty("name") @JsonAlias("spellName") override val name: String,
-    @JsonProperty("duration") val duration: String,
-    @JsonProperty("components") val components: String,
-    @JsonProperty("ingredients") val ingredients: String,
-    @JsonProperty("description") val description: String,
-    @JsonProperty("school") val school: String,
-    @JsonProperty("level") val level: Int,
-    @JsonProperty("range") val range: String,
-    @JsonProperty("castingTime") val castingTime: String,
-    @JsonProperty("ritual") val ritual: Boolean,
-    @JsonProperty("concentration") val concentration: Boolean
-) : Nameable
+    val name: String,
+    val duration: String,
+    val components: String,
+    val ingredients: String,
+    val description: String,
+    val school: String,
+    val level: Int,
+    val range: String,
+    val castingTime: String,
+    val ritual: Boolean,
+    val concentration: Boolean
+)

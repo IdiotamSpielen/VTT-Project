@@ -42,14 +42,14 @@ fun SpellSearchView(controller: SpellSearchController) {
             }
         },
         bottomBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                Button(onClick = { controller.handleSearch() }) {
-                    Text("Display Spells")
+            if (controller.selectedSpell == null) {
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(10.dp),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    Button(onClick = { controller.handleSearch() }) {
+                        Text("Display Spells")
+                    }
                 }
             }
         }
@@ -59,16 +59,18 @@ fun SpellSearchView(controller: SpellSearchController) {
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            if (controller.spellName.isEmpty()) {
+            val currentSpell = controller.selectedSpell
+
+            if (currentSpell == null) {
                 // Spell List View
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(controller.spellList) { spellName ->
+                    items(controller.searchResults) { spell ->
                         Text(
-                            text = spellName,
+                            text = spell.name,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    controller.handleSpellSelection(spellName)
+                                    controller.selectSpell(spell)
                                 }
                                 .padding(16.dp),
                             style = MaterialTheme.typography.body1
@@ -86,22 +88,22 @@ fun SpellSearchView(controller: SpellSearchController) {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = controller.spellName,
+                        text = currentSpell.name,
                         style = MaterialTheme.typography.h4,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Casting Time", value = controller.castingTime, modifier = Modifier.weight(1f))
-                        DetailBox(label = "Range", value = controller.range, modifier = Modifier.weight(1f))
+                        DetailBox(label = "Casting Time", value = currentSpell.castingTime, modifier = Modifier.weight(1f))
+                        DetailBox(label = "Range", value = currentSpell.range, modifier = Modifier.weight(1f))
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Components", value = controller.components, modifier = Modifier.weight(1f))
-                        DetailBox(label = "Duration", value = controller.duration, modifier = Modifier.weight(1f))
+                        DetailBox(label = "Components", value = currentSpell.components, modifier = Modifier.weight(1f))
+                        DetailBox(label = "Duration", value = currentSpell.duration, modifier = Modifier.weight(1f))
                     }
 
-                    DetailBox(label = "Ingredients", value = controller.ingredients, modifier = Modifier.fillMaxWidth())
+                    DetailBox(label = "Ingredients", value = currentSpell.ingredients, modifier = Modifier.fillMaxWidth())
 
                     Surface(
                         elevation = 2.dp,
@@ -110,22 +112,22 @@ fun SpellSearchView(controller: SpellSearchController) {
                     ) {
                         Column(modifier = Modifier.padding(8.dp)) {
                             Text("Description", style = MaterialTheme.typography.caption)
-                            Text(controller.descArea, style = MaterialTheme.typography.body2)
+                            Text(currentSpell.description, style = MaterialTheme.typography.body2)
                         }
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Level", value = controller.level, modifier = Modifier.weight(1f))
-                        DetailBox(label = "School", value = controller.school, modifier = Modifier.weight(1f))
+                        DetailBox(label = "Level", value = currentSpell.level.toString(), modifier = Modifier.weight(1f))
+                        DetailBox(label = "School", value = currentSpell.school, modifier = Modifier.weight(1f))
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Ritual", value = controller.ritual, modifier = Modifier.weight(1f))
-                        DetailBox(label = "Concentration", value = controller.concentration, modifier = Modifier.weight(1f))
+                        DetailBox(label = "Ritual", value = if(currentSpell.ritual) "yes" else "no", modifier = Modifier.weight(1f))
+                        DetailBox(label = "Concentration", value = if (currentSpell.concentration) "yes" else "no", modifier = Modifier.weight(1f))
                     }
 
                     TextButton(
-                        onClick = { controller.spellName = "" },
+                        onClick = { controller.clearSelection() },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text("Back to list")

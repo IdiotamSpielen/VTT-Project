@@ -47,7 +47,6 @@ class ItemCreationController {
         }
     }
 
-    // Reset für das nächste Mal
     fun clear() {
         name = ""
         selectedType = null

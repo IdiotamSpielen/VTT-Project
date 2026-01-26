@@ -11,6 +11,11 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import controllers.MainController
 import controllers.TableTopController
+import database.DBSettings
+import database.ImageAssetsTable
+import database.SpellsTable
+import org.jetbrains.exposed.v1.jdbc.SchemaUtils
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ui.MainView
 import services.FileDropHandler
 import services.LocalizationService
@@ -23,6 +28,12 @@ import kotlin.math.max
  * Main entry point for the application.
  */
 fun main() = application {
+    val database = DBSettings.db
+
+    transaction {
+        SchemaUtils.create(SpellsTable)
+        SchemaUtils.create(ImageAssetsTable)
+    }
 
     val mainController = remember { MainController() }
     val tableTopController = remember { TableTopController() }
@@ -45,6 +56,8 @@ fun main() = application {
             println("Error getting screen resolution: ${e.message}")
         }
     }
+
+    print(database)
 
     Window(
         onCloseRequest = ::exitApplication,

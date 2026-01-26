@@ -3,12 +3,12 @@ package controllers
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import database.SpellsTable.ritual
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
 import models.Spell
 import services.FeedbackHandler
 import services.FeedbackHandler.FeedbackType.*
-import services.FileHandler
 import services.SpellHandler
 import utils.L
 
@@ -21,8 +21,7 @@ import utils.L
 // * that the created spell is valid and saved properly.
 // */
 class SpellCreationController {
-    private val fileHandler = FileHandler(Spell::class.java, "spells")
-    private val spellHandler = SpellHandler(fileHandler)
+    private val spellHandler = SpellHandler()
     val feedbackHandler = FeedbackHandler()
 
     var spellName by mutableStateOf("")
@@ -57,6 +56,7 @@ class SpellCreationController {
             spellHandler.createAndSaveSpell(spell)
             feedbackHandler.displayFeedback(
                 L.SUCCESS.t(mapOf("spellName" to spellName)), SUCCESS)
+            clear()
         }catch (e: InvalidSpellException){
             feedbackHandler.displayFeedback(e.errorKey.t(), ERROR)
         } catch (e: SpellNotSavedException) {
@@ -65,5 +65,19 @@ class SpellCreationController {
             feedbackHandler.displayFeedback(L.ERR_GENERIC_INVALID.t(), ERROR)
             e.printStackTrace()
         }
+    }
+
+    fun clear(){
+        spellName = ""
+        castingTime = ""
+        range = ""
+        component = ""
+        duration = ""
+        ingredients = ""
+        description = ""
+        level = ""
+        school = ""
+        isRitual = false
+        isConcentration = false
     }
 }
