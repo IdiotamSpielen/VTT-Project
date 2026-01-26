@@ -26,9 +26,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1")
 
     // libraries for working with database
-    implementation("org.jetbrains.exposed:exposed-core:1.0.0-rc-3")
-    implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0-rc-3")
-    implementation("org.jetbrains.exposed:exposed-dao:1.0.0-rc-3")
+    implementation("org.jetbrains.exposed:exposed-core:1.0.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0")
+    implementation("org.jetbrains.exposed:exposed-dao:1.0.0")
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 
     // logic libraries (might become obsolete in this change)
