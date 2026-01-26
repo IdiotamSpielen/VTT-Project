@@ -13,9 +13,7 @@ import controllers.MainController
 import controllers.TableTopController
 import database.DBSettings
 import database.ImageAssetsTable
-import database.SpellEntity
 import database.SpellsTable
-import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ui.MainView
@@ -31,15 +29,14 @@ import kotlin.math.max
  */
 fun main() = application {
     val database = DBSettings.db
-    val mainController = remember { MainController() }
-    val tableTopController = remember { TableTopController() }
 
-    //Initialize DataBase
     transaction {
         SchemaUtils.create(SpellsTable)
         SchemaUtils.create(ImageAssetsTable)
     }
 
+    val mainController = remember { MainController() }
+    val tableTopController = remember { TableTopController() }
 
     val state = rememberWindowState().apply {
         try {
