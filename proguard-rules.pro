@@ -1,0 +1,6 @@
+-dontwarn jakarta.servlet.**
+-dontwarn jakarta.mail.**
+-dontwarn org.codehaus.janino.**
+-dontwarn org.codehaus.commons.compiler.**
+-dontwarn org.tukaani.xz.**
+-dontwarn org.jetbrains.exposed.v1.dao.EntityClass
