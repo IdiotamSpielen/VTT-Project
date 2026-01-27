@@ -76,13 +76,17 @@ compose.desktop {
 
             description = "A local-first Virtual Tabletop"
             copyright = "© 2026 IdiotamSpielen"
-            vendor = "IdiotamSpielen"
+
+            includeAllModules = true
 
             windows {
                 menu = true
                 shortcut = true
                 //iconFile.set(project.file("src/main/resources/icon.ico"))
             }
+        }
+        buildTypes.release.proguard {
+            configurationFiles.from(project.file("proguard-rules.pro"))
         }
     }
 }
