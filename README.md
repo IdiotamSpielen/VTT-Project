@@ -15,7 +15,7 @@ Unlike web-based VTTs, this application runs natively on your desktop, ensuring 
 
 Powered by an SQLite backend with Exposed ORM
 
-- Create and manage Abilities, Items, Characters and much more.
+- Create and manage Abilities, Items, Characters, and much more.
 - Import your maps and Tokens via a simple Drag-and-Drop.
 
 ### Tabletop
