@@ -12,4 +12,4 @@ import utils.L
  *
  * @param message Detailed message describing the reason for the exception.
  */
-class InvalidSpellException(val errorKey: L) : Exception(errorKey.key)
+class InvalidSpellException(val errorKey: L) : Exception()
