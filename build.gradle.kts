@@ -1,3 +1,4 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -6,8 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
 }
 
-group = "idiotamspielen"
-version = "0.2.3-SNAPSHOT"
+val appVersion = System.getenv("GITHUB_REF_NAME") ?: "1.0.0"
 
 kotlin {
     jvmToolchain(21)
@@ -72,9 +72,19 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            targetFormats(org.jetbrains.compose.desktop.application.dsl.TargetFormat.Exe)
-            packageName = "PersonalVTT"
+            targetFormats(TargetFormat.Exe, TargetFormat.Deb)
+            packageName = "OpenVTT"
             packageVersion = "0.2.3"
+
+            description = "A local-first Virtual Tabletop"
+            copyright = "© 2026 IdiotamSpielen"
+            vendor = "IdiotamSpielen"
+
+            windows {
+                menu = true
+                shortcut = true
+                //iconFile.set(project.file("src/main/resources/icon.ico"))
+            }
         }
     }
 }

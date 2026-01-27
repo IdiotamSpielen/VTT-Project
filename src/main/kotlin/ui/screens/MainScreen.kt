@@ -17,10 +17,10 @@ import ui.components.TableTopView
  * The MainView
  */
 @Composable
-fun MainView(controller: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
-    val spellController = remember { SpellCreationViewmodel() }
-    val itemController = remember { ItemCreationViewmodel() }
-    val searchController = remember { SpellSearchViewmodel() }
+fun MainView(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
+    val spellCreationViewmodel = remember { SpellCreationViewmodel() }
+    val itemCreationViewmodel = remember { ItemCreationViewmodel() }
+    val spellSearchViewmodel = remember { SpellSearchViewmodel() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)
     Box(modifier = Modifier.fillMaxSize()) {
@@ -28,21 +28,21 @@ fun MainView(controller: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
         TableTopView(tableTopViewmodel)
 
         // Die Overlay-Logik
-        when (controller.currentScreen) {
+        when (viewmodel.currentScreen) {
             MainViewmodel.Screen.SPELL_CREATOR -> {
                 OverlayWindow(
                     title = "Create New Spell",
-                    onClose = { controller.closeOverlay() }
+                    onClose = { viewmodel.closeOverlay() }
                 ) {
-                    SpellCreatorView(spellController)
+                    SpellCreatorView(spellCreationViewmodel)
                 }
             }
             MainViewmodel.Screen.SPELL_SEARCH -> {
                 OverlayWindow(
                     title = "Search Spells",
-                    onClose = { controller.closeOverlay() }
+                    onClose = { viewmodel.closeOverlay() }
                 ) {
-                    SpellSearchView(searchController)
+                    SpellSearchView(spellSearchViewmodel)
                 }
             }
             MainViewmodel.Screen.TABLETOP -> {
@@ -51,9 +51,9 @@ fun MainView(controller: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
             MainViewmodel.Screen.ITEM_CREATOR -> {
                 OverlayWindow(
                     title = "Create New Item", // Oder L.TITLE_CREATE_ITEM.t()
-                    onClose = { controller.closeOverlay() }
+                    onClose = { viewmodel.closeOverlay() }
                 ) {
-                    ItemCreatorView(itemController, onClose = { controller.closeOverlay() })
+                    ItemCreatorView(itemCreationViewmodel, onClose = { viewmodel.closeOverlay() })
                 }
             }
         }

@@ -13,6 +13,7 @@ import viewmodels.MainViewmodel
 import viewmodels.TableTopViewmodel
 import database.DBSettings
 import database.ImageAssetsTable
+import database.ItemsTable
 import database.SpellsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -31,8 +32,7 @@ fun main() = application {
     val database = DBSettings.db
 
     transaction {
-        SchemaUtils.create(SpellsTable)
-        SchemaUtils.create(ImageAssetsTable)
+        SchemaUtils.create(SpellsTable, ImageAssetsTable, ItemsTable)
     }
 
     val mainController = remember { MainViewmodel() }

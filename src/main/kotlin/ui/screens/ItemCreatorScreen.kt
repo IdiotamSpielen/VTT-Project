@@ -14,7 +14,7 @@ import models.ItemType
 import utils.L
 
 @Composable
-fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
+fun ItemCreatorView(viewModel: ItemCreationViewmodel, onClose: () -> Unit) {
     // Styling Konstanten
     val spacing = 16.dp
 
@@ -26,8 +26,8 @@ fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
     ) {
         // --- NAME ---
         OutlinedTextField(
-            value = controller.name,
-            onValueChange = { controller.name = it },
+            value = viewModel.name,
+            onValueChange = { viewModel.name = it },
             label = { Text(L.ITEM_NAME.t()) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -36,17 +36,17 @@ fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
         // --- TYPE DROPDOWN ---
         // Compose hat kein einfaches "ComboBox" Widget, man baut es aus Box + DropdownMenu
         ItemTypeDropdown(
-            selectedType = controller.selectedType,
-            onTypeSelected = { controller.selectedType = it }
+            selectedType = viewModel.selectedType,
+            onTypeSelected = { viewModel.selectedType = it }
         )
 
         // --- CONDITIONAL FIELD: DAMAGE ---
         // Das ist der Ersatz für "visibleWhen". Einfach ein if!
         // Wird nur gerendert, wenn der Typ WEAPON ist.
-        if (controller.selectedType == ItemType.WEAPON) {
+        if (viewModel.selectedType == ItemType.WEAPON) {
             OutlinedTextField(
-                value = controller.damage,
-                onValueChange = { controller.damage = it },
+                value = viewModel.damage,
+                onValueChange = { viewModel.damage = it },
                 label = { Text(L.ITEM_DAMAGE.t()) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -55,8 +55,8 @@ fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
 
         // --- DESCRIPTION ---
         OutlinedTextField(
-            value = controller.description,
-            onValueChange = { controller.description = it },
+            value = viewModel.description,
+            onValueChange = { viewModel.description = it },
             label = { Text(L.ITEM_DESC.t()) },
             modifier = Modifier.fillMaxWidth().height(100.dp),
             maxLines = 5
@@ -74,13 +74,13 @@ fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
             Spacer(modifier = Modifier.width(8.dp))
             Button(
                 onClick = {
-                    controller.createAndSaveItem(onSuccess = {
-                        controller.clear()
+                    viewModel.createAndSaveItem(onSuccess = {
+                        viewModel.clear()
                         onClose()
                     })
                 },
                 // Button ist disabled, wenn Name leer oder Typ fehlt
-                enabled = controller.name.isNotBlank() && controller.selectedType != null
+                enabled = viewModel.name.isNotBlank() && viewModel.selectedType != null
             ) {
                 Text(L.BTN_SAVE.t())
             }

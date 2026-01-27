@@ -6,44 +6,56 @@ import androidx.compose.runtime.setValue
 import models.Item
 import models.ItemType
 import services.FeedbackHandler
-import services.FileHandler
+import services.FeedbackHandler.FeedbackType.*
+import repositories.ItemRepository
 import utils.L
 
 class ItemCreationViewmodel {
-    // State für die UI-Felder
+
+    // Abhängigkeiten
+    private val repository = ItemRepository()
+    val feedbackHandler = FeedbackHandler() // Public für die View
+
+    // State (Klassischer Ansatz ohne UiState-Klasse, wie du es hattest)
     var name by mutableStateOf("")
     var selectedType by mutableStateOf<ItemType?>(null)
     var description by mutableStateOf("")
     var damage by mutableStateOf("")
 
-    // Services
-    private val fileHandler = FileHandler(Item::class.java, "items")
-    private val feedbackHandler = FeedbackHandler()
-
     fun createAndSaveItem(onSuccess: () -> Unit) {
         try {
             // 1. Validierung
-            if (name.isBlank()) throw IllegalArgumentException(L.ERR_NAME_EMPTY.t())
-            if (selectedType == null) throw IllegalArgumentException("Type must be selected") // TODO: Add L.ERR_TYPE_EMPTY
+            if (name.isBlank()) {
+                feedbackHandler.displayFeedback(L.ERR_NAME_EMPTY.t(), ERROR)
+                return
+            }
+            if (selectedType == null) {
+                feedbackHandler.displayFeedback("Please select a type", ERROR)
+                return
+            }
 
-            // 2. Erstellung
+            // 2. Erstellung des Models
             val newItem = Item(
                 name = name,
                 type = selectedType!!,
                 description = description,
-                // Nur speichern, wenn es eine Waffe ist, sonst null
+                // Logik: Schaden wird nur gespeichert, wenn es eine Waffe ist
                 damage = if (selectedType == ItemType.WEAPON) damage else null
             )
 
-            // 3. Speichern
-            fileHandler.saveToFile(newItem)
+            // 3. Speichern in DB (statt FileHandler)
+            repository.save(newItem)
 
-            // 4. Feedback & Schließen
-            feedbackHandler.displayFeedback(L.SUCCESS.t(mapOf("name" to name)), FeedbackHandler.FeedbackType.SUCCESS)
-            onSuccess() // Callback zum Schließen des Fensters
+            // 4. Feedback
+            feedbackHandler.displayFeedback(L.SUCCESS.t(mapOf("name" to name)), SUCCESS)
+
+            // Optional: Fenster schließen oder Formular leeren
+            // onSuccess() // Wenn das Fenster zugehen soll
+            clear() // Wenn man gleich das nächste Item anlegen will
 
         } catch (e: Exception) {
-            feedbackHandler.displayFeedback(e.message ?: L.ERR_UNEXPECTED.t(), FeedbackHandler.FeedbackType.ERROR)
+            e.printStackTrace()
+            feedbackHandler.displayFeedback(L.ERR_GENERIC_INVALID.t(), ERROR)
         }
     }
 
@@ -52,5 +64,6 @@ class ItemCreationViewmodel {
         selectedType = null
         description = ""
         damage = ""
+        // Feedback muss man oft nicht löschen, damit der User "Success" noch sieht
     }
 }

@@ -44,7 +44,7 @@ class SpellRepository: Repository<Spell> {
 
     override fun delete(item: Spell) {
         transaction {
-            val spell = SpellEntity.find { SpellsTable.name eq item.name }.firstOrNull()
+            val spell = SpellEntity.find { SpellsTable.name.lowerCase() eq item.name.lowercase() }.firstOrNull()
             spell?.delete()
         }
     }
