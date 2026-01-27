@@ -25,18 +25,16 @@ dependencies {
     implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1")
 
-    // libraries for working with database
+    // libraries for working with a database
     implementation("org.jetbrains.exposed:exposed-core:1.0.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0")
     implementation("org.jetbrains.exposed:exposed-dao:1.0.0")
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 
     // logic libraries (might become obsolete in this change)
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.21.0")
-    implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
     implementation("org.slf4j:slf4j-api:2.0.17")
-    implementation("ch.qos.logback:logback-classic:1.5.21")
+    implementation("ch.qos.logback:logback-classic:1.5.+")
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.2")
@@ -74,7 +72,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Exe, TargetFormat.Deb)
             packageName = "OpenVTT"
-            packageVersion = "0.2.3"
+            packageVersion = "0.5.0"
 
             description = "A local-first Virtual Tabletop"
             copyright = "© 2026 IdiotamSpielen"
