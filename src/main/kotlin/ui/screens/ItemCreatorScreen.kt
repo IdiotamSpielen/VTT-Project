@@ -1,6 +1,5 @@
-package ui
+package ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -9,14 +8,13 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import controllers.ItemCreationController
+import viewmodels.ItemCreationViewmodel
 import models.ItemType
 import utils.L
 
 @Composable
-fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
+fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
     // Styling Konstanten
     val spacing = 16.dp
 
@@ -124,7 +122,7 @@ fun ItemTypeDropdown(
             onDismissRequest = { expanded = false },
             modifier = Modifier.fillMaxWidth(0.9f) // Breite relativ zur Box anpassen
         ) {
-            ItemType.values().forEach { type ->
+            ItemType.entries.forEach { type ->
                 DropdownMenuItem(onClick = {
                     onTypeSelected(type)
                     expanded = false

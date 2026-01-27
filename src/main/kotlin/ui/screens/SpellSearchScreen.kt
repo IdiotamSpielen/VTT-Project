@@ -1,4 +1,4 @@
-package ui
+package ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
-import controllers.SpellSearchController
+import viewmodels.SpellSearchViewmodel
 
 @Composable
-fun SpellSearchView(controller: SpellSearchController) {
+fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -23,15 +23,19 @@ fun SpellSearchView(controller: SpellSearchController) {
                 elevation = 4.dp
             ) {
                 OutlinedTextField(
-                    value = controller.searchInput,
-                    onValueChange = { controller.searchInput = it },
+                    value = viewmodel.searchInput,
+                    onValueChange = {
+                        viewmodel.searchInput = it
+                        viewmodel.handleSearch()
+                    },
                     placeholder = { Text("Enter spell name to search") },
+
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .onKeyEvent { event ->
                             if (event.key == Key.Enter && event.type == KeyEventType.KeyUp) {
-                                controller.handleSearch()
+                                viewmodel.handleSearch()
                                 true
                             } else {
                                 false
@@ -42,12 +46,12 @@ fun SpellSearchView(controller: SpellSearchController) {
             }
         },
         bottomBar = {
-            if (controller.selectedSpell == null) {
+            if (viewmodel.selectedSpell == null) {
                 Box(
                     modifier = Modifier.fillMaxWidth().padding(10.dp),
                     contentAlignment = Alignment.BottomCenter
                 ) {
-                    Button(onClick = { controller.handleSearch() }) {
+                    Button(onClick = { viewmodel.handleSearch() }) {
                         Text("Display Spells")
                     }
                 }
@@ -59,18 +63,18 @@ fun SpellSearchView(controller: SpellSearchController) {
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            val currentSpell = controller.selectedSpell
+            val currentSpell = viewmodel.selectedSpell
 
             if (currentSpell == null) {
                 // Spell List View
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(controller.searchResults) { spell ->
+                    items(viewmodel.searchResults) { spell ->
                         Text(
                             text = spell.name,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    controller.selectSpell(spell)
+                                    viewmodel.selectSpell(spell)
                                 }
                                 .padding(16.dp),
                             style = MaterialTheme.typography.body1
@@ -127,7 +131,7 @@ fun SpellSearchView(controller: SpellSearchController) {
                     }
 
                     TextButton(
-                        onClick = { controller.clearSelection() },
+                        onClick = { viewmodel.clearSelection() },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text("Back to list")

@@ -1,4 +1,4 @@
-package ui
+package ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,19 +14,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntOffset
-import controllers.TableTopController
+import viewmodels.TableTopViewmodel
 import models.ElementType
 import models.TableTopElement
+import org.jetbrains.skia.Image
 import java.io.File
 import kotlin.math.roundToInt
 
 @Composable
-fun TableTopView(controller: TableTopController) {
+fun TableTopView(controller: TableTopViewmodel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +83,7 @@ fun TableTopView(controller: TableTopController) {
 @Composable
 fun DraggableElement(
     element: TableTopElement,
-    onDrag: (androidx.compose.ui.geometry.Offset) -> Unit
+    onDrag: (Offset) -> Unit
 ) {
     // Sicheres Laden des Bildes
     val bitmap = remember(element.absolutePath) {
@@ -119,10 +122,10 @@ fun ImportDialog(fileName: String, onConfirm: (ElementType) -> Unit, onDismiss: 
     )
 }
 
-fun loadImageBitmap(file: File): androidx.compose.ui.graphics.ImageBitmap? {
+fun loadImageBitmap(file: File): ImageBitmap? {
     return try {
         if (file.exists()) {
-            org.jetbrains.skia.Image.makeFromEncoded(file.readBytes()).toComposeImageBitmap()
+            Image.makeFromEncoded(file.readBytes()).toComposeImageBitmap()
         } else {
             null
         }

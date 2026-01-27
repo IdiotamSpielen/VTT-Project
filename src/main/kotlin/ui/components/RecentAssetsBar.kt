@@ -1,5 +1,8 @@
-package ui
+package ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -65,10 +68,10 @@ fun RecentAssetsBar(
                 }
             }
 
-            androidx.compose.animation.AnimatedVisibility(
+            AnimatedVisibility(
                 visible = !isMinimized,
-                enter = androidx.compose.animation.expandVertically(),
-                exit = androidx.compose.animation.shrinkVertically()
+                enter = expandVertically(),
+                exit = shrinkVertically()
             ) {
                 LazyRow(
                     contentPadding = PaddingValues(bottom = 8.dp, top = 4.dp),

@@ -9,14 +9,14 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import controllers.MainController
-import controllers.TableTopController
+import viewmodels.MainViewmodel
+import viewmodels.TableTopViewmodel
 import database.DBSettings
 import database.ImageAssetsTable
 import database.SpellsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import ui.MainView
+import ui.screens.MainView
 import services.FileDropHandler
 import services.LocalizationService
 import utils.L
@@ -35,8 +35,8 @@ fun main() = application {
         SchemaUtils.create(ImageAssetsTable)
     }
 
-    val mainController = remember { MainController() }
-    val tableTopController = remember { TableTopController() }
+    val mainController = remember { MainViewmodel() }
+    val tableTopViewmodel = remember { TableTopViewmodel() }
 
     val state = rememberWindowState().apply {
         try {
@@ -87,8 +87,8 @@ fun main() = application {
             }
         }
         FileDropHandler(onFileDrop = { file ->
-            tableTopController.onFileDropped(file)
+            tableTopViewmodel.onFileDropped(file)
         })
-        MainView(mainController, tableTopController)
+        MainView(mainController, tableTopViewmodel)
     }
 }

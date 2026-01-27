@@ -1,13 +1,14 @@
-package controllers
+package viewmodels
 
 import repositories.SpellRepository
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.*
 import models.Spell
 
-class SpellSearchController {
+class SpellSearchViewmodel {
     private val repository = SpellRepository()
     var searchInput by mutableStateOf("")
     var searchResults = mutableStateListOf<Spell>()
@@ -15,15 +16,19 @@ class SpellSearchController {
     var selectedSpell by mutableStateOf<Spell?>(null)
 
     fun handleSearch() {
-        searchResults.clear()
-        val results = if (searchInput.isBlank()) {
-            repository.getAll() // Zeige alle, wenn Suche leer ist (optional)
-        } else {
-            repository.search(searchInput)
-        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val results = if (searchInput.isBlank()) {
+                repository.getAll()
+            } else {
+                repository.search(searchInput)
+            }
 
-        searchResults.addAll(results)
-        selectedSpell = null
+            withContext(Dispatchers.Main) {
+                searchResults.clear()
+                searchResults.addAll(results)
+                selectedSpell = null
+            }
+        }
     }
 
     fun selectSpell(spell: Spell) {

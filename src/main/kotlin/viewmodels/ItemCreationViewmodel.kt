@@ -1,4 +1,4 @@
-package controllers
+package viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,16 +9,16 @@ import services.FeedbackHandler
 import services.FileHandler
 import utils.L
 
-class ItemCreationController {
+class ItemCreationViewmodel {
     // State für die UI-Felder
     var name by mutableStateOf("")
-    var selectedType by mutableStateOf<ItemType?>(null) // Nullable, da am Anfang nichts gewählt ist
+    var selectedType by mutableStateOf<ItemType?>(null)
     var description by mutableStateOf("")
     var damage by mutableStateOf("")
 
     // Services
     private val fileHandler = FileHandler(Item::class.java, "items")
-    private val feedbackHandler = FeedbackHandler() // Annahme: Du hast den als Service oder Singleton
+    private val feedbackHandler = FeedbackHandler()
 
     fun createAndSaveItem(onSuccess: () -> Unit) {
         try {

@@ -1,4 +1,4 @@
-package controllers
+package viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -15,7 +15,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-class TableTopController {
+class TableTopViewmodel {
 
     val elements = mutableStateListOf<TableTopElement>()
     var recentAssets = mutableStateListOf<ImageAssetModel>()
