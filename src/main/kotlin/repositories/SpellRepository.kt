@@ -9,14 +9,17 @@ import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.core.lowerCase
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
+/**
+ * The Repository responsible for linking the Spell Creation process to its appropriate Database Table.
+ *
+ * @param Spell the spell to be saved
+ */
 class SpellRepository: Repository<Spell> {
     override fun save (item: Spell) {
         transaction {
-            // Check: Gibt es ihn schon?
             val existingSpell = SpellEntity.find { SpellsTable.name eq item.name }.firstOrNull()
 
             if (existingSpell == null) {
-                // Neu erstellen
                 SpellEntity.new {
                     assignValues(this, item)
                 }

@@ -8,11 +8,8 @@ import java.util.ResourceBundle
 
 object LocalizationService {
 
-    // Der "State". Wenn sich das hier ändert, rendert Compose neu.
     var currentLocale: Locale by mutableStateOf(Locale.US)
 
-    // Lädt das passende Bundle basierend auf dem State
-    // "strings" ist der Name der Datei im resources-Ordner (ohne _de_DE etc.)
     private val bundle: ResourceBundle
         get() = ResourceBundle.getBundle("strings", currentLocale)
 
@@ -24,13 +21,12 @@ object LocalizationService {
     fun getString(key: String, args: Map<String, String> = emptyMap()): String {
         return try {
             var text = bundle.getString(key)
-            // Ersetzt Platzhalter {key} durch value
             args.forEach { (placeholder, value) ->
                 text = text.replace("{$placeholder}", value)
             }
             text
         } catch (e: Exception) {
-            "MISSING: $key" // Fallback, falls Schlüssel fehlt
+            "MISSING: $key"
         }
     }
 }

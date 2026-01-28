@@ -9,12 +9,20 @@ import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.core.lowerCase
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
+/**
+ * The repository connecting the Item Creation process to the appropriate Database Table
+ */
 class ItemRepository : Repository<Item> {
+
+    /**
+     *
+     * @param Item the
+     */
     override fun save(item: Item) {
         transaction {
             ItemEntity.new {
                 name = item.name
-                type = item.type // Enum zu String
+                type = item.type
                 description = item.description
                 damage = item.damage
             }
