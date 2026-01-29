@@ -15,7 +15,7 @@ kotlin {
 }
 
 // setting up a mockito agent for testing
-//val mockitoAgent: Configuration by configurations.creating
+val mockitoAgent: Configuration by configurations.creating
 
 dependencies {
     // --- Compose Desktop ---
@@ -37,6 +37,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.+")
 
     // --- Testing ---
+    //coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
+
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.2")
@@ -45,7 +48,8 @@ dependencies {
     //Mockito
     testImplementation("org.mockito:mockito-core:5.+")
     testImplementation("org.mockito:mockito-junit-jupiter:5.+")
-    //mockitoAgent("org.mockito:mockito-core:5.+") { isTransitive = false }
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    mockitoAgent("org.mockito:mockito-core:5.+") { isTransitive = false }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -56,11 +60,11 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    // Mockito Agent einbinden
-    //val agentFile = mockitoAgent.find { it.name.startsWith("mockito-core") }
-    //if (agentFile != null) {
-    //    jvmArgs("-javaagent:${agentFile.absolutePath}")
-    //}
+
+    val agentFile = mockitoAgent.find { it.name.startsWith("mockito-core") }
+    if (agentFile != null) {
+        jvmArgs("-javaagent:${agentFile.absolutePath}")
+    }
     jvmArgs("-XX:+EnableDynamicAgentLoading")
 
     testLogging {

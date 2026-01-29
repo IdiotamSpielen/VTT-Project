@@ -29,12 +29,13 @@ data class SpellUiState(
  * Viewmodel responsible for creating spells.
  *
  * This class provides functionality for setting spell properties and
- * creating a spell using the [SpellHandler] class. It also ensures
+ * creating a spell using a [SpellRepository]. It also ensures
  * that the created spell is valid and saved properly.
  */
-class SpellCreationViewmodel {
-    private val repository = SpellRepository()
-    val feedbackHandler = FeedbackHandler()
+class SpellCreationViewmodel(
+    private val repository : SpellRepository = SpellRepository(),
+    val feedbackHandler : FeedbackHandler = FeedbackHandler()
+) {
     var uiState by mutableStateOf(SpellUiState())
     private set
 
@@ -56,7 +57,7 @@ class SpellCreationViewmodel {
                 range = currentState.range,
                 castingTime = currentState.castingTime,
                 description = currentState.description,
-                ingredients = currentState.ingredients,
+                ingredients = currentState.ingredients.takeIf { it.isNotBlank() },
                 ritual = currentState.isRitual,
                 concentration = currentState.isConcentration
             )

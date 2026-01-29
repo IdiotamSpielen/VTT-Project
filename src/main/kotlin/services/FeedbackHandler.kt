@@ -14,6 +14,8 @@ class FeedbackHandler() {
 
     var message by mutableStateOf("")
     var color by mutableStateOf(Color.Transparent)
+    var currentType by mutableStateOf<FeedbackType?>(null)
+        private set
 
     private var fadeJob: Job? = null
 
@@ -34,11 +36,13 @@ class FeedbackHandler() {
 
         message = text
         color = type.color
+        currentType = type
 
         fadeJob?.cancel()
         fadeJob = CoroutineScope(Dispatchers.Main).launch {
             delay(3000)
             message = ""
+            currentType = null
         }
     }
 }

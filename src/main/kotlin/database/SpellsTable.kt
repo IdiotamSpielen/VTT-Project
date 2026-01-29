@@ -6,7 +6,7 @@ object SpellsTable : IntIdTable() {
     val name = varchar("name", 255).uniqueIndex()
     val duration = varchar("duration", 255)
     val components = varchar("components", 255)
-    val ingredients = varchar("ingredients", 255)
+    val ingredients = varchar("ingredients", 255).nullable()
     val description = text("description")
     val school = varchar("school", 255)
     val level = integer("level", "BETWEEN 0 AND 9").default(0)

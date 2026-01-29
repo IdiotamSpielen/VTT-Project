@@ -4,7 +4,7 @@ data class Spell(
     val name: String,
     val duration: String,
     val components: String,
-    val ingredients: String,
+    val ingredients: String?,
     val description: String,
     val school: String,
     val level: Int,

@@ -107,7 +107,13 @@ fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
                         DetailBox(label = "Duration", value = currentSpell.duration, modifier = Modifier.weight(1f))
                     }
 
-                    DetailBox(label = "Ingredients", value = currentSpell.ingredients, modifier = Modifier.fillMaxWidth())
+                    currentSpell.ingredients?.let { ingredients ->
+                        DetailBox(
+                            label = "Ingredients",
+                            value = ingredients,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
 
                     Surface(
                         elevation = 2.dp,
