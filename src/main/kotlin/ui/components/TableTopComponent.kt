@@ -21,15 +21,15 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntOffset
-import viewmodels.TableTopViewmodel
-import models.ElementType
-import models.TableTopElement
+import viewmodels.TableTopViewModel
+import domain.ElementType
+import domain.TableTopElement
 import org.jetbrains.skia.Image
 import java.io.File
 import kotlin.math.roundToInt
 
 @Composable
-fun TableTopView(controller: TableTopViewmodel) {
+fun TableTopView(controller: TableTopViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()

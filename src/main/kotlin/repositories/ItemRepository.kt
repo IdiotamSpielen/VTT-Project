@@ -2,8 +2,7 @@ package repositories
 
 import database.ItemEntity
 import database.ItemsTable
-import models.Item
-import models.ItemType
+import domain.Item
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.core.lowerCase

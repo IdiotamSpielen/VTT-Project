@@ -1,6 +1,6 @@
 package database
 
-import models.ItemType
+import domain.ItemType
 import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
 
 object ItemsTable : IntIdTable() {

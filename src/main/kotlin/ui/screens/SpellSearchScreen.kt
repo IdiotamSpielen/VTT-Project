@@ -12,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
-import viewmodels.SpellSearchViewmodel
+import viewmodels.SpellSearchViewModel
 
 @Composable
-fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
+fun SpellSearchView(viewmodel: SpellSearchViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(

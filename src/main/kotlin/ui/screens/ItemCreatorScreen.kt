@@ -9,12 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import viewmodels.ItemCreationViewmodel
-import models.ItemType
+import viewmodels.ItemCreationViewModel
+import domain.ItemType
 import utils.L
 
 @Composable
-fun ItemCreatorView(viewModel: ItemCreationViewmodel, onClose: () -> Unit) {
+fun ItemCreatorView(viewModel: ItemCreationViewModel, onClose: () -> Unit) {
     // Styling Konstanten
     val spacing = 16.dp
 

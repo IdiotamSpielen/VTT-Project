@@ -1,6 +1,6 @@
 package viewmodels
 
-import models.Spell
+import domain.Spell
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import repositories.SpellRepository
@@ -9,7 +9,7 @@ import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.verify
 import services.FeedbackHandler
 
-class SpellCreationViewTest {
+class SpellCreationViewModelTest {
 
     @Test
     fun `createSpell calls save on repository when input is valid`() {

@@ -2,7 +2,7 @@ package repositories
 
 import database.ImageAssetEntity
 import database.ImageAssetsTable
-import models.ElementType
+import domain.ElementType
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import java.io.File

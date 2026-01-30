@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import viewmodels.ItemCreationViewmodel
-import viewmodels.MainViewmodel
+import viewmodels.ItemCreationViewModel
+import viewmodels.MainViewModel
 import viewmodels.SpellCreationViewmodel
-import viewmodels.SpellSearchViewmodel
-import viewmodels.TableTopViewmodel
+import viewmodels.SpellSearchViewModel
+import viewmodels.TableTopViewModel
 import ui.components.OverlayWindow
 import ui.components.TableTopView
 
@@ -17,10 +17,10 @@ import ui.components.TableTopView
  * The MainView
  */
 @Composable
-fun MainView(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
+fun MainView(viewmodel: MainViewModel, tableTopViewmodel: TableTopViewModel) {
     val spellCreationViewmodel = remember { SpellCreationViewmodel() }
-    val itemCreationViewmodel = remember { ItemCreationViewmodel() }
-    val spellSearchViewmodel = remember { SpellSearchViewmodel() }
+    val itemCreationViewmodel = remember { ItemCreationViewModel() }
+    val spellSearchViewmodel = remember { SpellSearchViewModel() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)
     Box(modifier = Modifier.fillMaxSize()) {
@@ -29,7 +29,7 @@ fun MainView(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
 
         // Die Overlay-Logik
         when (viewmodel.currentScreen) {
-            MainViewmodel.Screen.SPELL_CREATOR -> {
+            MainViewModel.Screen.SPELL_CREATOR -> {
                 OverlayWindow(
                     title = "Create New Spell",
                     onClose = { viewmodel.closeOverlay() }
@@ -37,7 +37,7 @@ fun MainView(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
                     SpellCreatorView(spellCreationViewmodel)
                 }
             }
-            MainViewmodel.Screen.SPELL_SEARCH -> {
+            MainViewModel.Screen.SPELL_SEARCH -> {
                 OverlayWindow(
                     title = "Search Spells",
                     onClose = { viewmodel.closeOverlay() }
@@ -45,10 +45,10 @@ fun MainView(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
                     SpellSearchView(spellSearchViewmodel)
                 }
             }
-            MainViewmodel.Screen.TABLETOP -> {
+            MainViewModel.Screen.TABLETOP -> {
                 // Kein Overlay anzeigen
             }
-            MainViewmodel.Screen.ITEM_CREATOR -> {
+            MainViewModel.Screen.ITEM_CREATOR -> {
                 OverlayWindow(
                     title = "Create New Item", // Oder L.TITLE_CREATE_ITEM.t()
                     onClose = { viewmodel.closeOverlay() }

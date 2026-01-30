@@ -3,8 +3,11 @@ package viewmodels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import domain.DnD5eSpellConfig
+import domain.LibraryEntry
 import exceptions.InvalidSpellException
-import models.Spell
+import domain.Spell
+import repositories.LibraryRepository
 import repositories.SpellRepository
 import services.FeedbackHandler
 import services.FeedbackHandler.FeedbackType.*
@@ -33,7 +36,7 @@ data class SpellUiState(
  * that the created spell is valid and saved properly.
  */
 class SpellCreationViewmodel(
-    private val repository : SpellRepository = SpellRepository(),
+    private val repository: LibraryRepository = LibraryRepository(),
     val feedbackHandler : FeedbackHandler = FeedbackHandler()
 ) {
     var uiState by mutableStateOf(SpellUiState())
@@ -48,22 +51,28 @@ class SpellCreationViewmodel(
             val currentState = uiState
             validateInput(currentState)
 
-            val spell = Spell(
-                name = currentState.name,
+            val spellConfig = DnD5eSpellConfig(
+                level = currentState.level.toInt(),
                 school = currentState.school,
-                duration = currentState.duration,
                 components = currentState.components,
-                level = currentState.level.toIntOrNull() ?: -1,
-                range = currentState.range,
                 castingTime = currentState.castingTime,
-                description = currentState.description,
+                range = currentState.range,
+                duration = currentState.duration,
                 ingredients = currentState.ingredients.takeIf { it.isNotBlank() },
-                ritual = currentState.isRitual,
-                concentration = currentState.isConcentration
+                description = currentState.description, // Falls description in Config gehört
+                isRitual = currentState.isRitual,
+                isConcentration = currentState.isConcentration
             )
 
-            repository.save(spell)
+            val entry = LibraryEntry(
+                id = 0, // 0 für neue Einträge (Auto-Increment)
+                name = currentState.name,
+                type = "spell", // Der Diskriminator
+                systemId = "dnd5e",
+                config = spellConfig
+            )
 
+            repository.save(entry)
             feedbackHandler.displayFeedback(
                 L.SUCCESS.t(mapOf("spellName" to currentState.name)), SUCCESS)
             clear()
@@ -85,7 +94,6 @@ class SpellCreationViewmodel(
             state.range.isBlank() to L.ERR_RANGE_EMPTY,
             state.components.isBlank() to L.ERR_COMP_EMPTY,
             state.description.isBlank() to L.ERR_DESC_EMPTY,
-            // Hier fangen wir ab, wenn Level gar keine Zahl ist oder falsch
             (levelInt == null || levelInt !in 0..9) to L.ERR_LEVEL_RANGE,
             state.school.isBlank() to L.ERR_SCHOOL_EMPTY,
         )

@@ -9,8 +9,8 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import viewmodels.MainViewmodel
-import viewmodels.TableTopViewmodel
+import viewmodels.MainViewModel
+import viewmodels.TableTopViewModel
 import database.DBSettings
 import database.ImageAssetsTable
 import database.ItemsTable
@@ -35,8 +35,8 @@ fun main() = application {
         SchemaUtils.create(SpellsTable, ImageAssetsTable, ItemsTable)
     }
 
-    val mainController = remember { MainViewmodel() }
-    val tableTopViewmodel = remember { TableTopViewmodel() }
+    val mainController = remember { MainViewModel() }
+    val tableTopViewmodel = remember { TableTopViewModel() }
 
     val state = rememberWindowState().apply {
         try {

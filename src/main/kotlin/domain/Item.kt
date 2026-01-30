@@ -1,4 +1,4 @@
-package models
+package domain
 
 data class Item(
     val name: String,

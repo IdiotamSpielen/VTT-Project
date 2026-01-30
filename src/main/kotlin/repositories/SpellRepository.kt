@@ -2,7 +2,7 @@ package repositories
 
 import database.SpellEntity
 import database.SpellsTable
-import models.Spell
+import domain.Spell
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
@@ -24,7 +24,6 @@ class SpellRepository: Repository<Spell> {
                     assignValues(this, item)
                 }
             } else {
-                // Optional: Update durchführen, falls er schon existiert
                 assignValues(existingSpell, item)
             }
         }

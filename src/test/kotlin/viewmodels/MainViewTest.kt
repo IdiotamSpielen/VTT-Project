@@ -1,4 +1,0 @@
-package viewmodels
-
-class MainViewTest {
-}

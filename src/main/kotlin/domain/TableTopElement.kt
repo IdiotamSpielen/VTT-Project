@@ -1,4 +1,4 @@
-package models
+package domain
 
 import androidx.compose.ui.geometry.Offset
 import java.util.UUID

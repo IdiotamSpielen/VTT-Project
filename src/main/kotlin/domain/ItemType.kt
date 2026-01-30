@@ -1,4 +1,4 @@
-package models
+package domain
 
 enum class ItemType {
     WEAPON,

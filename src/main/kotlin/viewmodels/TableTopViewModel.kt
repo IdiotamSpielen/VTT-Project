@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import models.ElementType
-import models.TableTopElement
+import domain.ElementType
+import domain.TableTopElement
 import repositories.AssetRepository
 import repositories.ImageAssetModel
 import java.io.File
@@ -15,7 +15,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-class TableTopViewmodel {
+class TableTopViewModel {
 
     val elements = mutableStateListOf<TableTopElement>()
     var recentAssets = mutableStateListOf<ImageAssetModel>()

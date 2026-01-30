@@ -32,6 +32,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:1.0.0")
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
+
     // --- Logging ---
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("ch.qos.logback:logback-classic:1.5.+")

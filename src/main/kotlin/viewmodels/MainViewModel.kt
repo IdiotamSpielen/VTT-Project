@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.util.*
 
-class MainViewmodel {
+class MainViewModel {
     enum class Screen {
         TABLETOP,
         SPELL_CREATOR,

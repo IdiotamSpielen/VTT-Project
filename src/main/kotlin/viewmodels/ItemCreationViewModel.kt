@@ -3,14 +3,14 @@ package viewmodels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import models.Item
-import models.ItemType
+import domain.Item
+import domain.ItemType
 import services.FeedbackHandler
 import services.FeedbackHandler.FeedbackType.*
 import repositories.ItemRepository
 import utils.L
 
-class ItemCreationViewmodel {
+class ItemCreationViewModel {
 
     // Abhängigkeiten
     private val repository = ItemRepository()
