@@ -1,14 +1,7 @@
 package models
 
 class Ability(
-    override val name: String,
-    private val level: Int?,
-    private val type: String?,
-    private val cost: Int?,
-    private val cooldown: Int?,
-    private val duration: Int?,
-    private val range: Int?,
-    private val target: String?,
-    private val descriptionLong: String?,
-    private val descriptionShort: String?,
-) : Nameable
+    val name: String,
+    val description: String,
+    val linked_skills: List<Skill>,
+)
