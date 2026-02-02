@@ -48,7 +48,7 @@ dependencies {
     //Mockito
     testImplementation("org.mockito:mockito-core:5.+")
     testImplementation("org.mockito:mockito-junit-jupiter:5.+")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.2.3")
     mockitoAgent("org.mockito:mockito-core:5.+") { isTransitive = false }
 }
 
