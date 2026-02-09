@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import domain.DnD5eSpellConfig
 import domain.LibraryEntry
 import exceptions.InvalidSpellException
-import domain.Spell
 import repositories.LibraryRepository
 import repositories.SpellRepository
 import services.FeedbackHandler
@@ -35,7 +34,7 @@ data class SpellUiState(
  * creating a spell using a [SpellRepository]. It also ensures
  * that the created spell is valid and saved properly.
  */
-class SpellCreationViewmodel(
+class SpellCreationViewModel(
     private val repository: LibraryRepository = LibraryRepository(),
     val feedbackHandler : FeedbackHandler = FeedbackHandler()
 ) {
@@ -60,14 +59,14 @@ class SpellCreationViewmodel(
                 duration = currentState.duration,
                 ingredients = currentState.ingredients.takeIf { it.isNotBlank() },
                 description = currentState.description, // Falls description in Config gehört
-                isRitual = currentState.isRitual,
-                isConcentration = currentState.isConcentration
+                ritual = currentState.isRitual,
+                concentration = currentState.isConcentration
             )
 
             val entry = LibraryEntry(
-                id = 0, // 0 für neue Einträge (Auto-Increment)
+                id = 0,
                 name = currentState.name,
-                type = "spell", // Der Diskriminator
+                type = "spell",
                 systemId = "dnd5e",
                 config = spellConfig
             )

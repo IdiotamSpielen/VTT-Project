@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import viewmodels.SpellSearchViewModel
 
 @Composable
-fun SpellSearchView(viewmodel: SpellSearchViewModel) {
+fun SpellSearchScreen(viewmodel: SpellSearchViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(

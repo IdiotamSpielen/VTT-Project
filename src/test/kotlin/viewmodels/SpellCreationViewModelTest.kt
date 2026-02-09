@@ -16,7 +16,7 @@ class SpellCreationViewModelTest {
         //GIVEN
 
         val mockRepo = mock(SpellRepository::class.java)
-        val viewModel = SpellCreationViewmodel(repository = mockRepo)
+        val viewModel = SpellCreationViewModel(repository = mockRepo)
 
         viewModel.updateState(SpellUiState(
             name = "Test Spell",
@@ -43,7 +43,7 @@ class SpellCreationViewModelTest {
         val mockRepo = mock(SpellRepository::class.java)
         val spellCaptor = argumentCaptor<Spell>()
         `when`(mockRepo.save(spellCaptor.capture())).thenThrow(RuntimeException("DB is burning!"))
-        val viewModel = SpellCreationViewmodel(repository = mockRepo)
+        val viewModel = SpellCreationViewModel(repository = mockRepo)
 
         viewModel.updateState(SpellUiState(
             name = "Crash Spell",

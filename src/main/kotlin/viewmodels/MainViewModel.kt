@@ -16,10 +16,10 @@ class MainViewModel {
     var currentScreen by mutableStateOf(Screen.TABLETOP)
         private set
 
-    var currentLocale by mutableStateOf(Locale.of("de", "DE"))
+    var currentLocale: Locale by mutableStateOf(Locale.of("de", "DE"))
         private set
 
-    var strings by mutableStateOf(ResourceBundle.getBundle("strings", currentLocale))
+    var strings: ResourceBundle by mutableStateOf(ResourceBundle.getBundle("strings", currentLocale))
 
 
     fun setLanguage(langCode: String) {

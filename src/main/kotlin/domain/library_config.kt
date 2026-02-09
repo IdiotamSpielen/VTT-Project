@@ -45,5 +45,8 @@ data class DnD5eSpellConfig(
     val castingTime: String,
     val range: String,
     val duration: String,
-    val ingredients: String? = null
+    val ingredients: String? = null,
+    val description: String,
+    val concentration: Boolean,
+    val ritual: Boolean
 ) : SpellConfig

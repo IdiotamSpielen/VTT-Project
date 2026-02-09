@@ -14,7 +14,7 @@ import domain.ItemType
 import utils.L
 
 @Composable
-fun ItemCreatorView(viewModel: ItemCreationViewModel, onClose: () -> Unit) {
+fun ItemCreatorView(viewModel: ItemCreationViewModel) {
     // Styling Konstanten
     val spacing = 16.dp
 
@@ -68,15 +68,10 @@ fun ItemCreatorView(viewModel: ItemCreationViewModel, onClose: () -> Unit) {
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextButton(onClick = onClose) {
-                Text(L.BTN_CANCEL.t())
-            }
-            Spacer(modifier = Modifier.width(8.dp))
             Button(
                 onClick = {
                     viewModel.createAndSaveItem(onSuccess = {
                         viewModel.clear()
-                        onClose()
                     })
                 },
                 // Button ist disabled, wenn Name leer oder Typ fehlt
