@@ -4,6 +4,7 @@ import database.ImageAssetEntity
 import database.ImageAssetsTable
 import models.ElementType
 import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import java.io.File
 
@@ -19,11 +20,20 @@ class AssetRepository {
     // CREATE: Wir merken uns, dass wir dieses Bild besitzen
     fun addAsset(fileName: String, filePath: String, assetType: ElementType): Int {
         return transaction {
-            ImageAssetEntity.new {
-                name = fileName
-                path = filePath
-                type = assetType.name
-            }.id.value
+            val existingAsset = ImageAssetEntity.find {
+                ImageAssetsTable.path eq filePath
+            }.firstOrNull()
+
+            if (existingAsset != null) {
+                existingAsset.lastAccessed = System.currentTimeMillis()
+                existingAsset.id.value
+            } else {
+                ImageAssetEntity.new {
+                    name = fileName
+                    path = filePath
+                    type = assetType.name
+                }.id.value
+            }
         }
     }
 

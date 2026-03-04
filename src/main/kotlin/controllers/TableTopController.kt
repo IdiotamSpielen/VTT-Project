@@ -111,12 +111,15 @@ class TableTopController {
 
         // Aufs Board legen
         val newElement = TableTopElement(
-            id = asset.id.toString(), // oder neue UUID, wenn du Duplikate erlaubst
+            //id = asset.id.toString(),
             name = asset.name,
             absolutePath = asset.path,
             position = Offset(100f, 100f),
             type = asset.type
         )
         elements.add(newElement)
+    }
+    fun removeElement(elementId: String) {
+        elements.removeIf { it.id == elementId }
     }
 }

@@ -36,7 +36,7 @@ dependencies {
     implementation("org.webjars.npm:types__filewriter:0.0.29")
     implementation("org.jetbrains:annotations:26.0.2")
     implementation("org.slf4j:slf4j-api:2.0.17")
-    implementation("ch.qos.logback:logback-classic:1.5.21")
+    implementation("ch.qos.logback:logback-classic:1.5.+")
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
