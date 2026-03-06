@@ -1,7 +1,9 @@
 package database
 
 import org.jetbrains.exposed.v1.jdbc.Database
+import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.TransactionManager
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.Logger
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -24,5 +26,17 @@ object DBSettings {
         val db = Database.connect("jdbc:sqlite:$dbPath", "org.sqlite.JDBC")
         TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
         db
+    }
+
+    /**
+     * Clears all data from the database by dropping and recreating tables.
+     * This is intended for debug purposes only.
+     */
+    fun clearDatabase() {
+        transaction(db) {
+            SchemaUtils.drop(SpellsTable, ImageAssetsTable)
+            SchemaUtils.create(SpellsTable, ImageAssetsTable)
+            logger.info("Database cleared and tables recreated.")
+        }
     }
 }

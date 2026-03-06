@@ -10,9 +10,9 @@ import services.FileHandler
 import utils.L
 
 class ItemCreationController {
-    // State für die UI-Felder
+    // UI state for item properties
     var name by mutableStateOf("")
-    var selectedType by mutableStateOf<ItemType?>(null) // Nullable, da am Anfang nichts gewählt ist
+    var selectedType by mutableStateOf<ItemType?>(null) // No initial selection required
     var description by mutableStateOf("")
     var damage by mutableStateOf("")
 
@@ -22,25 +22,19 @@ class ItemCreationController {
 
     fun createAndSaveItem(onSuccess: () -> Unit) {
         try {
-            // 1. Validierung
             if (name.isBlank()) throw IllegalArgumentException(L.ERR_NAME_EMPTY.t())
             if (selectedType == null) throw IllegalArgumentException("Type must be selected") // TODO: Add L.ERR_TYPE_EMPTY
-
-            // 2. Erstellung
             val newItem = Item(
                 name = name,
                 type = selectedType!!,
                 description = description,
-                // Nur speichern, wenn es eine Waffe ist, sonst null
-                damage = if (selectedType == ItemType.WEAPON) damage else null
+                damage = if (selectedType == ItemType.WEAPON) damage else null // Damage is only applicable to weapons
             )
 
-            // 3. Speichern
             fileHandler.saveToFile(newItem)
 
-            // 4. Feedback & Schließen
             feedbackHandler.displayFeedback(L.SUCCESS.t(mapOf("name" to name)), FeedbackHandler.FeedbackType.SUCCESS)
-            onSuccess() // Callback zum Schließen des Fensters
+            onSuccess() // Notify UI to close the creation window
 
         } catch (e: Exception) {
             feedbackHandler.displayFeedback(e.message ?: L.ERR_UNEXPECTED.t(), FeedbackHandler.FeedbackType.ERROR)

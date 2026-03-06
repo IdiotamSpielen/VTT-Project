@@ -46,7 +46,6 @@ fun TableTopView(controller: TableTopController) {
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        // Elemente zeichnen
         controller.elements.forEach { element ->
             key(element.id) {
                 DraggableElement(
@@ -58,7 +57,6 @@ fun TableTopView(controller: TableTopController) {
             }
         }
 
-        // Import Dialog
         if (controller.pendingImportFile != null) {
             ImportDialog(
                 fileName = controller.pendingImportFile?.name ?: "",
@@ -69,8 +67,8 @@ fun TableTopView(controller: TableTopController) {
         if (controller.errorMessage != null) {
             AlertDialog(
                 onDismissRequest = { controller.dismissError() },
-                title = { Text("Fehler") },
-                text = { Text(controller.errorMessage ?: "Unbekannter Fehler") },
+                title = { Text("Error") },
+                text = { Text(controller.errorMessage ?: "Unknown Error") },
                 confirmButton = {
                     Button(onClick = { controller.dismissError() }) {
                         Text("OK")
@@ -100,7 +98,6 @@ fun DraggableElement(
     onDrag: (Offset) -> Unit,
     onDelete: () -> Unit
 ) {
-    // Sicheres Laden des Bildes
     val bitmap = remember(element.absolutePath) {
         loadImageBitmap(File(element.absolutePath))
     }

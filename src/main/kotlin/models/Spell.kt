@@ -1,7 +1,7 @@
 package models
 
 data class Spell(
-    val name: String,
+    override val name: String,
     val duration: String,
     val components: String,
     val ingredients: String,
@@ -12,4 +12,4 @@ data class Spell(
     val castingTime: String,
     val ritual: Boolean,
     val concentration: Boolean
-)
+) : Nameable

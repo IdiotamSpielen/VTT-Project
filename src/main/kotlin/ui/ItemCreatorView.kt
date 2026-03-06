@@ -17,7 +17,6 @@ import utils.L
 
 @Composable
 fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
-    // Styling Konstanten
     val spacing = 16.dp
 
     Column(
@@ -26,7 +25,6 @@ fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
             .padding(spacing),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        // --- NAME ---
         OutlinedTextField(
             value = controller.name,
             onValueChange = { controller.name = it },
@@ -35,16 +33,13 @@ fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
             singleLine = true
         )
 
-        // --- TYPE DROPDOWN ---
-        // Compose hat kein einfaches "ComboBox" Widget, man baut es aus Box + DropdownMenu
+        // Custom ComboBox implementation using Box and DropdownMenu
         ItemTypeDropdown(
             selectedType = controller.selectedType,
             onTypeSelected = { controller.selectedType = it }
         )
 
-        // --- CONDITIONAL FIELD: DAMAGE ---
-        // Das ist der Ersatz für "visibleWhen". Einfach ein if!
-        // Wird nur gerendert, wenn der Typ WEAPON ist.
+        // Only display damage field for weapons
         if (controller.selectedType == ItemType.WEAPON) {
             OutlinedTextField(
                 value = controller.damage,
@@ -55,7 +50,6 @@ fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
             )
         }
 
-        // --- DESCRIPTION ---
         OutlinedTextField(
             value = controller.description,
             onValueChange = { controller.description = it },
@@ -64,7 +58,6 @@ fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
             maxLines = 5
         )
 
-        // --- BUTTONS ---
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = spacing),
             horizontalArrangement = Arrangement.End,
@@ -81,7 +74,6 @@ fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
                         onClose()
                     })
                 },
-                // Button ist disabled, wenn Name leer oder Typ fehlt
                 enabled = controller.name.isNotBlank() && controller.selectedType != null
             ) {
                 Text(L.BTN_SAVE.t())
@@ -91,7 +83,7 @@ fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
 }
 
 /**
- * Hilfs-Composable für das Dropdown, um den Hauptcode sauber zu halten
+ * Composable for item type selection
  */
 @Composable
 fun ItemTypeDropdown(
@@ -104,7 +96,7 @@ fun ItemTypeDropdown(
         OutlinedTextField(
             value = selectedType?.toString() ?: "",
             onValueChange = {},
-            readOnly = true, // Man kann nicht tippen, nur auswählen
+            readOnly = true, // Prevent direct text input
             label = { Text(L.ITEM_TYPE.t()) },
             trailingIcon = {
                 Icon(Icons.Filled.ArrowDropDown, "Select", Modifier.clickable { expanded = !expanded })
@@ -112,7 +104,7 @@ fun ItemTypeDropdown(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Eine unsichtbare Box über dem Textfeld fängt Klicks ab, um das Menü zu öffnen
+        // Overlay Box to capture clicks and toggle the menu
         Box(
             modifier = Modifier
                 .matchParentSize()
@@ -122,7 +114,7 @@ fun ItemTypeDropdown(
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            modifier = Modifier.fillMaxWidth(0.9f) // Breite relativ zur Box anpassen
+            modifier = Modifier.fillMaxWidth(0.9f) // Keep menu width consistent with the anchor box
         ) {
             ItemType.values().forEach { type ->
                 DropdownMenuItem(onClick = {

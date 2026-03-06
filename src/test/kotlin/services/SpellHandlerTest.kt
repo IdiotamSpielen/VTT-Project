@@ -11,42 +11,40 @@ import java.io.IOException
 
 class SpellHandlerTest {
 
-    private lateinit var mockFileHandler: FileHandler<Spell>
+    private lateinit var mockRepository: repositories.SpellRepository
     private lateinit var spellHandler: SpellHandler
 
     @BeforeEach
     fun setUp() {
-
-        @Suppress("UNCHECKED_CAST")
-        mockFileHandler = mock(FileHandler::class.java) as FileHandler<Spell>
-        spellHandler = SpellHandler(mockFileHandler)
+        mockRepository = mock(repositories.SpellRepository::class.java)
+        spellHandler = SpellHandler(mockRepository)
     }
 
     @Test
-    fun `createAndSaveSpell calls saveToFile on FileHandler when spell is valid`() {
+    fun `createAndSaveSpell calls save on repository when spell is valid`() {
         //GIVEN
         val spell = createValidSpell()
 
         //WHEN
         spellHandler.createAndSaveSpell(spell)
         //THEN
-        verify(mockFileHandler).saveToFile(spell)
+        verify(mockRepository).save(spell)
     }
 
     @Test
-    fun `createAndSaveSpell throws SpellNotSavedException if FileHandler throws IOException`() {
+    fun `createAndSaveSpell throws SpellNotSavedException if repository throws Exception`() {
 
         // GIVEN
         val spell = createValidSpell()
 
-        doThrow(IOException()).`when`(mockFileHandler).saveToFile(spell)
+        doThrow(RuntimeException()).`when`(mockRepository).save(spell)
 
         //WHEN / THEN
         assertThrows(SpellNotSavedException::class.java) {
             spellHandler.createAndSaveSpell(spell)
         }
 
-        verify(mockFileHandler).saveToFile(spell)
+        verify(mockRepository).save(spell)
     }
 
     @Test
@@ -59,7 +57,7 @@ class SpellHandlerTest {
             spellHandler.createAndSaveSpell(invalidSpell)
         }
 
-        verify(mockFileHandler, never()).saveToFile(any())
+        verify(mockRepository, never()).save(any())
     }
 
     @Test
@@ -70,7 +68,7 @@ class SpellHandlerTest {
             spellHandler.createAndSaveSpell(invalidSpell)
         }
 
-        verify(mockFileHandler, never()).saveToFile(any())
+        verify(mockRepository, never()).save(any())
     }
 
     private fun createValidSpell(): Spell {

@@ -9,11 +9,11 @@ import utils.L
 class SpellHandler(private val repository: SpellRepository = SpellRepository()) {
 
     /**
-     * Erstellt einen neuen Zauber und speichert ihn.
+     * Creates and saves a new spell after validation.
      *
-     * @param spell Der zu speichernde Zauber.
-     * @throws InvalidSpellException wenn der Zauber nicht gültig ist.
-     * @throws SpellNotSavedException wenn der Zauber nicht gespeichert werden konnte.
+     * @param spell The spell to save.
+     * @throws InvalidSpellException if validation fails.
+     * @throws SpellNotSavedException if the save operation fails.
      */
     fun createAndSaveSpell(spell: Spell) {
         validateSpell(spell)
@@ -26,9 +26,9 @@ class SpellHandler(private val repository: SpellRepository = SpellRepository()) 
     }
 
     /**
-     * validate values passed for the Spell to be saved
+     * Validates the provided spell data against business rules
      *
-     * @param spell The [Spell] Object to be saved
+     * @param spell The spell to validate
      */
     private fun validateSpell(spell: Spell) {
         val validationRules = listOf(

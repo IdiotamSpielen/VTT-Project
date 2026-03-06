@@ -24,7 +24,6 @@ fun SpellCreatorView(controller: SpellCreationController){
     ) {
         Text("Create New Spell", style = MaterialTheme.typography.h5)
 
-        // Spell Name
         OutlinedTextField(
             value = controller.spellName,
             onValueChange = { controller.spellName = it },
@@ -32,7 +31,6 @@ fun SpellCreatorView(controller: SpellCreationController){
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Casting Time & Range in einer Reihe
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedTextField(
                 value = controller.castingTime,
@@ -70,7 +68,6 @@ fun SpellCreatorView(controller: SpellCreationController){
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Description (Großes Feld)
         OutlinedTextField(
             value = controller.description,
             onValueChange = { controller.description = it },
@@ -93,7 +90,6 @@ fun SpellCreatorView(controller: SpellCreationController){
             )
         }
 
-        // Checkboxen
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
             Checkbox(checked = controller.isRitual, onCheckedChange = { controller.isRitual = it })
             Text(L.RITUAL.t())
@@ -102,11 +98,10 @@ fun SpellCreatorView(controller: SpellCreationController){
             Text(L.CONCENTRATION.t())
         }
 
-        // Feedback & Button
         Text(
             text = controller.feedbackHandler.message,
             color = controller.feedbackHandler.color,
-            modifier = Modifier.padding(8.dp).animateContentSize() // Kleiner Bonus: Animiert das Erscheinen
+            modifier = Modifier.padding(8.dp).animateContentSize()
         )
 
         Button(

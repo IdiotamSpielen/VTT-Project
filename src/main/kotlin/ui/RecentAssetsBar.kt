@@ -34,7 +34,7 @@ fun RecentAssetsBar(
     if (assets.isEmpty()) return
 
     Surface(
-        color = Color.Black.copy(alpha = 0.7f), // Halb-transparent
+        color = Color.Black.copy(alpha = 0.7f),
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -43,7 +43,7 @@ fun RecentAssetsBar(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween // Text links, Button rechts
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     "Recently Used",
@@ -54,7 +54,7 @@ fun RecentAssetsBar(
 
                 IconButton(
                     onClick = { isMinimized = !isMinimized },
-                    modifier = Modifier.size(32.dp) // Kleinerer Button spart Platz
+                    modifier = Modifier.size(32.dp)
                 ) {
                     Icon(
                         imageVector = if (isMinimized) Icons.Default.KeyboardArrowUp
@@ -85,7 +85,6 @@ fun RecentAssetsBar(
 
 @Composable
 fun RecentAssetItem(asset: ImageAssetModel, onClick: () -> Unit) {
-    // Bild laden (deine Helper Funktion)
     val bitmap = remember(asset.path) {
         // Achtung: Imports prüfen, du hast loadImageBitmap in TableTopView definiert
         // Besser: In ImageUtils.kt verschieben

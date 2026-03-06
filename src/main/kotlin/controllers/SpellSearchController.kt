@@ -17,7 +17,7 @@ class SpellSearchController {
     fun handleSearch() {
         searchResults.clear()
         val results = if (searchInput.isBlank()) {
-            repository.getAll() // Zeige alle, wenn Suche leer ist (optional)
+            repository.getAll()
         } else {
             repository.search(searchInput)
         }

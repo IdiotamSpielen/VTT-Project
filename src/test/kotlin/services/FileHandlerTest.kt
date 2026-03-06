@@ -50,7 +50,7 @@ class FileHandlerTest {
         // THEN
         assertEquals(2, loadedSpells.size, "Should retrieve exactly 2 spells")
 
-        // Prüfen, ob die Namen stimmen (Reihenfolge ist bei Dateisystemen nicht immer garantiert, daher checken wir Containment)
+        // Check for specific entries as file system iteration order is not guaranteed
         val loadedNames = loadedSpells.map { it.name }
         assertTrue(loadedNames.contains("Fireball"))
         assertTrue(loadedNames.contains("IceStorm"))

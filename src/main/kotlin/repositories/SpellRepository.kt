@@ -12,16 +12,14 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 class SpellRepository: Repository<Spell> {
     override fun save (item: Spell) {
         transaction {
-            // Check: Gibt es ihn schon?
             val existingSpell = SpellEntity.find { SpellsTable.name eq item.name }.firstOrNull()
 
             if (existingSpell == null) {
-                // Neu erstellen
                 SpellEntity.new {
                     assignValues(this, item)
                 }
             } else {
-                // Optional: Update durchführen, falls er schon existiert
+                // Update existing record if found
                 assignValues(existingSpell, item)
             }
         }

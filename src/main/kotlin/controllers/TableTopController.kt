@@ -28,7 +28,6 @@ class TableTopController {
     private val allowedExtensions = setOf("jpg", "jpeg", "png", "bmp", "gif", "webp")
 
     init {
-        // Beim Start direkt laden
         loadRecents()
     }
 
@@ -46,15 +45,14 @@ class TableTopController {
         }
     }
 
-    // Diese Funktion wird vom DropTarget-Listener aufgerufen
+    // Called by the DropTarget-Listener to initiate image import
     fun onFileDropped(file: File) {
         val extension = file.extension.lowercase()
         if (extension in allowedExtensions) {
-            errorMessage = null // Alte Fehler löschen
+            errorMessage = null
             pendingImportFile = file
         } else {
-            // Fehler setzen, Datei ignorieren
-            errorMessage = "Ungültiges Dateiformat: .$extension. Bitte nutze Bilder (JPG, PNG...)."
+            errorMessage = "Invalid file format: .$extension. Please use images (JPG, PNG...)."
             pendingImportFile = null
         }
     }
@@ -98,18 +96,18 @@ class TableTopController {
 
         } catch (e: IOException) {
             e.printStackTrace()
-            errorMessage = "Fehler: ${e.message}"
+            errorMessage = "Error: ${e.message}"
         } finally {
             pendingImportFile = null
         }
     }
 
     fun addFromHistory(asset: ImageAssetModel) {
-        // Zeitstempel updaten ("Ich habe es wieder benutzt!")
+        // Update usage timestamp to keep frequently used assets in the "recent" list
         assetRepository.updateLastAccessed(asset.id)
-        loadRecents() // Damit es in der Leiste nach ganz links rutscht
+        loadRecents() // Reorder list to reflect latest usage
 
-        // Aufs Board legen
+        // Place the asset onto the tabletop board
         val newElement = TableTopElement(
             //id = asset.id.toString(),
             name = asset.name,

@@ -1,6 +1,8 @@
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ManageSearch
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Backpack
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.DpSize
@@ -16,12 +18,12 @@ import database.ImageAssetsTable
 import database.SpellsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import ui.MainView
 import services.FileDropHandler
 import services.LocalizationService
+import ui.MainView
 import utils.L
 import java.awt.Toolkit
-import java.util.Locale
+import java.util.*
 import kotlin.math.max
 
 /**
@@ -39,6 +41,7 @@ fun main() = application {
     val tableTopController = remember { TableTopController() }
 
     val state = rememberWindowState().apply {
+        // Configures window state with responsive screen-based sizing; defaults on error
         try {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
             val screenWidth = screenSize.width.toDouble()
@@ -70,7 +73,7 @@ fun main() = application {
                     mainController.openSpellCreator()
                 })
                 Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { mainController.openItemCreator() })
-                Separator() // Zieht eine Linie im Menü
+                Separator()
             }
             Menu("Search") {
                 Item(L.SPELL.t(), icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
@@ -84,6 +87,13 @@ fun main() = application {
                         LocalizationService.currentLocale = Locale.GERMANY
                     })
                 }
+                Separator()
+                Item("Clear Database (Debug)", onClick = {
+                    DBSettings.clearDatabase()
+                    mainController.clearAll() // Should clear any open views or state
+                    tableTopController.elements.clear()
+                    tableTopController.recentAssets.clear()
+                })
             }
         }
         FileDropHandler(onFileDrop = { file ->
