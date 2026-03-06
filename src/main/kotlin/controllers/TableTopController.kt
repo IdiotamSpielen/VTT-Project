@@ -22,6 +22,8 @@ class TableTopController {
     var pendingImportFile by mutableStateOf<File?>(null)
         private set
 
+    var tokenSize by mutableStateOf(100f) // Default token size in DP
+
     var errorMessage by mutableStateOf<String?>(null)
         private set
     private val assetRepository = AssetRepository()
@@ -77,14 +79,15 @@ class TableTopController {
             val targetPath = targetDir.resolve(file.name)
             Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
 
-            val dbId = assetRepository.addAsset(
+            //val dbId = assetRepository.addAsset(
+            assetRepository.addAsset(
                 fileName = file.name,
                 filePath = targetPath.toString(),
                 assetType = type
             )
 
             val newElement = TableTopElement(
-                id = dbId.toString(),
+                //id = dbId.toString(),
                 name = file.name,
                 absolutePath = targetPath.toString(),
                 position = Offset(100f, 100f),

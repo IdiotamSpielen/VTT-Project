@@ -88,6 +88,13 @@ fun main() = application {
                     })
                 }
                 Separator()
+                Menu("Token Size") {
+                    Item("Small (50)", onClick = { tableTopController.tokenSize = 50f })
+                    Item("Medium (100)", onClick = { tableTopController.tokenSize = 100f })
+                    Item("Large (150)", onClick = { tableTopController.tokenSize = 150f })
+                    Item("Extra Large (200)", onClick = { tableTopController.tokenSize = 200f })
+                }
+                Separator()
                 Item("Clear Database (Debug)", onClick = {
                     DBSettings.clearDatabase()
                     mainController.clearAll() // Should clear any open views or state

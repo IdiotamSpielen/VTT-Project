@@ -71,11 +71,34 @@ fun RecentAssetsBar(
                 exit = androidx.compose.animation.shrinkVertically()
             ) {
                 LazyRow(
-                    contentPadding = PaddingValues(bottom = 8.dp, top = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    contentPadding = PaddingValues(bottom = 8.dp, top = 4.dp, start = 8.dp, end = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    items(assets) { asset ->
-                        RecentAssetItem(asset, onClick = { onAssetClick(asset) })
+                    val maps = assets.filter { it.type == models.ElementType.MAP }
+                    val tokens = assets.filter { it.type == models.ElementType.TOKEN }
+
+                    if (maps.isNotEmpty()) {
+                        items(maps) { asset ->
+                            RecentAssetItem(asset, onClick = { onAssetClick(asset) })
+                        }
+                    }
+
+                    if (maps.isNotEmpty() && tokens.isNotEmpty()) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .width(2.dp)
+                                    .height(50.dp)
+                                    .background(Color.White.copy(alpha = 0.3f))
+                            )
+                        }
+                    }
+
+                    if (tokens.isNotEmpty()) {
+                        items(tokens) { asset ->
+                            RecentAssetItem(asset, onClick = { onAssetClick(asset) })
+                        }
                     }
                 }
             }

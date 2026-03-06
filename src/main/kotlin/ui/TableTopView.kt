@@ -1,30 +1,12 @@
 package ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.PointerMatcher
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.onClick
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -33,6 +15,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import controllers.TableTopController
 import models.ElementType
 import models.TableTopElement
@@ -46,14 +29,19 @@ fun TableTopView(controller: TableTopController) {
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        controller.elements.forEach { element ->
+        val sortedElements = remember(controller.elements.toList()) {
+            controller.elements.sortedBy { it.type == ElementType.TOKEN }
+        }
+        sortedElements.forEach { element ->
             key(element.id) {
                 DraggableElement(
                     element = element,
-                    onDelete = {}
-                ) { dragAmount ->
-                    controller.moveElement(element.id, dragAmount)
-                }
+                    tokenSize = controller.tokenSize,
+                    onDelete = { controller.removeElement(element.id) },
+                    onDrag = { dragAmount ->
+                        controller.moveElement(element.id, dragAmount)
+                    }
+                )
             }
         }
 
@@ -95,6 +83,7 @@ fun TableTopView(controller: TableTopController) {
 @Composable
 fun DraggableElement(
     element: TableTopElement,
+    tokenSize: Float,
     onDrag: (Offset) -> Unit,
     onDelete: () -> Unit
 ) {
@@ -109,28 +98,35 @@ fun DraggableElement(
             modifier = Modifier
                 .offset { IntOffset(element.position.x.roundToInt(), element.position.y.roundToInt()) }
                 .pointerInput(element.id) {
+                    detectDragGestures(
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            onDrag(dragAmount)
+                        }
+                    )
+                }
+                .pointerInput(element.id) {
                     detectTapGestures(
-                        onPress = { /* Vielleicht zum Selektieren? */ },
-                        onLongPress = { showMenu = true }, // Für Touch-Geräte
+                        onLongPress = { showMenu = true },
                         onTap = { /* Fokus setzen */ }
                     )
                 }
                 .onClick(
                     interactionSource = remember { MutableInteractionSource() },
                     matcher = PointerMatcher.mouse(PointerButton.Secondary),
-                    onClick = {showMenu = true}
+                    onClick = { showMenu = true }
+                )
+                .then(
+                    if (element.type == ElementType.TOKEN) {
+                        Modifier.size(tokenSize.dp)
+                    } else Modifier
                 )
         ) {
             Image(
                 bitmap = bitmap,
                 contentDescription = element.name,
-                modifier = Modifier
-                    .pointerInput(element.id) {
-                        detectDragGestures { change, dragAmount ->
-                            change.consume()
-                            onDrag(dragAmount)
-                        }
-                    }
+                modifier = Modifier.fillMaxSize(),
+                contentScale = if (element.type == ElementType.TOKEN) androidx.compose.ui.layout.ContentScale.Fit else androidx.compose.ui.layout.ContentScale.None
             )
 
             // Ein kleines Dropdown-Menü direkt am Token
