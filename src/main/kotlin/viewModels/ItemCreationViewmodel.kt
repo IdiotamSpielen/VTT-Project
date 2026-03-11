@@ -1,4 +1,4 @@
-package controllers
+package viewModels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +9,7 @@ import services.FeedbackHandler
 import services.FileHandler
 import utils.L
 
-class ItemCreationController {
+class ItemCreationViewmodel {
     // UI state for item properties
     var name by mutableStateOf("")
     var selectedType by mutableStateOf<ItemType?>(null) // No initial selection required

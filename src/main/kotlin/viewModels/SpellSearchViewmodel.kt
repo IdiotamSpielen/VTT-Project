@@ -1,4 +1,4 @@
-package controllers
+package viewModels
 
 import repositories.SpellRepository
 import androidx.compose.runtime.getValue
@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import models.Spell
 
-class SpellSearchController {
+class SpellSearchViewmodel {
     private val repository = SpellRepository()
     var searchInput by mutableStateOf("")
     var searchResults = mutableStateListOf<Spell>()

@@ -16,14 +16,14 @@ import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import controllers.TableTopController
+import viewModels.TableTopViewmodel
 import models.ElementType
 import models.TableTopElement
 import java.io.File
 import kotlin.math.roundToInt
 
 @Composable
-fun TableTopView(controller: TableTopController) {
+fun TableTopView(controller: TableTopViewmodel) {
     Box(
         modifier = Modifier
             .fillMaxSize()

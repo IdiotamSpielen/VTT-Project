@@ -1,11 +1,11 @@
-package controllers
+package viewModels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.util.*
 
-class MainController {
+class MainViewmodel {
     enum class Screen {
         TABLETOP,
         SPELL_CREATOR,

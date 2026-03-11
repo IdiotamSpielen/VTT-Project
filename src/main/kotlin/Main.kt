@@ -11,8 +11,6 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import controllers.MainController
-import controllers.TableTopController
 import database.DBSettings
 import database.ImageAssetsTable
 import database.SpellsTable
@@ -22,6 +20,8 @@ import services.FileDropHandler
 import services.LocalizationService
 import ui.MainView
 import utils.L
+import viewModels.MainViewmodel
+import viewModels.TableTopViewmodel
 import java.awt.Toolkit
 import java.util.*
 import kotlin.math.max
@@ -37,8 +37,8 @@ fun main() = application {
         SchemaUtils.create(ImageAssetsTable)
     }
 
-    val mainController = remember { MainController() }
-    val tableTopController = remember { TableTopController() }
+    val mainViewmodel = remember { MainViewmodel() }
+    val tableTopViewmodel = remember { TableTopViewmodel() }
 
     val state = rememberWindowState().apply {
         // Configures window state with responsive screen-based sizing; defaults on error
@@ -70,13 +70,13 @@ fun main() = application {
         MenuBar {
             Menu(L.CREATE.t()) {
                 Item(L.SPELL.t(), icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
-                    mainController.openSpellCreator()
+                    mainViewmodel.openSpellCreator()
                 })
-                Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { mainController.openItemCreator() })
+                Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { mainViewmodel.openItemCreator() })
                 Separator()
             }
             Menu("Search") {
-                Item(L.SPELL.t(), icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainController.openSpellSearch() })
+                Item(L.SPELL.t(), icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainViewmodel.openSpellSearch() })
             }
             Menu(L.SETTINGS.t()) {
                 Menu("Language"){
@@ -89,23 +89,23 @@ fun main() = application {
                 }
                 Separator()
                 Menu("Token Size") {
-                    Item("Small (50)", onClick = { tableTopController.tokenSize = 50f })
-                    Item("Medium (100)", onClick = { tableTopController.tokenSize = 100f })
-                    Item("Large (150)", onClick = { tableTopController.tokenSize = 150f })
-                    Item("Extra Large (200)", onClick = { tableTopController.tokenSize = 200f })
+                    Item("Small (50)", onClick = { tableTopViewmodel.tokenSize = 50f })
+                    Item("Medium (100)", onClick = { tableTopViewmodel.tokenSize = 100f })
+                    Item("Large (150)", onClick = { tableTopViewmodel.tokenSize = 150f })
+                    Item("Extra Large (200)", onClick = { tableTopViewmodel.tokenSize = 200f })
                 }
                 Separator()
                 Item("Clear Database (Debug)", onClick = {
                     DBSettings.clearDatabase()
-                    mainController.clearAll() // Should clear any open views or state
-                    tableTopController.elements.clear()
-                    tableTopController.recentAssets.clear()
+                    mainViewmodel.clearAll() // Should clear any open views or state
+                    tableTopViewmodel.elements.clear()
+                    tableTopViewmodel.recentAssets.clear()
                 })
             }
         }
         FileDropHandler(onFileDrop = { file ->
-            tableTopController.onFileDropped(file)
+            tableTopViewmodel.onFileDropped(file)
         })
-        MainView(mainController, tableTopController)
+        MainView(mainViewmodel, tableTopViewmodel)
     }
 }

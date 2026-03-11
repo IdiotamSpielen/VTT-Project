@@ -1,14 +1,14 @@
-package controllers
+package viewModels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import database.SpellsTable.ritual
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
 import models.Spell
 import services.FeedbackHandler
-import services.FeedbackHandler.FeedbackType.*
+import services.FeedbackHandler.FeedbackType.ERROR
+import services.FeedbackHandler.FeedbackType.SUCCESS
 import services.SpellHandler
 import utils.L
 
@@ -20,7 +20,7 @@ import utils.L
 // * creating a spell using the `SpellHandler` class. It also ensures
 // * that the created spell is valid and saved properly.
 // */
-class SpellCreationController {
+class SpellCreationViewmodel {
     private val spellHandler = SpellHandler()
     val feedbackHandler = FeedbackHandler()
 

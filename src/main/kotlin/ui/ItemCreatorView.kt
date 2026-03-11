@@ -1,6 +1,5 @@
 package ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -9,14 +8,13 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import controllers.ItemCreationController
+import viewModels.ItemCreationViewmodel
 import models.ItemType
 import utils.L
 
 @Composable
-fun ItemCreatorView(controller: ItemCreationController, onClose: () -> Unit) {
+fun ItemCreatorView(controller: ItemCreationViewmodel, onClose: () -> Unit) {
     val spacing = 16.dp
 
     Column(

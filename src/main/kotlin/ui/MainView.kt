@@ -5,29 +5,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import controllers.ItemCreationController
-import controllers.MainController
-import controllers.SpellCreationController
-import controllers.SpellSearchController
-import controllers.TableTopController
+import viewModels.ItemCreationViewmodel
+import viewModels.MainViewmodel
+import viewModels.SpellCreationViewmodel
+import viewModels.SpellSearchViewmodel
+import viewModels.TableTopViewmodel
 
 /**
  * The MainView
  */
 @Composable
-fun MainView(controller: MainController, tableTopController: TableTopController) {
-    val spellController = remember { SpellCreationController() }
-    val itemController = remember { ItemCreationController() }
-    val searchController = remember { SpellSearchController() }
+fun MainView(controller: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
+    val spellController = remember { SpellCreationViewmodel() }
+    val itemController = remember { ItemCreationViewmodel() }
+    val searchController = remember { SpellSearchViewmodel() }
 
     // 1. Hintergrund abdunkeln (macht es visuell hochwertig)
     Box(modifier = Modifier.fillMaxSize()) {
 
-        TableTopView(tableTopController)
+        TableTopView(tableTopViewmodel)
 
         // Die Overlay-Logik
         when (controller.currentScreen) {
-            MainController.Screen.SPELL_CREATOR -> {
+            MainViewmodel.Screen.SPELL_CREATOR -> {
                 OverlayWindow(
                     title = "Create New Spell",
                     onClose = { controller.closeOverlay() }
@@ -35,7 +35,7 @@ fun MainView(controller: MainController, tableTopController: TableTopController)
                     SpellCreatorView(spellController)
                 }
             }
-            MainController.Screen.SPELL_SEARCH -> {
+            MainViewmodel.Screen.SPELL_SEARCH -> {
                 OverlayWindow(
                     title = "Search Spells",
                     onClose = { controller.closeOverlay() }
@@ -43,10 +43,10 @@ fun MainView(controller: MainController, tableTopController: TableTopController)
                     SpellSearchView(searchController)
                 }
             }
-            MainController.Screen.TABLETOP -> {
+            MainViewmodel.Screen.TABLETOP -> {
                 // Kein Overlay anzeigen
             }
-            MainController.Screen.ITEM_CREATOR -> {
+            MainViewmodel.Screen.ITEM_CREATOR -> {
                 OverlayWindow(
                     title = "Create New Item", // Oder L.TITLE_CREATE_ITEM.t()
                     onClose = { controller.closeOverlay() }
