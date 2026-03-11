@@ -27,7 +27,6 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
     ) {
         Text("Create New Spell", style = MaterialTheme.typography.h5)
 
-        // Spell Name
         OutlinedTextField(
             value = state.name,
             onValueChange = { viewmodel.updateState(state.copy(name = it)) },
@@ -35,7 +34,6 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Casting Time & Range in einer Reihe
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedTextField(
                 value = state.castingTime,
@@ -73,7 +71,6 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Description (Großes Feld)
         OutlinedTextField(
             value = state.description,
             onValueChange = { viewmodel.updateState(state.copy(description = it)) },
@@ -96,7 +93,6 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
             )
         }
 
-        // Checkboxen
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
             Checkbox(checked = state.isRitual, onCheckedChange = { viewmodel.updateState(state.copy(isRitual = it)) })
             Text(L.RITUAL.t())
@@ -105,11 +101,10 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
             Text(L.CONCENTRATION.t())
         }
 
-        // Feedback & Button
         Text(
             text = viewmodel.feedbackHandler.message,
             color = viewmodel.feedbackHandler.color,
-            modifier = Modifier.padding(8.dp).animateContentSize() // Kleiner Bonus: Animiert das Erscheinen
+            modifier = Modifier.padding(8.dp).animateContentSize()
         )
 
         Button(

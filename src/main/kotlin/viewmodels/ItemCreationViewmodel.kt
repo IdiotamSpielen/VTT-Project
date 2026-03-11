@@ -12,11 +12,11 @@ import utils.L
 
 class ItemCreationViewmodel {
 
-    // Abhängigkeiten
+    // Dependencies
     private val repository = ItemRepository()
-    val feedbackHandler = FeedbackHandler() // Public für die View
+    val feedbackHandler = FeedbackHandler() // Public for the view
 
-    // State (Klassischer Ansatz ohne UiState-Klasse, wie du es hattest)
+    // State
     var name by mutableStateOf("")
     var selectedType by mutableStateOf<ItemType?>(null)
     var description by mutableStateOf("")
@@ -24,7 +24,7 @@ class ItemCreationViewmodel {
 
     fun createAndSaveItem(onSuccess: () -> Unit) {
         try {
-            // 1. Validierung
+            // 1. Validation
             if (name.isBlank()) {
                 feedbackHandler.displayFeedback(L.ERR_NAME_EMPTY.t(), ERROR)
                 return
@@ -34,24 +34,23 @@ class ItemCreationViewmodel {
                 return
             }
 
-            // 2. Erstellung des Models
+            // 2. Model Creation
             val newItem = Item(
                 name = name,
                 type = selectedType!!,
                 description = description,
-                // Logik: Schaden wird nur gespeichert, wenn es eine Waffe ist
+                // Logic: Damage is only stored if it's a weapon
                 damage = if (selectedType == ItemType.WEAPON) damage else null
             )
 
-            // 3. Speichern in DB (statt FileHandler)
+            // 3. Save to DB
             repository.save(newItem)
 
             // 4. Feedback
             feedbackHandler.displayFeedback(L.SUCCESS.t(mapOf("name" to name)), SUCCESS)
 
-            // Optional: Fenster schließen oder Formular leeren
-            // onSuccess() // Wenn das Fenster zugehen soll
-            clear() // Wenn man gleich das nächste Item anlegen will
+            onSuccess() // Close window or perform next action
+            clear() // Clear form for next item
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -64,6 +63,5 @@ class ItemCreationViewmodel {
         selectedType = null
         description = ""
         damage = ""
-        // Feedback muss man oft nicht löschen, damit der User "Success" noch sieht
     }
 }

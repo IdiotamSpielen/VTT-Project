@@ -14,8 +14,8 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
  *
  * @param Spell the spell to be saved
  */
-class SpellRepository: Repository<Spell> {
-    override fun save (item: Spell) {
+open class SpellRepository: Repository<Spell> {
+    open override fun save (item: Spell) {
         transaction {
             val existingSpell = SpellEntity.find { SpellsTable.name eq item.name }.firstOrNull()
 
@@ -24,7 +24,7 @@ class SpellRepository: Repository<Spell> {
                     assignValues(this, item)
                 }
             } else {
-                // Optional: Update durchführen, falls er schon existiert
+                // Update existing record if found
                 assignValues(existingSpell, item)
             }
         }

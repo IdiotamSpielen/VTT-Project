@@ -22,13 +22,14 @@ class TableTopViewmodel {
     var pendingImportFile by mutableStateOf<File?>(null)
         private set
 
+    var tokenSize by mutableStateOf(100f) // Default token size in DP
+
     var errorMessage by mutableStateOf<String?>(null)
         private set
     private val assetRepository = AssetRepository()
     private val allowedExtensions = setOf("jpg", "jpeg", "png", "bmp", "gif", "webp")
 
     init {
-        // Beim Start direkt laden
         loadRecents()
     }
 
@@ -46,15 +47,14 @@ class TableTopViewmodel {
         }
     }
 
-    // Diese Funktion wird vom DropTarget-Listener aufgerufen
+    // Called by the DropTarget-Listener to initiate image import
     fun onFileDropped(file: File) {
         val extension = file.extension.lowercase()
         if (extension in allowedExtensions) {
-            errorMessage = null // Alte Fehler löschen
+            errorMessage = null
             pendingImportFile = file
         } else {
-            // Fehler setzen, Datei ignorieren
-            errorMessage = "Ungültiges Dateiformat: .$extension. Bitte nutze Bilder (JPG, PNG...)."
+            errorMessage = "Invalid file format: .$extension. Please use images (JPG, PNG...)."
             pendingImportFile = null
         }
     }
@@ -79,14 +79,15 @@ class TableTopViewmodel {
             val targetPath = targetDir.resolve(file.name)
             Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
 
-            val dbId = assetRepository.addAsset(
+            //val dbId = assetRepository.addAsset(
+            assetRepository.addAsset(
                 fileName = file.name,
                 filePath = targetPath.toString(),
                 assetType = type
             )
 
             val newElement = TableTopElement(
-                id = dbId.toString(),
+                //id = dbId.toString(),
                 name = file.name,
                 absolutePath = targetPath.toString(),
                 position = Offset(100f, 100f),
@@ -98,25 +99,28 @@ class TableTopViewmodel {
 
         } catch (e: IOException) {
             e.printStackTrace()
-            errorMessage = "Fehler: ${e.message}"
+            errorMessage = "Error: ${e.message}"
         } finally {
             pendingImportFile = null
         }
     }
 
     fun addFromHistory(asset: ImageAssetModel) {
-        // Zeitstempel updaten ("Ich habe es wieder benutzt!")
+        // Update usage timestamp to keep frequently used assets in the "recent" list
         assetRepository.updateLastAccessed(asset.id)
-        loadRecents() // Damit es in der Leiste nach ganz links rutscht
+        loadRecents() // Reorder list to reflect latest usage
 
-        // Aufs Board legen
+        // Place the asset onto the tabletop board
         val newElement = TableTopElement(
-            id = asset.id.toString(), // oder neue UUID, wenn du Duplikate erlaubst
+            //id = asset.id.toString(),
             name = asset.name,
             absolutePath = asset.path,
             position = Offset(100f, 100f),
             type = asset.type
         )
         elements.add(newElement)
+    }
+    fun removeElement(elementId: String) {
+        elements.removeIf { it.id == elementId }
     }
 }

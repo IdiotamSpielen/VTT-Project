@@ -37,7 +37,7 @@ fun RecentAssetsBar(
     if (assets.isEmpty()) return
 
     Surface(
-        color = Color.Black.copy(alpha = 0.7f), // Halb-transparent
+        color = Color.Black.copy(alpha = 0.7f),
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -46,7 +46,7 @@ fun RecentAssetsBar(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween // Text links, Button rechts
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     "Recently Used",
@@ -57,7 +57,7 @@ fun RecentAssetsBar(
 
                 IconButton(
                     onClick = { isMinimized = !isMinimized },
-                    modifier = Modifier.size(32.dp) // Kleinerer Button spart Platz
+                    modifier = Modifier.size(32.dp)
                 ) {
                     Icon(
                         imageVector = if (isMinimized) Icons.Default.KeyboardArrowUp
@@ -74,11 +74,34 @@ fun RecentAssetsBar(
                 exit = shrinkVertically()
             ) {
                 LazyRow(
-                    contentPadding = PaddingValues(bottom = 8.dp, top = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    contentPadding = PaddingValues(bottom = 8.dp, top = 4.dp, start = 8.dp, end = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    items(assets) { asset ->
-                        RecentAssetItem(asset, onClick = { onAssetClick(asset) })
+                    val maps = assets.filter { it.type == models.ElementType.MAP }
+                    val tokens = assets.filter { it.type == models.ElementType.TOKEN }
+
+                    if (maps.isNotEmpty()) {
+                        items(maps) { asset ->
+                            RecentAssetItem(asset, onClick = { onAssetClick(asset) })
+                        }
+                    }
+
+                    if (maps.isNotEmpty() && tokens.isNotEmpty()) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .width(2.dp)
+                                    .height(50.dp)
+                                    .background(Color.White.copy(alpha = 0.3f))
+                            )
+                        }
+                    }
+
+                    if (tokens.isNotEmpty()) {
+                        items(tokens) { asset ->
+                            RecentAssetItem(asset, onClick = { onAssetClick(asset) })
+                        }
                     }
                 }
             }
@@ -88,7 +111,6 @@ fun RecentAssetsBar(
 
 @Composable
 fun RecentAssetItem(asset: ImageAssetModel, onClick: () -> Unit) {
-    // Bild laden (deine Helper Funktion)
     val bitmap = remember(asset.path) {
         // Achtung: Imports prüfen, du hast loadImageBitmap in TableTopView definiert
         // Besser: In ImageUtils.kt verschieben

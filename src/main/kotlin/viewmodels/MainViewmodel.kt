@@ -50,4 +50,11 @@ class MainViewmodel {
     fun closeOverlay() {
         currentScreen = Screen.TABLETOP
     }
+
+    /**
+     * Resets the application state to the default tabletop view.
+     */
+    fun clearAll() {
+        currentScreen = Screen.TABLETOP
+    }
 }

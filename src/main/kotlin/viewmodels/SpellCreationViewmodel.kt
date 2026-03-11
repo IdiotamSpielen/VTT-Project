@@ -18,19 +18,14 @@ data class SpellUiState(
     val duration: String = "",
     val ingredients: String = "",
     val description: String = "",
-    val level: String = "", // String für Eingabe, Int erst beim Speichern
+    val level: String = "",
     val school: String = "",
     val isRitual: Boolean = false,
     val isConcentration: Boolean = false
 )
 
-
 /**
  * Viewmodel responsible for creating spells.
- *
- * This class provides functionality for setting spell properties and
- * creating a spell using a [SpellRepository]. It also ensures
- * that the created spell is valid and saved properly.
  */
 class SpellCreationViewmodel(
     private val repository : SpellRepository = SpellRepository(),
@@ -85,7 +80,6 @@ class SpellCreationViewmodel(
             state.range.isBlank() to L.ERR_RANGE_EMPTY,
             state.components.isBlank() to L.ERR_COMP_EMPTY,
             state.description.isBlank() to L.ERR_DESC_EMPTY,
-            // Hier fangen wir ab, wenn Level gar keine Zahl ist oder falsch
             (levelInt == null || levelInt !in 0..9) to L.ERR_LEVEL_RANGE,
             state.school.isBlank() to L.ERR_SCHOOL_EMPTY,
         )

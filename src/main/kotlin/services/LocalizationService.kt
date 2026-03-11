@@ -8,8 +8,10 @@ import java.util.ResourceBundle
 
 object LocalizationService {
 
+    // Triggers UI re-render when the locale is changed
     var currentLocale: Locale by mutableStateOf(Locale.US)
 
+    // Retrieves the ResourceBundle corresponding to the current locale
     private val bundle: ResourceBundle
         get() = ResourceBundle.getBundle("strings", currentLocale)
 
@@ -26,7 +28,7 @@ object LocalizationService {
             }
             text
         } catch (e: Exception) {
-            "MISSING: $key"
+            "MISSING: $key" // Return fallback string if key is not found
         }
     }
 }

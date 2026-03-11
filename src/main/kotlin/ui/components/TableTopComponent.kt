@@ -1,26 +1,22 @@
 package ui.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import viewmodels.TableTopViewmodel
 import models.ElementType
 import models.TableTopElement
@@ -35,17 +31,22 @@ fun TableTopView(controller: TableTopViewmodel) {
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        // Elemente zeichnen
-        controller.elements.forEach { element ->
-            DraggableElement(
-                element = element,
-                onDrag = { dragAmount ->
-                    controller.moveElement(element.id, dragAmount)
-                }
-            )
+        val sortedElements = remember(controller.elements.toList()) {
+            controller.elements.sortedBy { it.type == ElementType.TOKEN }
+        }
+        sortedElements.forEach { element ->
+            key(element.id) {
+                DraggableElement(
+                    element = element,
+                    tokenSize = controller.tokenSize,
+                    onDelete = { controller.removeElement(element.id) },
+                    onDrag = { dragAmount ->
+                        controller.moveElement(element.id, dragAmount)
+                    }
+                )
+            }
         }
 
-        // Import Dialog
         if (controller.pendingImportFile != null) {
             ImportDialog(
                 fileName = controller.pendingImportFile?.name ?: "",
@@ -56,8 +57,8 @@ fun TableTopView(controller: TableTopViewmodel) {
         if (controller.errorMessage != null) {
             AlertDialog(
                 onDismissRequest = { controller.dismissError() },
-                title = { Text("Fehler") },
-                text = { Text(controller.errorMessage ?: "Unbekannter Fehler") },
+                title = { Text("Error") },
+                text = { Text(controller.errorMessage ?: "Unknown Error") },
                 confirmButton = {
                     Button(onClick = { controller.dismissError() }) {
                         Text("OK")
@@ -80,30 +81,66 @@ fun TableTopView(controller: TableTopViewmodel) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DraggableElement(
     element: TableTopElement,
-    onDrag: (Offset) -> Unit
+    tokenSize: Float,
+    onDrag: (Offset) -> Unit,
+    onDelete: () -> Unit
 ) {
-    // Sicheres Laden des Bildes
     val bitmap = remember(element.absolutePath) {
         loadImageBitmap(File(element.absolutePath))
     }
 
+    var showMenu by remember { mutableStateOf(false) }
+
     if (bitmap != null) {
-        Image(
-            bitmap = bitmap,
-            contentDescription = element.name,
-            contentScale = ContentScale.Fit, // Token skalieren nicht automatisch
+        Box(
             modifier = Modifier
                 .offset { IntOffset(element.position.x.roundToInt(), element.position.y.roundToInt()) }
-                .pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        change.consume()
-                        onDrag(dragAmount)
-                    }
+                .pointerInput(element.id) {
+                    detectDragGestures(
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            onDrag(dragAmount)
+                        }
+                    )
                 }
-        )
+                .pointerInput(element.id) {
+                    detectTapGestures(
+                        onLongPress = { showMenu = true },
+                        onTap = { /* Fokus setzen */ }
+                    )
+                }
+                .onClick(
+                    interactionSource = remember { MutableInteractionSource() },
+                    matcher = PointerMatcher.mouse(PointerButton.Secondary),
+                    onClick = { showMenu = true }
+                )
+                .then(
+                    if (element.type == ElementType.TOKEN) {
+                        Modifier.size(tokenSize.dp)
+                    } else Modifier
+                )
+        ) {
+            Image(
+                bitmap = bitmap,
+                contentDescription = element.name,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = if (element.type == ElementType.TOKEN) androidx.compose.ui.layout.ContentScale.Fit else androidx.compose.ui.layout.ContentScale.None
+            )
+
+            // Ein kleines Dropdown-Menü direkt am Token
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(onClick = {
+                    onDelete()
+                    showMenu = false
+                }) {
+                    Text("Vom Board entfernen", color = Color.Red)
+                }
+            }
+        }
     }
 }
 

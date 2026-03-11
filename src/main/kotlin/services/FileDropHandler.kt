@@ -3,7 +3,6 @@ package services
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.window.WindowScope
-import java.awt.Component
 import java.awt.datatransfer.DataFlavor
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
@@ -19,7 +18,6 @@ fun WindowScope.FileDropHandler(
     LaunchedEffect(Unit) {
         val jFrame = window as? JFrame ?: return@LaunchedEffect
 
-        // Wir definieren unseren Listener
         val dropListener = object : DropTargetAdapter() {
             override fun drop(event: DropTargetDropEvent) {
                 try {
@@ -49,10 +47,10 @@ fun WindowScope.FileDropHandler(
         val composeLayer = jFrame.contentPane.components.firstOrNull()
 
         if (composeLayer != null) {
-            // Wir hängen uns direkt an die Zeichenfläche
+            // Attach the drop target to the Compose rendering layer
             composeLayer.dropTarget = DropTarget(composeLayer, dropListener)
         } else {
-            // Fallback, falls die Struktur anders ist
+            // Fallback to the main JFrame if the Compose layer cannot be resolved
             jFrame.dropTarget = DropTarget(jFrame, dropListener)
         }
     }
