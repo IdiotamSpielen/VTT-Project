@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import repositories.ImageAssetModel
+import utils.rememberSmartPainter
 import java.io.File
 
 @Composable
@@ -108,11 +109,7 @@ fun RecentAssetsBar(
 
 @Composable
 fun RecentAssetItem(asset: ImageAssetModel, onClick: () -> Unit) {
-    val bitmap = remember(asset.path) {
-        // Achtung: Imports prüfen, du hast loadImageBitmap in TableTopView definiert
-        // Besser: In ImageUtils.kt verschieben
-        loadImageBitmap(File(asset.path))
-    }
+    val painter = rememberSmartPainter(asset.path)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -126,9 +123,9 @@ fun RecentAssetItem(asset: ImageAssetModel, onClick: () -> Unit) {
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color.Gray)
         ) {
-            if (bitmap != null) {
+            if (painter != null) {
                 Image(
-                    bitmap = bitmap,
+                    painter = painter,
                     contentDescription = asset.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

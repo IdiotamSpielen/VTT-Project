@@ -18,6 +18,8 @@ import java.nio.file.StandardCopyOption
 class TableTopViewmodel {
 
     val elements = mutableStateListOf<TableTopElement>()
+    var isEditMode by mutableStateOf(false)
+        private set
     var recentAssets = mutableStateListOf<ImageAssetModel>()
     var pendingImportFile by mutableStateOf<File?>(null)
         private set
@@ -27,7 +29,7 @@ class TableTopViewmodel {
     var errorMessage by mutableStateOf<String?>(null)
         private set
     private val assetRepository = AssetRepository()
-    private val allowedExtensions = setOf("jpg", "jpeg", "png", "bmp", "gif", "webp")
+    private val allowedExtensions = setOf("jpg", "jpeg", "png", "bmp", "webp", "svg")
 
     init {
         loadRecents()
@@ -43,7 +45,10 @@ class TableTopViewmodel {
         if (index != -1) {
             val element = elements[index]
             val newPos = element.position + dragAmount
-            elements[index] = element.copy(position = newPos)
+            val updated = element.copy(position = newPos)
+
+            elements.removeAt(index)
+            elements.add(updated)
         }
     }
 
@@ -122,5 +127,9 @@ class TableTopViewmodel {
     }
     fun removeElement(elementId: String) {
         elements.removeIf { it.id == elementId }
+    }
+
+    fun toggleEditMode() {
+        isEditMode = !isEditMode
     }
 }
