@@ -5,19 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import viewmodels.ItemCreationViewmodel
-import viewmodels.MainViewmodel
-import viewmodels.SpellCreationViewmodel
-import viewmodels.SpellSearchViewmodel
-import viewmodels.TableTopViewmodel
+import ui.TableTopView
 import ui.components.OverlayWindow
-import ui.components.TableTopView
+import viewmodels.*
 
 /**
- * The MainView
+ * The MainScreen
  */
 @Composable
-fun MainView(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
+fun MainScreen(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
     val spellCreationViewmodel = remember { SpellCreationViewmodel() }
     val itemCreationViewmodel = remember { ItemCreationViewmodel() }
     val spellSearchViewmodel = remember { SpellSearchViewmodel() }

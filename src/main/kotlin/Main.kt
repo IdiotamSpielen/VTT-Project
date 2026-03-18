@@ -18,7 +18,7 @@ import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import services.FileDropHandler
 import services.LocalizationService
-import ui.MainView
+import ui.screens.MainScreen
 import utils.L
 import viewmodels.MainViewmodel
 import viewmodels.TableTopViewmodel
@@ -106,6 +106,6 @@ fun main() = application {
         FileDropHandler(onFileDrop = { file ->
             tableTopViewmodel.onFileDropped(file)
         })
-        MainView(mainViewmodel, tableTopViewmodel)
+        MainScreen(mainViewmodel, tableTopViewmodel)
     }
 }
