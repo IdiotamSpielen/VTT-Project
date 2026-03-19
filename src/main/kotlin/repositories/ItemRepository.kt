@@ -36,6 +36,10 @@ class ItemRepository : Repository<Item> {
         }
     }
 
+    override fun getRecent(limit: Int): List<Item> {
+            TODO("Not yet implemented")
+    }
+
     override fun search(query: String): List<Item> {
         return transaction {
             ItemEntity.find { ItemsTable.name.lowerCase() like "%${query.lowercase()}%" }

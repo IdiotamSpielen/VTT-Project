@@ -14,4 +14,5 @@ object SpellsTable : IntIdTable() {
     val castingTime = varchar("castingTime", 255)
     val ritual = bool("ritual").default(false)
     val concentration = bool("concentration").default(false)
+    val lastAccessed = long("last_accessed").default(0)
 }

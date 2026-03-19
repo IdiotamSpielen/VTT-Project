@@ -45,6 +45,14 @@ open class SpellRepository: Repository<Spell> {
         }
     }
 
+    override fun getRecent(limit: Int): List<Spell> {
+        return transaction {
+            SpellEntity.all()
+                .orderBy(SpellsTable.lastAccessed to SortOrder.DESC)
+                .map { entityToModel(it) }
+        }
+    }
+
     override fun delete(item: Spell) {
         transaction {
             val spell = SpellEntity.find { SpellsTable.name.lowerCase() eq item.name.lowercase() }.firstOrNull()
@@ -64,7 +72,8 @@ open class SpellRepository: Repository<Spell> {
             ingredients = e.ingredients,
             school = e.school,
             ritual = e.ritual,
-            concentration = e.concentration
+            concentration = e.concentration,
+            lastAccessed = e.lastAccessed
         )
     }
 
@@ -80,5 +89,6 @@ open class SpellRepository: Repository<Spell> {
         entity.school = spell.school
         entity.ritual = spell.ritual
         entity.concentration = spell.concentration
+        entity.lastAccessed = spell.lastAccessed
     }
 }

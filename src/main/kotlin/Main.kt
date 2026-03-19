@@ -12,10 +12,13 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import database.DBSettings
+import database.DBSettings.logger
 import database.ImageAssetsTable
 import database.SpellsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import database.SpellEntity
+import database.ImageAssetEntity
 import services.FileDropHandler
 import services.LocalizationService
 import ui.screens.MainScreen
@@ -60,7 +63,17 @@ fun main() = application {
         }
     }
 
-    print(database)
+    val isDebug = System.getenv("VTT_DEBUG")?.toBoolean() ?: false
+
+    if (isDebug) {
+        transaction(database) {
+            val spellCount = SpellEntity.count()
+            val imageCount = ImageAssetEntity.count()
+            logger.debug("Debug mode enabled. Verbose logging enabled.")
+            logger.debug("Database Connected: ${database.url}")
+            logger.debug("Active Tables: Spells ($spellCount), ImageAssets ($imageCount)")
+        }
+    }
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -94,13 +107,15 @@ fun main() = application {
                     Item("Large (150)", onClick = { tableTopViewmodel.tokenSize = 150f })
                     Item("Extra Large (200)", onClick = { tableTopViewmodel.tokenSize = 200f })
                 }
-                Separator()
-                Item("Clear Database (Debug)", onClick = {
-                    DBSettings.clearDatabase()
-                    mainViewmodel.clearAll() // Should clear any open views or state
-                    tableTopViewmodel.elements.clear()
-                    tableTopViewmodel.recentAssets.clear()
-                })
+                if (isDebug) {
+                    Separator()
+                    Item("Clear Database (Debug)", onClick = {
+                        DBSettings.clearDatabase()
+                        mainViewmodel.clearAll() // Should clear any open views or state
+                        tableTopViewmodel.elements.clear()
+                        tableTopViewmodel.recentAssets.clear()
+                    })
+                }
             }
         }
         FileDropHandler(onFileDrop = { file ->

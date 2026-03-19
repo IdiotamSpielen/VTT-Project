@@ -11,5 +11,6 @@ data class Spell(
     val range: String,
     val castingTime: String,
     val ritual: Boolean,
-    val concentration: Boolean
+    val concentration: Boolean,
+    val lastAccessed: Long
 ) : Nameable

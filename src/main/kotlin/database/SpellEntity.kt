@@ -18,4 +18,5 @@ class SpellEntity(id: EntityID<Int>) : IntEntity(id) {
     var castingTime by SpellsTable.castingTime
     var ritual by SpellsTable.ritual
     var concentration by SpellsTable.concentration
+    var lastAccessed by SpellsTable.lastAccessed
 }

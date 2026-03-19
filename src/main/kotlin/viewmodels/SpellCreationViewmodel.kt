@@ -54,7 +54,8 @@ class SpellCreationViewmodel(
                 description = currentState.description,
                 ingredients = currentState.ingredients.takeIf { it.isNotBlank() },
                 ritual = currentState.isRitual,
-                concentration = currentState.isConcentration
+                concentration = currentState.isConcentration,
+                lastAccessed = 0
             )
 
             repository.save(spell)
