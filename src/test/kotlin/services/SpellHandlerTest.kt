@@ -84,7 +84,8 @@ class SpellHandlerTest {
             description = "A bright streak flashes...",
             ingredients = "Sulfur",
             ritual = false,
-            concentration = false
+            concentration = false,
+            lastAccessed = 0
         )
     }
 }

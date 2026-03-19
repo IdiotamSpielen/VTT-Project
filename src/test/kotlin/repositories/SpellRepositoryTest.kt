@@ -51,13 +51,13 @@ class SpellRepositoryTest {
     @Test
     fun `save updates existing spell when name matches`() {
         // GIVEN:
-        val originalSpell = createDummySpell("Fireball").copy(description = "Macht 8d6 Schaden")
+        val originalSpell = createDummySpell("Fireball",).copy(description = "Macht 8d6 Schaden")
         repository.save(originalSpell)
 
         assertEquals("Macht 8d6 Schaden", repository.search("Fireball").first().description)
 
         // WHEN:
-        val updatedSpell = createDummySpell("Fireball").copy(description = "Macht jetzt 10d6 Schaden!")
+        val updatedSpell = createDummySpell("Fireball",).copy(description = "Macht jetzt 10d6 Schaden!")
         repository.save(updatedSpell)
 
         // THEN:
@@ -69,9 +69,9 @@ class SpellRepositoryTest {
 
     @Test
     fun `search finds spells ignoring case`() {
-        repository.save(createDummySpell("Magic Missile"))
-        repository.save(createDummySpell("Magic Mouth"))
-        repository.save(createDummySpell("Fireball"))
+        repository.save(createDummySpell("Magic Missile",))
+        repository.save(createDummySpell("Magic Mouth",))
+        repository.save(createDummySpell("Fireball",))
 
         val results = repository.search("magic")
 
@@ -82,7 +82,7 @@ class SpellRepositoryTest {
 
     @Test
     fun `search returns empty list when no matches found`() {
-        repository.save(createDummySpell("Ice Storm"))
+        repository.save(createDummySpell("Ice Storm",))
 
         val results = repository.search("fire")
 
@@ -92,7 +92,7 @@ class SpellRepositoryTest {
     @Test
     fun `delete removes spell from database`() {
         // GIVEN
-        val spell = createDummySpell("To Be Deleted")
+        val spell = createDummySpell("To Be Deleted",)
         repository.save(spell)
         assertEquals(1, repository.getAll().size)
 
@@ -104,7 +104,28 @@ class SpellRepositoryTest {
         assertEquals(0, results.size, "Database should be empty after delete")
     }
 
-    private fun createDummySpell(name: String): Spell {
+    @Test
+    fun `getRecentSpells returns an empty list if no spells exist`() {
+        val results = repository.getRecent(limit = 10)
+
+        assertTrue(results.isEmpty(), "Result list should be empty, not null")
+    }
+
+    @Test
+    fun `getRecentSpells returns spells ordered by last accessed time descending`() {
+        repository.save(createDummySpell("Fireball", lastAccessed = 1000L))
+        repository.save(createDummySpell("Lightning Bolt", lastAccessed = 500L))
+        repository.save(createDummySpell("Chill Touch", lastAccessed = 1500L))
+
+        val results = repository.getRecent(limit = 10)
+
+        assertEquals(3, results.size, "Expected 3 spells in result list")
+        assertEquals("Chill Touch", results[0].name, "First spell should be Chill Touch")
+        assertEquals("Fireball", results[1].name, "Second spell should be Fireball")
+        assertEquals("Lightning Bolt", results[2].name, "Third spell should be Lightning Bolt")
+    }
+
+    private fun createDummySpell(name: String, lastAccessed: Long = 0): Spell {
         return Spell(
             name = name,
             school = "Evocation",
@@ -116,7 +137,8 @@ class SpellRepositoryTest {
             description = "Test description",
             ingredients = "",
             ritual = false,
-            concentration = false
+            concentration = false,
+            lastAccessed = lastAccessed
         )
     }
 }
