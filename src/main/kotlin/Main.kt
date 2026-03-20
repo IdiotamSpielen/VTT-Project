@@ -85,31 +85,34 @@ fun main() = application {
                 Item(L.SPELL.t(), icon= rememberVectorPainter(Icons.Default.AutoAwesome), onClick = {
                     mainViewmodel.openSpellCreator()
                 })
-                Item("Item", icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { mainViewmodel.openItemCreator() })
+                Item(L.ITEM.t(), icon = rememberVectorPainter(Icons.Default.Backpack), onClick = { mainViewmodel.openItemCreator() })
                 Separator()
             }
-            Menu("Search") {
+            Menu(L.SEARCH.t()) {
                 Item(L.SPELL.t(), icon=rememberVectorPainter(Icons.AutoMirrored.Filled.ManageSearch), onClick = { mainViewmodel.openSpellSearch() })
             }
             Menu(L.SETTINGS.t()) {
-                Menu("Language"){
-                    Item("English", onClick = {
+                Menu(L.LANGUAGE.t()){
+                    Item(L.LANG_EN.t(), onClick = {
                         LocalizationService.currentLocale = Locale.US
                     })
-                    Item("Deutsch", onClick = {
+                    Item(L.LANG_DE.t(), onClick = {
                         LocalizationService.currentLocale = Locale.GERMANY
+                    })
+                    Item(L.LANG_ES.t(), onClick = {
+                        LocalizationService.currentLocale = Locale("es", "ES")
                     })
                 }
                 Separator()
-                Menu("Token Size") {
-                    Item("Small (50)", onClick = { tableTopViewmodel.tokenSize = 50f })
-                    Item("Medium (100)", onClick = { tableTopViewmodel.tokenSize = 100f })
-                    Item("Large (150)", onClick = { tableTopViewmodel.tokenSize = 150f })
-                    Item("Extra Large (200)", onClick = { tableTopViewmodel.tokenSize = 200f })
+                Menu(L.TOKEN_SIZE.t()) {
+                    Item(L.TOKEN_S.t(), onClick = { tableTopViewmodel.tokenSize = 50f })
+                    Item(L.TOKEN_M.t(), onClick = { tableTopViewmodel.tokenSize = 100f })
+                    Item(L.TOKEN_L.t(), onClick = { tableTopViewmodel.tokenSize = 150f })
+                    Item(L.TOKEN_XL.t(), onClick = { tableTopViewmodel.tokenSize = 200f })
                 }
                 if (isDebug) {
                     Separator()
-                    Item("Clear Database (Debug)", onClick = {
+                    Item(L.CLEAR_DB.t(), onClick = {
                         DBSettings.clearDatabase()
                         mainViewmodel.clearAll() // Should clear any open views or state
                         tableTopViewmodel.elements.clear()

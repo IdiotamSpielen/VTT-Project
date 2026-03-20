@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import ui.TableTopView
 import ui.components.OverlayWindow
 import viewmodels.*
+import utils.L
 
 /**
  * The MainScreen
@@ -27,7 +28,7 @@ fun MainScreen(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
         when (viewmodel.currentScreen) {
             MainViewmodel.Screen.SPELL_CREATOR -> {
                 OverlayWindow(
-                    title = "Create New Spell",
+                    title = L.TITLE_SPELL_CREATE.t(),
                     onClose = { viewmodel.closeOverlay() }
                 ) {
                     SpellCreatorView(spellCreationViewmodel)
@@ -35,7 +36,7 @@ fun MainScreen(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
             }
             MainViewmodel.Screen.SPELL_SEARCH -> {
                 OverlayWindow(
-                    title = "Search Spells",
+                    title = L.TITLE_SPELL_SEARCH.t(),
                     onClose = { viewmodel.closeOverlay() }
                 ) {
                     SpellSearchView(spellSearchViewmodel)
@@ -46,7 +47,7 @@ fun MainScreen(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
             }
             MainViewmodel.Screen.ITEM_CREATOR -> {
                 OverlayWindow(
-                    title = "Create New Item", // Oder L.TITLE_CREATE_ITEM.t()
+                    title = L.TITLE_ITEM_CREATE.t(),
                     onClose = { viewmodel.closeOverlay() }
                 ) {
                     ItemCreatorView(itemCreationViewmodel, onClose = { viewmodel.closeOverlay() })

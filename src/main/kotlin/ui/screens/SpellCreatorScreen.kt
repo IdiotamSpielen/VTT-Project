@@ -25,7 +25,7 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text("Create New Spell", style = MaterialTheme.typography.h5)
+        Text(L.TITLE_SPELL_CREATE.t(), style = MaterialTheme.typography.h5)
 
         OutlinedTextField(
             value = state.name,
@@ -111,7 +111,7 @@ fun SpellCreatorView(viewmodel: SpellCreationViewmodel){
             onClick = { viewmodel.createSpell() },
             modifier = Modifier.align(Alignment.End)
         ) {
-            Text("Save Spell")
+            Text(L.BTN_SAVE.t())
         }
     }
 }

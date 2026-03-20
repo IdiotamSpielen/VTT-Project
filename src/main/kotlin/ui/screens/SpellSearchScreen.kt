@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
 import viewmodels.SpellSearchViewmodel
+import utils.L
 
 @Composable
 fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
@@ -28,7 +29,7 @@ fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
                         viewmodel.searchInput = it
                         viewmodel.handleSearch()
                     },
-                    placeholder = { Text("Enter spell name to search") },
+                    placeholder = { Text(L.SEARCH_PLACEHOLDER.t()) },
 
                     modifier = Modifier
                         .fillMaxWidth()
@@ -52,7 +53,7 @@ fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     Button(onClick = { viewmodel.handleSearch() }) {
-                        Text("Display Spells")
+                        Text(L.SEARCH_BUTTON.t())
                     }
                 }
             }
@@ -98,18 +99,18 @@ fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
                     )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Casting Time", value = currentSpell.castingTime, modifier = Modifier.weight(1f))
-                        DetailBox(label = "Range", value = currentSpell.range, modifier = Modifier.weight(1f))
+                        DetailBox(label = L.SPELL_CASTTIME.t(), value = currentSpell.castingTime, modifier = Modifier.weight(1f))
+                        DetailBox(label = L.SPELL_RANGE.t(), value = currentSpell.range, modifier = Modifier.weight(1f))
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Components", value = currentSpell.components, modifier = Modifier.weight(1f))
-                        DetailBox(label = "Duration", value = currentSpell.duration, modifier = Modifier.weight(1f))
+                        DetailBox(label = L.SPELL_COMPONENTS.t(), value = currentSpell.components, modifier = Modifier.weight(1f))
+                        DetailBox(label = L.SPELL_DURATION.t(), value = currentSpell.duration, modifier = Modifier.weight(1f))
                     }
 
                     currentSpell.ingredients?.let { ingredients ->
                         DetailBox(
-                            label = "Ingredients",
+                            label = L.SPELL_INGREDIENTS.t(),
                             value = ingredients,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -121,26 +122,26 @@ fun SpellSearchView(viewmodel: SpellSearchViewmodel) {
                         shape = MaterialTheme.shapes.medium
                     ) {
                         Column(modifier = Modifier.padding(8.dp)) {
-                            Text("Description", style = MaterialTheme.typography.caption)
+                            Text(L.SPELL_DESCRIPTION.t(), style = MaterialTheme.typography.caption)
                             Text(currentSpell.description, style = MaterialTheme.typography.body2)
                         }
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Level", value = currentSpell.level.toString(), modifier = Modifier.weight(1f))
-                        DetailBox(label = "School", value = currentSpell.school, modifier = Modifier.weight(1f))
+                        DetailBox(label = L.SPELL_LEVEL.t(), value = currentSpell.level.toString(), modifier = Modifier.weight(1f))
+                        DetailBox(label = L.SPELL_SCHOOL.t(), value = currentSpell.school, modifier = Modifier.weight(1f))
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        DetailBox(label = "Ritual", value = if(currentSpell.ritual) "yes" else "no", modifier = Modifier.weight(1f))
-                        DetailBox(label = "Concentration", value = if (currentSpell.concentration) "yes" else "no", modifier = Modifier.weight(1f))
+                        DetailBox(label = L.RITUAL.t(), value = if(currentSpell.ritual) L.YES.t() else L.NO.t(), modifier = Modifier.weight(1f))
+                        DetailBox(label = L.CONCENTRATION.t(), value = if (currentSpell.concentration) L.YES.t() else L.NO.t(), modifier = Modifier.weight(1f))
                     }
 
                     TextButton(
                         onClick = { viewmodel.clearSelection() },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
-                        Text("Back to list")
+                        Text(L.SEARCH_BACK.t())
                     }
                 }
             }
