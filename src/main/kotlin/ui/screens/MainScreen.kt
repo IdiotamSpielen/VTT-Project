@@ -42,11 +42,10 @@ fun MainScreen(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
                 }
             }
             MainViewmodel.Screen.TABLETOP -> {
-                // Kein Overlay anzeigen
             }
             MainViewmodel.Screen.ITEM_CREATOR -> {
                 OverlayWindow(
-                    title = "Create New Item", // Oder L.TITLE_CREATE_ITEM.t()
+                    title = "Create New Item",
                     onClose = { viewmodel.closeOverlay() }
                 ) {
                     ItemCreatorView(itemCreationViewmodel, onClose = { viewmodel.closeOverlay() })
