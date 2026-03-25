@@ -43,7 +43,6 @@ fun MainScreen(viewmodel: MainViewmodel, tableTopViewmodel: TableTopViewmodel) {
                 }
             }
             MainViewmodel.Screen.TABLETOP -> {
-                // Kein Overlay anzeigen
             }
             MainViewmodel.Screen.ITEM_CREATOR -> {
                 OverlayWindow(
