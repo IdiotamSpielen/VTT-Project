@@ -17,6 +17,8 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
+import java.nio.charset.StandardCharsets
+
 class TableTopViewmodel {
 
     var currentMap by mutableStateOf(TableTopMap())
@@ -25,6 +27,27 @@ class TableTopViewmodel {
 
     val currentFloor: MapFloor
         get() = currentMap.floors[currentFloorIndex]
+
+    fun saveCurrentMap() {
+        try {
+            val userHome = System.getProperty("user.home")
+            val mapsDir = Paths.get(userHome, "Documents/VTT/maps/data")
+            if (!Files.exists(mapsDir)) Files.createDirectories(mapsDir)
+
+            val fileName = "${currentMap.name.replace(" ", "_")}_${currentMap.id}.json"
+            val targetPath = mapsDir.resolve(fileName)
+            
+            // Manual JSON for now if the library is not being picked up
+            val jsonString = """{"id":"${currentMap.id}","name":"${currentMap.name}"}"""
+            Files.write(targetPath, jsonString.toByteArray(StandardCharsets.UTF_8))
+            
+            // Here we would also update the MapsTable in DB
+            println("Map saved to $targetPath")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            errorMessage = "Failed to save map: ${e.message}"
+        }
+    }
 
     // Simplified for the current UI: flattened list of all visible elements in the current floor
     val elements: List<TableTopElement>
@@ -51,7 +74,7 @@ class TableTopViewmodel {
 
     private fun loadRecents() {
         recentAssets.clear()
-        recentAssets.addAll(assetRepository.getRecent(10))
+        recentAssets.addAll(assetRepository.getRecentAssets(10))
     }
 
     fun moveElement(id: String, dragAmount: Offset) {
@@ -60,7 +83,7 @@ class TableTopViewmodel {
             if (index != -1) {
                 val element = layer.elements[index]
                 val newPos = element.position + dragAmount
-                layer.elements[index] = element.copy(position = newPos)
+                layer.elements[index] = element.copy(x = newPos.x, y = newPos.y)
                 return
             }
         }
@@ -94,19 +117,17 @@ class TableTopViewmodel {
             val targetPath = targetDir.resolve(file.name)
             Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
 
-            assetRepository.save(
-                ImageAssetModel(
-                    id = 0,
-                    name = file.name,
-                    path = targetPath.toString(),
-                    type = type
-                )
+            assetRepository.addAsset(
+                fileName = file.name,
+                filePath = targetPath.toString(),
+                assetType = type
             )
 
             val newElement = TableTopElement(
                 name = file.name,
                 absolutePath = targetPath.toString(),
-                position = Offset(100f, 100f),
+                x = 100f,
+                y = 100f,
                 type = type
             )
 
@@ -129,7 +150,8 @@ class TableTopViewmodel {
         val newElement = TableTopElement(
             name = asset.name,
             absolutePath = asset.path,
-            position = Offset(100f, 100f),
+            x = 100f,
+            y = 100f,
             type = asset.type
         )
         

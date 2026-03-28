@@ -34,8 +34,8 @@ object DBSettings {
      */
     fun clearDatabase() {
         transaction(db) {
-            SchemaUtils.drop(SpellsTable, ImageAssetsTable)
-            SchemaUtils.create(SpellsTable, ImageAssetsTable)
+            SchemaUtils.drop(SpellsTable, ImageAssetsTable, MapsTable)
+            SchemaUtils.create(SpellsTable, ImageAssetsTable, MapsTable)
             logger.info("Database cleared and tables recreated.")
         }
     }

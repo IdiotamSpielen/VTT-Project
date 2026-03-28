@@ -15,6 +15,7 @@ import database.DBSettings
 import database.DBSettings.logger
 import database.ImageAssetsTable
 import database.SpellsTable
+import database.MapsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import database.SpellEntity
@@ -22,6 +23,7 @@ import database.ImageAssetEntity
 import services.FileDropHandler
 import services.LocalizationService
 import ui.screens.MainScreen
+import models.*
 import utils.L
 import viewmodels.MainViewmodel
 import viewmodels.TableTopViewmodel
@@ -38,6 +40,7 @@ fun main() = application {
     transaction {
         SchemaUtils.create(SpellsTable)
         SchemaUtils.create(ImageAssetsTable)
+        SchemaUtils.create(MapsTable)
     }
 
     val mainViewmodel = remember { MainViewmodel() }

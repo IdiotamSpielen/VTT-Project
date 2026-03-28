@@ -71,6 +71,10 @@ fun TableTopView(viewmodel: TableTopViewmodel) {
                 Text("Add Floor")
             }
             
+            Button(onClick = { viewmodel.saveCurrentMap() }, modifier = Modifier.padding(top = 8.dp)) {
+                Text("Save Map")
+            }
+            
             Spacer(Modifier.height(8.dp))
             
             Text("Active Layer", color = Color.White, style = MaterialTheme.typography.subtitle2)
