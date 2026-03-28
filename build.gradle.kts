@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "2.3.0"
     id("org.jetbrains.compose") version "1.10.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
+    kotlin("plugin.serialization") version "2.3.0"
 }
 
 group = "com.idiotamspielen" // Optional: Dein Group ID
@@ -31,6 +32,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0")
     implementation("org.jetbrains.exposed:exposed-dao:1.0.0")
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
+
+    // --- JSON Serialization ---
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 
     // --- Logging ---
     implementation("org.slf4j:slf4j-api:2.0.17")

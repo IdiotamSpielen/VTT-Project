@@ -13,6 +13,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import database.*
 import database.DBSettings.logger
+import database.MapsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -38,6 +39,7 @@ fun main() = application {
         SchemaUtils.create(ImageAssetsTable)
         SchemaUtils.create(CharClassTable)
         SchemaUtils.create(ItemsTable)
+        SchemaUtils.create(MapsTable)
     }
 
     val mainViewmodel = remember { MainViewmodel() }
