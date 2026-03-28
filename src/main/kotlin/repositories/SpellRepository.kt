@@ -1,94 +1,116 @@
 package repositories
 
-import database.SpellEntity
 import database.SpellsTable
-import models.Spell
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.core.lowerCase
+import org.jetbrains.exposed.v1.jdbc.*
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.core.ResultRow
 
 /**
  * The Repository responsible for linking the Spell Creation process to its appropriate Database Table.
  *
  * @param Spell the spell to be saved
  */
-open class SpellRepository: Repository<Spell> {
-    open override fun save (item: Spell) {
+open class SpellRepository : Repository<Spell> {
+    open override fun save(item: Spell) {
         transaction {
-            val existingSpell = SpellEntity.find { SpellsTable.name eq item.name }.firstOrNull()
+            val existingCount = SpellsTable.select(SpellsTable.id).where { SpellsTable.name eq item.name }.count()
 
-            if (existingSpell == null) {
-                SpellEntity.new {
-                    assignValues(this, item)
+            if (existingCount == 0L) {
+                SpellsTable.insert {
+                    it[name] = item.name
+                    it[castingTime] = item.castingTime
+                    it[duration] = item.duration
+                    it[range] = item.range
+                    it[components] = item.components
+                    it[ingredients] = item.ingredients
+                    it[description] = item.description
+                    it[level] = item.level
+                    it[school] = item.school
+                    it[ritual] = item.ritual
+                    it[concentration] = item.concentration
+                    it[lastAccessed] = item.lastAccessed
                 }
             } else {
-                // Update existing record if found
-                assignValues(existingSpell, item)
+                SpellsTable.update({ SpellsTable.name eq item.name }) {
+                    it[castingTime] = item.castingTime
+                    it[duration] = item.duration
+                    it[range] = item.range
+                    it[components] = item.components
+                    it[ingredients] = item.ingredients
+                    it[description] = item.description
+                    it[level] = item.level
+                    it[school] = item.school
+                    it[ritual] = item.ritual
+                    it[concentration] = item.concentration
+                    it[lastAccessed] = item.lastAccessed
+                }
             }
         }
     }
 
     override fun search(query: String): List<Spell> {
         return transaction {
-            SpellEntity.find { SpellsTable.name.lowerCase() like "%${query.lowercase()}%" }
-                .map { entityToModel(it) }
+            SpellsTable.selectAll().where { SpellsTable.name.lowerCase() like "%${query.lowercase()}%" }
+                .map { rowToModel(it) }
         }
     }
 
     override fun getAll(): List<Spell> {
         return transaction {
-            SpellEntity.all()
+            SpellsTable.selectAll()
                 .orderBy(SpellsTable.name to SortOrder.ASC)
-                .map { entityToModel(it) }
+                .map { rowToModel(it) }
         }
     }
 
     override fun getRecent(limit: Int): List<Spell> {
         return transaction {
-            SpellEntity.all()
+            SpellsTable.selectAll()
                 .orderBy(SpellsTable.lastAccessed to SortOrder.DESC)
-                .map { entityToModel(it) }
+                .limit(limit)
+                .map { rowToModel(it) }
         }
     }
 
     override fun delete(item: Spell) {
         transaction {
-            val spell = SpellEntity.find { SpellsTable.name.lowerCase() eq item.name.lowercase() }.firstOrNull()
-            spell?.delete()
+            SpellsTable.deleteWhere { SpellsTable.name.lowerCase() eq item.name.lowercase() }
         }
     }
 
-    private fun entityToModel(e: SpellEntity): Spell {
+    private fun rowToModel(row: ResultRow): Spell {
         return Spell(
-            name = e.name,
-            description = e.description,
-            components = e.components,
-            castingTime = e.castingTime,
-            duration = e.duration,
-            level = e.level,
-            range = e.range,
-            ingredients = e.ingredients,
-            school = e.school,
-            ritual = e.ritual,
-            concentration = e.concentration,
-            lastAccessed = e.lastAccessed
+            name = row[SpellsTable.name],
+            description = row[SpellsTable.description],
+            components = row[SpellsTable.components],
+            castingTime = row[SpellsTable.castingTime],
+            duration = row[SpellsTable.duration],
+            level = row[SpellsTable.level],
+            range = row[SpellsTable.range],
+            ingredients = row[SpellsTable.ingredients],
+            school = row[SpellsTable.school],
+            ritual = row[SpellsTable.ritual],
+            concentration = row[SpellsTable.concentration],
+            lastAccessed = row[SpellsTable.lastAccessed]
         )
     }
-
-    private fun assignValues(entity: SpellEntity, spell: Spell) {
-        entity.name = spell.name
-        entity.castingTime = spell.castingTime
-        entity.duration = spell.duration
-        entity.range = spell.range
-        entity.components = spell.components
-        entity.ingredients = spell.ingredients
-        entity.description = spell.description
-        entity.level = spell.level
-        entity.school = spell.school
-        entity.ritual = spell.ritual
-        entity.concentration = spell.concentration
-        entity.lastAccessed = spell.lastAccessed
-    }
 }
+
+data class Spell(
+    val name: String,
+    val duration: String,
+    val components: String,
+    val ingredients: String?,
+    val description: String,
+    val school: String,
+    val level: Int,
+    val range: String,
+    val castingTime: String,
+    val ritual: Boolean,
+    val concentration: Boolean,
+    val lastAccessed: Long
+)

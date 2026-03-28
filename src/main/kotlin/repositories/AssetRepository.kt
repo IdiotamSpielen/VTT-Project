@@ -1,84 +1,86 @@
 package repositories
 
-import database.ImageAssetEntity
 import database.ImageAssetsTable
 import models.ElementType
-import org.jetbrains.exposed.v1.core.SortOrder
-import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.*
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import java.io.File
 
-class AssetRepository {
+class AssetRepository : Repository<ImageAssetModel> {
+
+    override fun save(item: ImageAssetModel) {
+        transaction {
+            val existing = ImageAssetsTable.selectAll().where { ImageAssetsTable.path eq item.path }.firstOrNull()
+
+            if (existing != null) {
+                ImageAssetsTable.update({ ImageAssetsTable.path eq item.path }) {
+                    it[lastAccessed] = System.currentTimeMillis()
+                }
+            } else {
+                ImageAssetsTable.insert {
+                    it[name] = item.name
+                    it[path] = item.path
+                    it[type] = item.type.name
+                    it[lastAccessed] = System.currentTimeMillis()
+                }
+            }
+        }
+    }
+
+    override fun getAll(): List<ImageAssetModel> {
+        return transaction {
+            ImageAssetsTable.selectAll().map { rowToModel(it) }
+        }
+    }
+
+    override fun getRecent(limit: Int): List<ImageAssetModel> {
+        return transaction {
+            ImageAssetsTable.selectAll()
+                .orderBy(ImageAssetsTable.lastAccessed to SortOrder.DESC)
+                .limit(limit)
+                .map { rowToModel(it) }
+        }
+    }
+
+    override fun search(query: String): List<ImageAssetModel> {
+        return transaction {
+            ImageAssetsTable.selectAll()
+                .where { ImageAssetsTable.name.lowerCase() like "%${query.lowercase()}%" }
+                .map { rowToModel(it) }
+        }
+    }
+
+    override fun delete(item: ImageAssetModel) {
+        transaction {
+            val file = File(item.path)
+            if (file.exists()) {
+                file.delete()
+            }
+            ImageAssetsTable.deleteWhere { path eq item.path }
+        }
+    }
 
     fun updateLastAccessed(id: Int) {
         transaction {
-            val asset = ImageAssetEntity.findById(id)
-            asset?.lastAccessed = System.currentTimeMillis()
-        }
-    }
-
-    // Register image asset for tracking
-    fun addAsset(fileName: String, filePath: String, assetType: ElementType): Int {
-        return transaction {
-            val existingAsset = ImageAssetEntity.find {
-                ImageAssetsTable.path eq filePath
-            }.firstOrNull()
-
-            if (existingAsset != null) {
-                existingAsset.lastAccessed = System.currentTimeMillis()
-                existingAsset.id.value
-            } else {
-                ImageAssetEntity.new {
-                    name = fileName
-                    path = filePath
-                    type = assetType.name
-                }.id.value
+            ImageAssetsTable.update({ ImageAssetsTable.id eq id }) {
+                it[lastAccessed] = System.currentTimeMillis()
             }
         }
     }
 
-    fun getAllAssets(): List<ImageAssetModel> {
-        return transaction {
-            ImageAssetEntity.all().map {
-                ImageAssetModel(it.id.value, it.name, it.path, ElementType.valueOf(it.type))
-            }
-        }
-    }
-
-    fun getRecentAssets(limit: Int = 10): List<ImageAssetModel> {
-        return transaction {
-            ImageAssetEntity.all()
-                .orderBy(ImageAssetsTable.lastAccessed to SortOrder.DESC) // Display most recently used assets first
-                .limit(limit)
-                .map {
-                    ImageAssetModel(it.id.value, it.name, it.path, ElementType.valueOf(it.type))
-                }
-        }
-    }
-
-    // Permanently remove database entry and its corresponding physical file
-    fun deleteAsset(id: Int) {
-        transaction {
-            val asset = ImageAssetEntity.findById(id)
-            if (asset != null) {
-                val file = File(asset.path)
-                if (file.exists()) {
-                    file.delete()
-                }
-                asset.delete()
-            }
-        }
-    }
-
-    /**
-     * Clears all assets from the database.
-     */
-    fun clearAll() {
-        transaction {
-            ImageAssetEntity.all().forEach { it.delete() }
-        }
+    private fun rowToModel(row: ResultRow): ImageAssetModel {
+        return ImageAssetModel(
+            id = row[ImageAssetsTable.id].value,
+            name = row[ImageAssetsTable.name],
+            path = row[ImageAssetsTable.path],
+            type = ElementType.valueOf(row[ImageAssetsTable.type])
+        )
     }
 }
 
 // UI-friendly model to avoid leaking database entities
-data class ImageAssetModel(val id: Int, val name: String, val path: String, val type: ElementType){}
+data class ImageAssetModel(val id: Int, val name: String, val path: String, val type: ElementType)

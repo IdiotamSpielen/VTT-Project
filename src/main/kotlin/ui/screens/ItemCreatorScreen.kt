@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import viewmodels.ItemCreationViewmodel
-import models.ItemType
+import repositories.ItemType
 import utils.L
 
 @Composable

@@ -3,7 +3,7 @@ package services
 import repositories.SpellRepository
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
-import models.Spell
+import repositories.Spell
 import utils.L
 
 class SpellHandler(private val repository: SpellRepository = SpellRepository()) {

@@ -3,8 +3,8 @@ package viewmodels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import models.Item
-import models.ItemType
+import repositories.Item
+import repositories.ItemType
 import services.FeedbackHandler
 import services.FeedbackHandler.FeedbackType.*
 import repositories.ItemRepository

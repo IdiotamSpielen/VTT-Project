@@ -1,6 +1,6 @@
 package viewmodels
 
-import models.Spell
+import repositories.Spell
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import repositories.SpellRepository
