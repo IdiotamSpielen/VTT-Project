@@ -1,7 +1,7 @@
 package database
 
-import models.ItemType
 import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
+import repositories.ItemType
 
 object ItemsTable : IntIdTable() {
     val name = varchar("name", 255)
@@ -10,4 +10,5 @@ object ItemsTable : IntIdTable() {
     val weight = double("weight").default(0.0)
     val description = text("description")
     val damage = varchar("damage", 50).nullable()
+    val lastAccessed = long("last_accessed").default(0)
 }

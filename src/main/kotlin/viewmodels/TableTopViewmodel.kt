@@ -74,7 +74,7 @@ class TableTopViewmodel {
 
     private fun loadRecents() {
         recentAssets.clear()
-        recentAssets.addAll(assetRepository.getRecentAssets(10))
+        recentAssets.addAll(assetRepository.getRecent(10))
     }
 
     fun moveElement(id: String, dragAmount: Offset) {
@@ -117,10 +117,13 @@ class TableTopViewmodel {
             val targetPath = targetDir.resolve(file.name)
             Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
 
-            assetRepository.addAsset(
-                fileName = file.name,
-                filePath = targetPath.toString(),
-                assetType = type
+            assetRepository.save(
+                ImageAssetModel(
+                    id = 0,
+                    name = file.name,
+                    path = targetPath.toString(),
+                    type = type
+                )
             )
 
             val newElement = TableTopElement(

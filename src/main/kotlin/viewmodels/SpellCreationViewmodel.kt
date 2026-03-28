@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import exceptions.InvalidSpellException
-import models.Spell
+import repositories.Spell
 import repositories.SpellRepository
 import services.FeedbackHandler
 import services.FeedbackHandler.FeedbackType.*

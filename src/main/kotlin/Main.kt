@@ -11,19 +11,16 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import database.DBSettings
+import database.*
 import database.DBSettings.logger
-import database.ImageAssetsTable
-import database.SpellsTable
 import database.MapsTable
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import database.SpellEntity
-import database.ImageAssetEntity
+import models.*
 import services.FileDropHandler
 import services.LocalizationService
 import ui.screens.MainScreen
-import models.*
 import utils.L
 import viewmodels.MainViewmodel
 import viewmodels.TableTopViewmodel
@@ -40,6 +37,8 @@ fun main() = application {
     transaction {
         SchemaUtils.create(SpellsTable)
         SchemaUtils.create(ImageAssetsTable)
+        SchemaUtils.create(CharClassTable)
+        SchemaUtils.create(ItemsTable)
         SchemaUtils.create(MapsTable)
     }
 
@@ -70,8 +69,8 @@ fun main() = application {
 
     if (isDebug) {
         transaction(database) {
-            val spellCount = SpellEntity.count()
-            val imageCount = ImageAssetEntity.count()
+            val spellCount = SpellsTable.selectAll().count()
+            val imageCount = ImageAssetsTable.selectAll().count()
             logger.debug("Debug mode enabled. Verbose logging enabled.")
             logger.debug("Database Connected: ${database.url}")
             logger.debug("Active Tables: Spells ($spellCount), ImageAssets ($imageCount)")
