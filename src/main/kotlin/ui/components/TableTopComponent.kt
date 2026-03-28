@@ -1,6 +1,8 @@
 package ui
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,13 +16,12 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import viewmodels.TableTopViewmodel
-import models.ElementType
-import models.TableTopElement
-import kotlin.math.roundToInt
 import androidx.compose.ui.zIndex
+import models.*
 import ui.components.RecentAssetsBar
 import utils.rememberSmartPainter
+import viewmodels.TableTopViewmodel
+import kotlin.math.roundToInt
 
 @Composable
 fun TableTopView(viewmodel: TableTopViewmodel) {
@@ -29,30 +30,61 @@ fun TableTopView(viewmodel: TableTopViewmodel) {
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        val sortedElements = remember(viewmodel.elements.toList()) {
-            viewmodel.elements.sortedBy { it.type == ElementType.TOKEN }
-        }
-        sortedElements.forEach { element ->
-            key(element.id) {
-                DraggableElement(
-                    element = element,
-                    tokenSize = viewmodel.tokenSize,
-                    isEditMode = viewmodel.isEditMode,
-                    onDelete = { viewmodel.removeElement(element.id) },
-                    onDrag = { dragAmount ->
-                        viewmodel.moveElement(element.id, dragAmount)
-                    }
-                )
+        // Render visible layers in order
+        viewmodel.currentFloor.layers.filter { it.isVisible }.forEachIndexed { layerIndex, layer ->
+            // Use elements directly from the layer for better reactivity
+            layer.elements.forEach { element ->
+                key(element.id) {
+                    DraggableElement(
+                        element = element,
+                        tokenSize = viewmodel.tokenSize,
+                        isEditMode = viewmodel.isEditMode,
+                        modifier = Modifier.zIndex(layerIndex.toFloat()),
+                        onDelete = { viewmodel.removeElement(element.id) },
+                        onDrag = { dragAmount ->
+                            viewmodel.moveElement(element.id, dragAmount)
+                        }
+                    )
+                }
             }
         }
 
-        if (viewmodel.pendingImportFile != null) {
-            ImportDialog(
-                fileName = viewmodel.pendingImportFile?.name ?: "",
-                onConfirm = { type -> viewmodel.confirmImport(type) },
-                onDismiss = { viewmodel.cancelImport() }
-            )
+        // Layer and Floor Controls
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(16.dp)
+                .background(Color.Black.copy(alpha = 0.6f))
+                .padding(8.dp)
+        ) {
+            Text("Floors", color = Color.White, style = MaterialTheme.typography.subtitle2)
+            viewmodel.currentMap.floors.forEachIndexed { index, floor ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = viewmodel.currentFloorIndex == index,
+                        onClick = { viewmodel.currentFloorIndex = index }
+                    )
+                    Text(floor.name, color = Color.White)
+                }
+            }
+            Button(onClick = { viewmodel.addFloor() }, modifier = Modifier.padding(top = 4.dp)) {
+                Text("Add Floor")
+            }
+            
+            Spacer(Modifier.height(8.dp))
+            
+            Text("Active Layer", color = Color.White, style = MaterialTheme.typography.subtitle2)
+            LayerType.entries.forEach { type ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = viewmodel.activeLayerType == type,
+                        onClick = { viewmodel.activeLayerType = type }
+                    )
+                    Text(type.name, color = Color.White)
+                }
+            }
         }
+
         if (viewmodel.errorMessage != null) {
             AlertDialog(
                 onDismissRequest = { viewmodel.dismissError() },
@@ -86,6 +118,7 @@ fun DraggableElement(
     element: TableTopElement,
     tokenSize: Float,
     isEditMode: Boolean,
+    modifier: Modifier = Modifier,
     onDrag: (Offset) -> Unit,
     onDelete: () -> Unit
 ) {
@@ -110,9 +143,8 @@ fun DraggableElement(
 
     if (painter != null) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .offset { IntOffset(element.position.x.roundToInt(), element.position.y.roundToInt()) }
-                .zIndex(if (element.type == ElementType.TOKEN) 1f else 0f)
                 .wrapContentSize()
                 .then(dragModifier)
         ) {
@@ -128,29 +160,16 @@ fun DraggableElement(
             )
 
             // Ein kleines Dropdown-Menü direkt am Token
-            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
-                DropdownMenuItem(onClick = {
-                    onDelete()
-                    showMenu = false
-                }) {
-                    Text("Vom Board entfernen", color = Color.Red)
+            if (showMenu) {
+                DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                    DropdownMenuItem(onClick = {
+                        onDelete()
+                        showMenu = false
+                    }) {
+                        Text("Vom Board entfernen", color = Color.Red)
+                    }
                 }
             }
         }
     }
-}
-
-@Composable
-fun ImportDialog(fileName: String, onConfirm: (ElementType) -> Unit, onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Import") },
-        text = { Text("Import '$fileName' as Map or Token?") },
-        confirmButton = {
-            Button(onClick = { onConfirm(ElementType.TOKEN) }) { Text("Token") }
-        },
-        dismissButton = {
-            Button(onClick = { onConfirm(ElementType.MAP) }) { Text("Map") }
-        }
-    )
 }
