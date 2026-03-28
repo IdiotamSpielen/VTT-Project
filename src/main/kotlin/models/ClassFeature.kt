@@ -2,6 +2,6 @@ package models
 
 //Not to be confused with Feat which describes Feats
 class ClassFeature(
-    override val name: String,
+    val name: String,
     private val description: String? = null
-) : Nameable
+)

@@ -2,7 +2,7 @@ package services
 
 import exceptions.InvalidSpellException
 import exceptions.SpellNotSavedException
-import models.Spell
+import repositories.Spell
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

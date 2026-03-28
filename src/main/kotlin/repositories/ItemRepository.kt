@@ -1,12 +1,13 @@
 package repositories
 
-import database.ItemEntity
 import database.ItemsTable
-import models.Item
-import models.ItemType
+import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.core.lowerCase
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 /**
@@ -20,19 +21,18 @@ class ItemRepository : Repository<Item> {
      */
     override fun save(item: Item) {
         transaction {
-            ItemEntity.new {
-                name = item.name
-                type = item.type
-                description = item.description
-                damage = item.damage
+            ItemsTable.insert {
+                it[name] = item.name
+                it[type] = item.type
+                it[description] = item.description
+                it[damage] = item.damage
             }
         }
     }
 
     override fun getAll(): List<Item> {
         return transaction {
-            ItemEntity.all().map { entityToModel(it)
-            }
+            ItemsTable.selectAll().map { entityToModel(it)}
         }
     }
 
@@ -42,26 +42,50 @@ class ItemRepository : Repository<Item> {
 
     override fun search(query: String): List<Item> {
         return transaction {
-            ItemEntity.find { ItemsTable.name.lowerCase() like "%${query.lowercase()}%" }
-                .map { entityToModel(it)}
+            ItemsTable.selectAll().where { ItemsTable.name.lowerCase() like "%${query.lowercase()}%" }
+                .map { entityToModel(it) }
         }
     }
 
     override fun delete(item: Item) {
-        transaction {
-            val itemToDelete = ItemEntity.find { ItemsTable.name.lowerCase() eq item.name.lowercase() }.firstOrNull()
-            itemToDelete?.delete()
+        return transaction {
+            val itemToDelete = ItemsTable.selectAll().where { ItemsTable.name eq item.name }.firstOrNull()
+            if (itemToDelete != null) {
+                ItemsTable.deleteWhere { ItemsTable.id eq itemToDelete[ItemsTable.id] }
+            }
         }
     }
 
-    private fun entityToModel(e: ItemEntity): Item {
+    private fun entityToModel(e: ResultRow): Item {
         return Item(
-            name = e.name,
-            type = e.type,
-            description = e.description,
-            weight = e.weight,
-            value = e.value,
-            damage = e.damage
+            name = e[ItemsTable.name],
+            type = e[ItemsTable.type],
+            description = e[ItemsTable.description],
+            weight = e[ItemsTable.weight],
+            damage = e[ItemsTable.damage],
+            lastAccessed = e[ItemsTable.lastAccessed]
         )
     }
 }
+
+enum class ItemType {
+    WEAPON,
+    ARMOR,
+    CONSUMABLE,
+    MATERIALS,
+    OTHER;
+
+    override fun toString(): String {
+        return name.lowercase().replaceFirstChar { it.uppercase() }
+    }
+}
+
+data class Item(
+    val name: String,
+    val type: ItemType,
+    val description: String,
+    val weight: Double = 0.0,
+    val value: Long = 0,
+    val damage: String? = null,
+    val lastAccessed: Long = 0
+)
