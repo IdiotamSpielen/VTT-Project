@@ -115,7 +115,8 @@ fun main() = application {
                     Item(L.CLEAR_DB.t(), onClick = {
                         DBSettings.clearDatabase()
                         mainViewmodel.clearAll() // Should clear any open views or state
-                        tableTopViewmodel.elements.clear()
+                        tableTopViewmodel.currentMap = TableTopMap()
+                        tableTopViewmodel.currentFloorIndex = 0
                         tableTopViewmodel.recentAssets.clear()
                     })
                 }

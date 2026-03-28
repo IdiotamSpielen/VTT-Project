@@ -5,10 +5,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import models.ElementType
-import models.TableTopElement
+import models.*
+import org.jetbrains.exposed.v1.core.lowerCase
+import org.jetbrains.exposed.v1.jdbc.*
 import repositories.AssetRepository
 import repositories.ImageAssetModel
+import repositories.Repository
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -17,7 +19,19 @@ import java.nio.file.StandardCopyOption
 
 class TableTopViewmodel {
 
-    val elements = mutableStateListOf<TableTopElement>()
+    var currentMap by mutableStateOf(TableTopMap())
+    var currentFloorIndex by mutableStateOf(0)
+    var activeLayerType by mutableStateOf(LayerType.TOKENS)
+
+    val currentFloor: MapFloor
+        get() = currentMap.floors[currentFloorIndex]
+
+    // Simplified for the current UI: flattened list of all visible elements in the current floor
+    val elements: List<TableTopElement>
+        get() = currentFloor.layers
+            .filter { it.isVisible }
+            .flatMap { it.elements }
+
     var isEditMode by mutableStateOf(false)
         private set
     var recentAssets = mutableStateListOf<ImageAssetModel>()
@@ -37,18 +51,18 @@ class TableTopViewmodel {
 
     private fun loadRecents() {
         recentAssets.clear()
-        recentAssets.addAll(assetRepository.getRecentAssets())
+        recentAssets.addAll(assetRepository.getRecent(10))
     }
 
     fun moveElement(id: String, dragAmount: Offset) {
-        val index = elements.indexOfFirst { it.id == id }
-        if (index != -1) {
-            val element = elements[index]
-            val newPos = element.position + dragAmount
-            val updated = element.copy(position = newPos)
-
-            elements.removeAt(index)
-            elements.add(updated)
+        currentFloor.layers.forEach { layer ->
+            val index = layer.elements.indexOfFirst { it.id == id }
+            if (index != -1) {
+                val element = layer.elements[index]
+                val newPos = element.position + dragAmount
+                layer.elements[index] = element.copy(position = newPos)
+                return
+            }
         }
     }
 
@@ -57,10 +71,11 @@ class TableTopViewmodel {
         val extension = file.extension.lowercase()
         if (extension in allowedExtensions) {
             errorMessage = null
-            pendingImportFile = file
+            // Infer type from active layer
+            val type = if (activeLayerType == LayerType.BACKGROUND) ElementType.MAP else ElementType.TOKEN
+            importFile(file, type)
         } else {
             errorMessage = "Invalid file format: .$extension. Please use images (JPG, PNG...)."
-            pendingImportFile = null
         }
     }
 
@@ -68,12 +83,7 @@ class TableTopViewmodel {
         errorMessage = null
     }
 
-    fun cancelImport() {
-        pendingImportFile = null
-    }
-
-    fun confirmImport(type: ElementType) {
-        val file = pendingImportFile ?: return
+    private fun importFile(file: File, type: ElementType) {
         try {
             val userHome = System.getProperty("user.home")
             val subFolder = if (type == ElementType.MAP) "maps" else "tokens"
@@ -84,29 +94,29 @@ class TableTopViewmodel {
             val targetPath = targetDir.resolve(file.name)
             Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
 
-            //val dbId = assetRepository.addAsset(
-            assetRepository.addAsset(
-                fileName = file.name,
-                filePath = targetPath.toString(),
-                assetType = type
+            assetRepository.save(
+                ImageAssetModel(
+                    id = 0,
+                    name = file.name,
+                    path = targetPath.toString(),
+                    type = type
+                )
             )
 
             val newElement = TableTopElement(
-                //id = dbId.toString(),
                 name = file.name,
                 absolutePath = targetPath.toString(),
                 position = Offset(100f, 100f),
                 type = type
             )
 
-            if (type == ElementType.MAP) elements.add(0, newElement)
-            else elements.add(newElement)
+            val targetLayer = currentFloor.layers.first { it.type == activeLayerType }
+            targetLayer.elements.add(newElement)
+            loadRecents()
 
         } catch (e: IOException) {
             e.printStackTrace()
             errorMessage = "Error: ${e.message}"
-        } finally {
-            pendingImportFile = null
         }
     }
 
@@ -117,16 +127,27 @@ class TableTopViewmodel {
 
         // Place the asset onto the tabletop board
         val newElement = TableTopElement(
-            //id = asset.id.toString(),
             name = asset.name,
             absolutePath = asset.path,
             position = Offset(100f, 100f),
             type = asset.type
         )
-        elements.add(newElement)
+        
+        val targetLayer = currentFloor.layers.first { it.type == activeLayerType }
+        targetLayer.elements.add(newElement)
+    }
+    
+    fun addFloor() {
+        val newFloor = MapFloor(name = "Floor ${currentMap.floors.size + 1}")
+        currentMap.floors.add(newFloor)
+        currentFloorIndex = currentMap.floors.size - 1
     }
     fun removeElement(elementId: String) {
-        elements.removeIf { it.id == elementId }
+        currentFloor.layers.forEach { layer ->
+            if (layer.elements.removeIf { it.id == elementId }) {
+                return
+            }
+        }
     }
 
     fun toggleEditMode() {
