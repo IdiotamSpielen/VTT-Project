@@ -90,4 +90,4 @@ class AssetRepository : Repository<ImageAssetModel> {
 }
 
 // UI-friendly model to avoid leaking database entities
-data class ImageAssetModel(val id: Int, val name: String, val path: String, val type: ElementType)
+data class ImageAssetModel(val id: Int? = null, val name: String, val path: String, val type: ElementType)

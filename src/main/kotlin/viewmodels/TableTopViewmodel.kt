@@ -37,7 +37,7 @@ class TableTopViewmodel {
 
     private fun loadRecents() {
         recentAssets.clear()
-        recentAssets.addAll(assetRepository.getRecentAssets())
+        recentAssets.addAll(assetRepository.getRecent())
     }
 
     fun moveElement(id: String, dragAmount: Offset) {
@@ -85,14 +85,16 @@ class TableTopViewmodel {
             Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING)
 
             //val dbId = assetRepository.addAsset(
-            assetRepository.addAsset(
-                fileName = file.name,
-                filePath = targetPath.toString(),
-                assetType = type
+            val assetId = assetRepository.save(
+                ImageAssetModel(
+                    name = file.name,
+                    path = targetPath.toString(),
+                    type = type
+                )
             )
 
             val newElement = TableTopElement(
-                //id = dbId.toString(),
+                id = assetId?.toString() ?: java.util.UUID.randomUUID().toString(),
                 name = file.name,
                 absolutePath = targetPath.toString(),
                 position = Offset(100f, 100f),
@@ -112,12 +114,11 @@ class TableTopViewmodel {
 
     fun addFromHistory(asset: ImageAssetModel) {
         // Update usage timestamp to keep frequently used assets in the "recent" list
-        assetRepository.updateLastAccessed(asset.id)
-        loadRecents() // Reorder list to reflect latest usage
+        asset.id?.let { assetRepository.updateLastAccessed(it) }
 
         // Place the asset onto the tabletop board
         val newElement = TableTopElement(
-            //id = asset.id.toString(),
+            id = asset.id?.toString() ?: java.util.UUID.randomUUID().toString(),
             name = asset.name,
             absolutePath = asset.path,
             position = Offset(100f, 100f),
