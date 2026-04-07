@@ -3,8 +3,9 @@ package repositories
 import database.ImageAssetsTable
 import models.ElementType
 import org.jetbrains.exposed.v1.core.*
+import org.jetbrains.exposed.v1.core.statements.UpdateBuilder
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
-import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.insertAndGetId
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.jdbc.update
@@ -12,21 +13,27 @@ import java.io.File
 
 class AssetRepository : Repository<ImageAssetModel> {
 
-    override fun save(item: ImageAssetModel) {
-        transaction {
+    override fun save(item: ImageAssetModel): Int? {
+        return transaction {
             val existing = ImageAssetsTable.selectAll().where { ImageAssetsTable.path eq item.path }.firstOrNull()
 
+            fun ImageAssetsTable.mapColumns(it: UpdateBuilder<*>) {
+                it[lastAccessed] = System.currentTimeMillis()
+            }
+
             if (existing != null) {
-                ImageAssetsTable.update({ ImageAssetsTable.path eq item.path }) {
-                    it[lastAccessed] = System.currentTimeMillis()
+                val id = existing[ImageAssetsTable.id].value
+                ImageAssetsTable.update({ ImageAssetsTable.id eq id }) {
+                    mapColumns(it)
                 }
+                id
             } else {
-                ImageAssetsTable.insert {
+                ImageAssetsTable.insertAndGetId {
                     it[name] = item.name
                     it[path] = item.path
                     it[type] = item.type.name
-                    it[lastAccessed] = System.currentTimeMillis()
-                }
+                    mapColumns(it)
+                }.value
             }
         }
     }

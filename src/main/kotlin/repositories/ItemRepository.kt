@@ -5,9 +5,11 @@ import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.core.lowerCase
+import org.jetbrains.exposed.v1.core.statements.UpdateBuilder
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
-import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.insertAndGetId
 import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.update
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 /**
@@ -19,13 +21,28 @@ class ItemRepository : Repository<Item> {
      *
      * @param Item the
      */
-    override fun save(item: Item) {
-        transaction {
-            ItemsTable.insert {
-                it[name] = item.name
+    override fun save(item: Item): Int? {
+        return transaction {
+            val existing = ItemsTable.selectAll().where { ItemsTable.name eq item.name }.firstOrNull()
+
+            fun ItemsTable.mapColumns(it: UpdateBuilder<*>) {
                 it[type] = item.type
                 it[description] = item.description
                 it[damage] = item.damage
+                it[lastAccessed] = System.currentTimeMillis()
+            }
+
+            if (existing != null) {
+                val id = existing[ItemsTable.id].value
+                ItemsTable.update({ ItemsTable.id eq id }) {
+                    mapColumns(it)
+                }
+                id
+            } else {
+                ItemsTable.insertAndGetId {
+                    it[name] = item.name
+                    mapColumns(it)
+                }.value
             }
         }
     }

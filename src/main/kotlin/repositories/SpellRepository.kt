@@ -1,13 +1,13 @@
 package repositories
 
 import database.SpellsTable
-import org.jetbrains.exposed.v1.core.SortOrder
-import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.core.like
-import org.jetbrains.exposed.v1.core.lowerCase
-import org.jetbrains.exposed.v1.jdbc.*
+import org.jetbrains.exposed.v1.core.*
+import org.jetbrains.exposed.v1.core.statements.UpdateBuilder
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insertAndGetId
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.jdbc.update
 
 /**
  * The Repository responsible for linking the Spell Creation process to its appropriate Database Table.
@@ -15,39 +15,35 @@ import org.jetbrains.exposed.v1.core.ResultRow
  * @param Spell the spell to be saved
  */
 open class SpellRepository : Repository<Spell> {
-    open override fun save(item: Spell) {
-        transaction {
-            val existingCount = SpellsTable.select(SpellsTable.id).where { SpellsTable.name eq item.name }.count()
+    open override fun save(item: Spell): Int? {
+        return transaction {
+            val existing = SpellsTable.selectAll().where { SpellsTable.name eq item.name }.firstOrNull()
 
-            if (existingCount == 0L) {
-                SpellsTable.insert {
+            fun SpellsTable.mapColumns(it: UpdateBuilder<*>) {
+                it[castingTime] = item.castingTime
+                it[duration] = item.duration
+                it[range] = item.range
+                it[components] = item.components
+                it[ingredients] = item.ingredients
+                it[description] = item.description
+                it[level] = item.level
+                it[school] = item.school
+                it[ritual] = item.ritual
+                it[concentration] = item.concentration
+                it[lastAccessed] = item.lastAccessed
+            }
+
+            if (existing == null) {
+                SpellsTable.insertAndGetId {
                     it[name] = item.name
-                    it[castingTime] = item.castingTime
-                    it[duration] = item.duration
-                    it[range] = item.range
-                    it[components] = item.components
-                    it[ingredients] = item.ingredients
-                    it[description] = item.description
-                    it[level] = item.level
-                    it[school] = item.school
-                    it[ritual] = item.ritual
-                    it[concentration] = item.concentration
-                    it[lastAccessed] = item.lastAccessed
-                }
+                    mapColumns(it)
+                }.value
             } else {
-                SpellsTable.update({ SpellsTable.name eq item.name }) {
-                    it[castingTime] = item.castingTime
-                    it[duration] = item.duration
-                    it[range] = item.range
-                    it[components] = item.components
-                    it[ingredients] = item.ingredients
-                    it[description] = item.description
-                    it[level] = item.level
-                    it[school] = item.school
-                    it[ritual] = item.ritual
-                    it[concentration] = item.concentration
-                    it[lastAccessed] = item.lastAccessed
+                val id = existing[SpellsTable.id].value
+                SpellsTable.update({ SpellsTable.id eq id }) {
+                    mapColumns(it)
                 }
+                id
             }
         }
     }
