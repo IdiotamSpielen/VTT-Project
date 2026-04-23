@@ -1,15 +1,17 @@
-if (System.getProperty("os.name").contains("Windows")) {
-    System.setProperty("javax.net.ssl.trustStore", "NONE")
-    System.setProperty("javax.net.ssl.trustStoreType", "WINDOWS-ROOT")
-}
+rootProject.name = "VTT-Project"
 
 pluginManagement {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven("https://plugins.gradle.org/m2/")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev") {
+            content {
+                includeGroup("org.jetbrains.compose")
+                includeGroup("org.jetbrains.compose.hot-reload")
+                includeGroup("org.jetbrains.kotlin.plugin.compose")
+            }
+        }
     }
 }
 
@@ -20,8 +22,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://jitpack.io")
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev") {
+            content {
+                includeGroup("org.jetbrains.compose")
+                includeGroup("org.jetbrains.compose.hot-reload")
+                includeGroup("org.jetbrains.kotlin.plugin.compose")
+            }
+        }
     }
 }
-
-rootProject.name = "VTT-Project"

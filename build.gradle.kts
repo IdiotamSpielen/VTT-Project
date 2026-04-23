@@ -4,10 +4,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.3.0"
     id("org.jetbrains.compose") version "1.10.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.3.0"
 }
 
-group = "com.idiotamspielen" // Optional: Dein Group ID
+group = "com.idiotamspielen"
 version = System.getenv("GITHUB_REF_NAME")?.removePrefix("v") ?: "1.0.0"
 
 kotlin {
@@ -48,7 +48,7 @@ dependencies {
     //Mockito
     testImplementation("org.mockito:mockito-core:5.+")
     testImplementation("org.mockito:mockito-junit-jupiter:5.+")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.3.0")
     mockitoAgent("org.mockito:mockito-core:5.+") { isTransitive = false }
 }
 
