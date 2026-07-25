@@ -24,7 +24,7 @@ dependencies {
     implementation("org.jetbrains.compose.ui:ui:1.10.0")
     implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
     implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.2")
 
     // --- Database (SQLite + Exposed) ---
     implementation("org.jetbrains.exposed:exposed-core:1.0.0")
@@ -38,7 +38,7 @@ dependencies {
 
     // --- Testing ---
     //coroutines
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.2")
